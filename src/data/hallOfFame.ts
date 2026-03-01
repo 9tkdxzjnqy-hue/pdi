@@ -64,6 +64,6 @@ export const inductees: Inductee[] = [
   {
     nickname: "The Rebel",
     contribution: "Contribution details coming soon.",
-    era: "The 2020s",
+    year: 2022,
   },
 ];

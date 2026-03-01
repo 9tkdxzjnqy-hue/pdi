@@ -23,6 +23,19 @@ export default function GalleryPage() {
             items={galleryItems.filter((item) => item.era === era.id)}
           />
         ))}
+
+        <section className="border-t border-white/5 py-16">
+          <div className="mx-auto max-w-3xl px-6 text-center">
+            <h2 className="font-display text-3xl text-pdi-text">
+              Got photos?
+            </h2>
+            <p className="mt-4 text-lg text-pdi-muted">
+              We&rsquo;re crowdsourcing the gallery from every era of the PDI.
+              Dig out your old photos and send them to the committee &mdash;
+              the more the better.
+            </p>
+          </div>
+        </section>
       </main>
       <Footer />
     </>

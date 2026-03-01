@@ -1,32 +1,4 @@
-import Image from "next/image";
 import Link from "next/link";
-
-const galleryImages = [
-  {
-    src: "/images/walkon-doors-purple.jpeg",
-    alt: "Walk-on through doors with blue, green, and purple lighting",
-  },
-  {
-    src: "/images/crowd-energy.jpeg",
-    alt: "Crowd cheering with purple lights and dartboard visible",
-  },
-  {
-    src: "/images/pints-mates.jpeg",
-    alt: "Two lads with pints, crowd behind under purple light",
-  },
-  {
-    src: "/images/bar-community.jpeg",
-    alt: "Friends at the bar under purple and green ambient light",
-  },
-  {
-    src: "/images/kids-batman.jpeg",
-    alt: "Kids in costume by the doors — family-friendly community",
-  },
-  {
-    src: "/images/cup-toast.jpeg",
-    alt: "Group raising cups in celebration",
-  },
-];
 
 export default function GalleryPreview() {
   return (
@@ -39,21 +11,12 @@ export default function GalleryPreview() {
           Scenes from twenty years of the PDI.
         </p>
 
-        <div className="mt-12 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
-          {galleryImages.map((img) => (
-            <div
-              key={img.src}
-              className="relative aspect-square overflow-hidden rounded-lg"
-            >
-              <Image
-                src={img.src}
-                alt={img.alt}
-                fill
-                className="object-cover transition-transform duration-500 hover:scale-105"
-                sizes="(max-width: 768px) 50vw, 33vw"
-              />
-            </div>
-          ))}
+        <div className="mt-12 rounded-xl bg-white/5 p-8 text-center">
+          <p className="text-lg text-pdi-muted">
+            We&rsquo;re building the gallery and need your help. Got photos from
+            any era of the PDI? Send them to the committee and we&rsquo;ll get
+            them up.
+          </p>
         </div>
 
         <div className="mt-10">
