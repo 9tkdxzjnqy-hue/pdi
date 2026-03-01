@@ -31,9 +31,17 @@ export default function GalleryPage() {
             </h2>
             <p className="mt-4 text-lg text-pdi-muted">
               We&rsquo;re crowdsourcing the gallery from every era of the PDI.
-              Dig out your old photos and send them to the committee &mdash;
+              Dig out your old photos and drop them in the shared drive &mdash;
               the more the better.
             </p>
+            <a
+              href="https://drive.google.com/drive/folders/1-kvii3GsJKUeMsDYhd8q2ZqTzYvJU_M7?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-block text-sm font-semibold text-pdi-green transition-colors hover:text-pdi-text"
+            >
+              Upload photos here &rarr;
+            </a>
           </div>
         </section>
       </main>
