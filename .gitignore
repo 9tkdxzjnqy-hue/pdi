@@ -34,7 +34,6 @@ yarn-error.log*
 # source media assets (large files, not part of the site)
 /Media/
 /Media.zip
-/Brief/
 
 # vercel
 .vercel
