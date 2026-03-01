@@ -3,27 +3,27 @@ import Image from "next/image";
 const competitions = [
   {
     name: "The PDI",
-    description: "The main event. Walk-ons, arrows, and glory.",
-    image: "/images/walkon-smoke-red.jpeg",
-    alt: "Walk-on through doors with smoke and red/blue lights",
-  },
-  {
-    name: "The Shield",
-    description: "Pairs competition — double the craic.",
-    image: "/images/walkon-green-smoke.jpeg",
-    alt: "Walk-on at doors with green smoke and lights",
+    description: "The main event. Who can hold their nerve?",
+    image: "/images/PDITrophy.jpeg",
+    alt: "The PDI trophy",
   },
   {
     name: "WPDI",
     description: "The women's invitational. Fierce and fabulous.",
-    image: "/images/walkon-blue-green.jpeg",
-    alt: "Walk-on in blue and green atmospheric lighting",
+    image: "/images/bar-community.jpeg",
+    alt: "Three women at the PDI under purple and green ambient light",
   },
   {
     name: "Walk-on of the Year",
-    description: "The most theatrical entrance takes the crown.",
-    image: "/images/walkon-elvis-red.jpeg",
-    alt: "Elvis costume walk-on through red lit doors",
+    description: "The most theatrical entrance takes the Pat the Bat Memorial Trophy.",
+    image: "/images/WalkOnTrophy.jpeg",
+    alt: "The Pat the Bat Memorial Trophy for Walk-on of the Year",
+  },
+  {
+    name: "The Shield",
+    description: "The Europa League of the PDI.",
+    image: "/images/walkon-green-smoke.jpeg",
+    alt: "Walk-on at doors with green smoke and lights",
   },
 ];
 
