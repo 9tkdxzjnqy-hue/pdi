@@ -6,7 +6,9 @@ import Link from "next/link";
 const navLinks = [
   { label: "Competitions", href: "#competitions" },
   { label: "Hall of Fame", href: "#" },
-  { label: "Gallery", href: "#gallery" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "Stories", href: "/stories" },
+  { label: "Remembering", href: "/remembering" },
 ];
 
 export default function Navbar() {

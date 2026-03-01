@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const galleryImages = [
   {
@@ -56,9 +57,12 @@ export default function GalleryPreview() {
         </div>
 
         <div className="mt-10">
-          <span className="text-sm font-semibold text-pdi-green">
+          <Link
+            href="/gallery"
+            className="text-sm font-semibold text-pdi-green transition-colors hover:text-pdi-text"
+          >
             View Gallery &rarr;
-          </span>
+          </Link>
         </div>
       </div>
     </section>

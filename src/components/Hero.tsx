@@ -22,6 +22,12 @@ export default function Hero() {
           Templeogue&apos;s legendary charity darts tournament — all proceeds to
           Children&apos;s Health Foundation Crumlin.
         </p>
+        <p className="mt-8 font-display text-4xl text-pdi-green md:text-5xl">
+          &euro;XX,XXX
+        </p>
+        <p className="mt-2 text-lg text-pdi-muted">
+          raised and counting
+        </p>
       </div>
 
       {/* Scroll indicator */}
