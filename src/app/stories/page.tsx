@@ -12,7 +12,7 @@ const threads = [
   {
     title: "The Auction",
     description:
-      "Niall 'The Gun' Dunning sells a bag of potatoes for a fortune. And that's just the start.",
+      "A bag of potatoes sells for a fortune. And that's just the start.",
     href: "/stories/auction",
     comingSoon: true,
   },

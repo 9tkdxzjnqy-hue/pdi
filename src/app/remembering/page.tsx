@@ -11,22 +11,22 @@ export const metadata = {
 
 const members = [
   {
-    name: "Tom Barry",
+    name: "The Man",
     nickname: "The Man",
     tribute:
-      "Tribute coming soon. If you have a memory of Tom at the PDI, we'd love to hear it.",
+      "Tribute coming soon. If you have a memory of The Man at the PDI, we'd love to hear it.",
   },
   {
-    name: "Pat Bergin",
+    name: "The Bat",
     nickname: "The Bat",
     tribute:
-      "Pat walked on as Batman and brought the house down. His spirit lives on through the Pat the Bat Memorial Trophy, awarded each year to the best walk-on. Tribute coming soon — if you have a memory of Pat at the PDI, we'd love to hear it.",
+      "He walked on as Batman and brought the house down. His spirit lives on through the Pat the Bat Memorial Trophy, awarded each year to the best walk-on. Tribute coming soon — if you have a memory of The Bat at the PDI, we'd love to hear it.",
   },
   {
-    name: "Kieran Delaney",
+    name: "Del",
     nickname: "Del",
     tribute:
-      "Tribute coming soon. If you have a memory of Kieran at the PDI, we'd love to hear it.",
+      "Tribute coming soon. If you have a memory of Del at the PDI, we'd love to hear it.",
   },
 ];
 
