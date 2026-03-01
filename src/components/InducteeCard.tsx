@@ -1,7 +1,7 @@
 import { Inductee } from "@/data/hallOfFame";
 
-export default function InducteeCard({ nickname, contribution, year, era }: Inductee) {
-  const label = year ? `Inducted ${year}` : era;
+export default function InducteeCard({ nickname, contribution, year }: Inductee) {
+  const label = year ? `Inducted ${year}` : undefined;
   return (
     <div className="rounded-xl bg-pdi-navy p-8">
       <h3 className="font-display text-2xl text-pdi-text">{nickname}</h3>

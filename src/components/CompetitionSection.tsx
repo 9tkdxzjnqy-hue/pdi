@@ -5,6 +5,8 @@ export default function CompetitionSection({
 }: {
   competition: Competition;
 }) {
+  const hasRunnerUp = competition.results.some((r) => r.runnerUp);
+
   return (
     <div className="rounded-xl bg-pdi-navy p-8">
       <h2 className="font-display text-3xl text-pdi-text">
@@ -18,8 +20,8 @@ export default function CompetitionSection({
             <tr className="border-b border-white/10 text-xs uppercase tracking-wider text-pdi-muted">
               <th className="pb-3 pr-6 font-semibold">Year</th>
               <th className="pb-3 pr-6 font-semibold">Winner</th>
-              {competition.showFinalists && (
-                <th className="pb-3 font-semibold">Finalists</th>
+              {hasRunnerUp && (
+                <th className="pb-3 font-semibold">Runner-up</th>
               )}
             </tr>
           </thead>
@@ -32,10 +34,12 @@ export default function CompetitionSection({
                 <td className="py-3 pr-6 font-semibold text-pdi-text">
                   {result.year}
                 </td>
-                <td className="py-3 pr-6 text-pdi-green">{result.winner}</td>
-                {competition.showFinalists && (
+                <td className="py-3 pr-6 text-pdi-green">
+                  {result.winner ?? "—"}
+                </td>
+                {hasRunnerUp && (
                   <td className="py-3 text-pdi-muted">
-                    {result.finalists?.join(", ") ?? "—"}
+                    {result.runnerUp ?? "—"}
                   </td>
                 )}
               </tr>
@@ -43,10 +47,6 @@ export default function CompetitionSection({
           </tbody>
         </table>
       </div>
-
-      <p className="mt-6 text-sm italic text-pdi-muted">
-        Previous winners can claim their rightful spot — get in touch.
-      </p>
     </div>
   );
 }
