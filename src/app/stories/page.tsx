@@ -12,7 +12,7 @@ const threads = [
   {
     title: "The Auction",
     description:
-      "A bag of potatoes sells for a fortune. And that's just the start.",
+      "'The Gun' sells a bag of potatoes for a fortune. And that's just the start.",
     href: "/stories/auction",
     comingSoon: true,
   },
