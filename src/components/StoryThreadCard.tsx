@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 interface StoryThreadCardProps {
   title: string;
   description: string;
@@ -8,10 +10,14 @@ interface StoryThreadCardProps {
 export default function StoryThreadCard({
   title,
   description,
+  href,
   comingSoon,
 }: StoryThreadCardProps) {
   return (
-    <div className="rounded-xl bg-pdi-navy p-8">
+    <Link
+      href={href}
+      className="block rounded-xl bg-pdi-navy p-8 transition hover:bg-white/5"
+    >
       <h3 className="font-display text-2xl text-pdi-text">{title}</h3>
       <p className="mt-3 text-pdi-muted">{description}</p>
       {comingSoon && (
@@ -19,6 +25,6 @@ export default function StoryThreadCard({
           Coming soon
         </span>
       )}
-    </div>
+    </Link>
   );
 }

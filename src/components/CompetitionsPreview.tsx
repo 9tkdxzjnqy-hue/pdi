@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const competitions = [
   {
@@ -66,9 +67,12 @@ export default function CompetitionsPreview() {
         </div>
 
         <div className="mt-10">
-          <span className="text-sm font-semibold text-pdi-green">
+          <Link
+            href="/competitions"
+            className="text-sm font-semibold text-pdi-green transition-colors hover:text-pdi-text"
+          >
             Explore Competitions &rarr;
-          </span>
+          </Link>
         </div>
       </div>
     </section>
