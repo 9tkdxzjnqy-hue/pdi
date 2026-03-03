@@ -53,7 +53,7 @@ export const inductees: Inductee[] = [
   {
     nickname: "Vinny",
     contribution: "Contribution details coming soon.",
-    year: 2020,
+    year: 2023,
   },
   {
     nickname: "The Hazards",

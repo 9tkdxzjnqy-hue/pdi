@@ -6,6 +6,7 @@ export default function CompetitionSection({
   competition: Competition;
 }) {
   const hasRunnerUp = competition.results.some((r) => r.runnerUp);
+  const hasWalkOnName = competition.results.some((r) => r.walkOnName);
 
   return (
     <div className="rounded-xl bg-pdi-navy p-8">
@@ -20,6 +21,9 @@ export default function CompetitionSection({
             <tr className="border-b border-white/10 text-xs uppercase tracking-wider text-pdi-muted">
               <th className="pb-3 pr-6 font-semibold">Year</th>
               <th className="pb-3 pr-6 font-semibold">Winner</th>
+              {hasWalkOnName && (
+                <th className="pb-3 pr-6 font-semibold">Walk-on</th>
+              )}
               {hasRunnerUp && (
                 <th className="pb-3 font-semibold">Runner-up</th>
               )}
@@ -37,6 +41,11 @@ export default function CompetitionSection({
                 <td className="py-3 pr-6 text-pdi-green">
                   {result.winner ?? "—"}
                 </td>
+                {hasWalkOnName && (
+                  <td className="py-3 pr-6 text-pdi-muted italic">
+                    {result.walkOnName ?? "—"}
+                  </td>
+                )}
                 {hasRunnerUp && (
                   <td className="py-3 text-pdi-muted">
                     {result.runnerUp ?? "—"}

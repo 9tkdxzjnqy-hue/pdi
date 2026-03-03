@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 const navLinks = [
@@ -13,13 +13,26 @@ const navLinks = [
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-pdi-dark/80 backdrop-blur-md">
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
+        scrolled ? "bg-pdi-dark/80 backdrop-blur-md" : "bg-transparent"
+      }`}
+    >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link
           href="/"
-          className="font-display text-2xl tracking-wide text-pdi-text"
+          className="font-display text-2xl font-bold tracking-wide text-pdi-text"
         >
           PDI
         </Link>
@@ -37,7 +50,7 @@ export default function Navbar() {
           ))}
           <Link
             href="#charity"
-            className="rounded-full bg-pdi-green px-5 py-2 text-sm font-semibold text-pdi-dark transition-opacity hover:opacity-90"
+            className="glow-green rounded-full bg-pdi-green px-5 py-2 text-sm font-semibold text-pdi-dark"
           >
             Donate
           </Link>
@@ -63,7 +76,7 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="border-t border-white/10 px-6 pb-6 md:hidden">
+        <div className="border-t border-white/10 bg-pdi-dark/95 px-6 pb-6 backdrop-blur-md md:hidden">
           {navLinks.map((link) => (
             <Link
               key={link.label}

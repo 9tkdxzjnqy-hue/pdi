@@ -1,18 +1,75 @@
 @import "tailwindcss";
 
 @theme {
-  --color-pdi-cream: #FAF7F2;
-  --color-pdi-dark: #0A0A0F;
-  --color-pdi-navy: #12121F;
-  --color-pdi-green: #39FF14;
-  --color-pdi-purple: #8B5CF6;
-  --color-pdi-amber: #D4A017;
-  --color-pdi-text: #F5F0E8;
-  --color-pdi-muted: #9CA3AF;
+  --color-pdi-cream:  #F8F5EB;
+  --color-pdi-dark:   #0A0F1C;
+  --color-pdi-navy:   #141428;
+  --color-pdi-green:  #00FF92;
+  --color-pdi-purple: #7F3DFF;
+  --color-pdi-teal:   #00E6B8;
+  --color-pdi-text:   #F5F0E6;
+  --color-pdi-muted:  #9CA3AF;
 
-  --font-display: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-  --font-body: "Inter", sans-serif;
+  --font-display: var(--font-cabinet-grotesk), "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  --font-body: var(--font-satoshi), "Inter", system-ui, sans-serif;
+
+  --animate-reveal: reveal-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-drift: drift 8s ease-in-out infinite;
 }
+
+/* ── Keyframes ── */
+
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(30px, -20px) scale(1.1); }
+}
+
+/* ── Utility classes ── */
+
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+
+.glow-green {
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.glow-green:hover {
+  box-shadow: 0 0 24px rgba(0, 255, 146, 0.25);
+  transform: scale(1.02);
+}
+
+.noise {
+  position: relative;
+}
+.noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Reduced motion ── */
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-reveal,
+  .animate-drift {
+    animation: none;
+  }
+  .glow-green:hover {
+    transform: none;
+  }
+}
+
+/* ── Base ── */
 
 html {
   scroll-behavior: smooth;
