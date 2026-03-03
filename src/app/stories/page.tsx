@@ -10,6 +10,18 @@ export const metadata = {
 
 const threads = [
   {
+    title: "The Chairman's Address",
+    description:
+      "The annual state of the union — history, tribute, and the year ahead.",
+    href: "/stories/chairmans-address",
+  },
+  {
+    title: "The Letters",
+    description:
+      "Letters, articles, and correspondence from the PDI community over the years.",
+    href: "/stories/letters",
+  },
+  {
     title: "The Auction",
     description:
       "'The Gun' sells a bag of potatoes for a fortune. And that's just the start.",
@@ -21,13 +33,6 @@ const threads = [
     description:
       "Intimidation videos, comedy entries, and productions that have no business being that good.",
     href: "/stories/videos",
-    comingSoon: true,
-  },
-  {
-    title: "The Letters",
-    description:
-      "Correspondence with high-profile figures in the early days of the PDI.",
-    href: "/stories/letters",
     comingSoon: true,
   },
 ];

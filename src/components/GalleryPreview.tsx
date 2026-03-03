@@ -1,5 +1,15 @@
+import Image from "next/image";
 import Link from "next/link";
 import AnimateOnScroll from "./AnimateOnScroll";
+
+const previewImages = [
+  { src: "/gallery/2018-cover.jpg", alt: "PDI 2018 booklet cover" },
+  { src: "/gallery/2015-the-hazards.jpg", alt: "The Hazards — PDI house band" },
+  { src: "/gallery/2017-hof-induction.jpg", alt: "Hall of Fame induction 2017" },
+  { src: "/gallery/2019-walkon-elvis.jpg", alt: "Elvis walk-on at PDI 2019" },
+  { src: "/gallery/early-event-03.jpg", alt: "Early PDI group photo" },
+  { src: "/gallery/2015-charity-cheque.jpg", alt: "PDI charity cheque presentation" },
+];
 
 export default function GalleryPreview() {
   return (
@@ -15,30 +25,41 @@ export default function GalleryPreview() {
         </AnimateOnScroll>
 
         <AnimateOnScroll delay={0.2}>
-          <div className="mt-12 rounded-xl bg-white/5 p-8 text-center">
-            <p className="text-lg text-pdi-muted">
-              We&rsquo;re building the gallery and need your help. Got photos from
-              any era of the PDI?
-            </p>
-            <a
-              href="https://drive.google.com/drive/folders/1-kvii3GsJKUeMsDYhd8q2ZqTzYvJU_M7?usp=sharing"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 inline-block text-sm font-semibold text-pdi-green transition-colors hover:text-pdi-text"
-            >
-              Upload photos here &rarr;
-            </a>
+          <div className="mt-12 grid grid-cols-2 gap-3 md:grid-cols-3">
+            {previewImages.map((img) => (
+              <Link
+                key={img.src}
+                href="/gallery"
+                className="relative aspect-square overflow-hidden rounded-lg"
+              >
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  className="object-cover transition-transform duration-500 hover:scale-105"
+                  sizes="(max-width: 768px) 50vw, 33vw"
+                />
+              </Link>
+            ))}
           </div>
         </AnimateOnScroll>
 
         <AnimateOnScroll delay={0.3}>
-          <div className="mt-10">
+          <div className="mt-10 flex flex-wrap items-center gap-6">
             <Link
               href="/gallery"
               className="text-sm font-semibold text-pdi-green transition-colors hover:text-pdi-text"
             >
-              View Gallery &rarr;
+              View full gallery &rarr;
             </Link>
+            <a
+              href="https://drive.google.com/drive/folders/1-kvii3GsJKUeMsDYhd8q2ZqTzYvJU_M7?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-pdi-muted transition-colors hover:text-pdi-text"
+            >
+              Got photos? Upload them here &rarr;
+            </a>
           </div>
         </AnimateOnScroll>
       </div>
