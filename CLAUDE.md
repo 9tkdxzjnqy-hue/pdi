@@ -45,7 +45,7 @@ src/
 │   ├── competitions/        # Full results tables
 │   ├── hall-of-fame/        # Inductee cards
 │   ├── gallery/             # Photo gallery
-│   ├── stories/             # Story threads (auction, videos, letters)
+│   ├── stories/             # Story threads (chairman's address, letters, auction, videos)
 │   └── remembering/         # Remembering page
 ├── components/
 │   ├── Navbar.tsx            # Fixed nav with scroll behaviour
@@ -59,9 +59,11 @@ src/
 │   └── ...                   # Page-specific heroes, cards
 └── data/
     ├── competitions.ts       # Competition results by year
+    ├── gallery.ts            # Gallery items (src, alt, era, year)
     └── hallOfFame.ts         # Hall of Fame inductees
 public/
 ├── fonts/                    # Self-hosted .woff2 (Cabinet Grotesk, Satoshi)
+├── gallery/                  # 101 curated gallery images (nicknames only in filenames)
 └── images/                   # Site photography
 ```
 
