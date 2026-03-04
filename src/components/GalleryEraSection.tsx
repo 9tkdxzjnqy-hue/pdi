@@ -6,6 +6,7 @@ interface GalleryEraSectionProps {
   description: string;
   items: GalleryItem[];
   groupByYear?: boolean;
+  allYears?: number[];
 }
 
 export default function GalleryEraSection({
@@ -13,6 +14,7 @@ export default function GalleryEraSection({
   description,
   items,
   groupByYear,
+  allYears,
 }: GalleryEraSectionProps) {
   return (
     <section className="border-t border-white/5 py-16">
@@ -22,9 +24,9 @@ export default function GalleryEraSection({
         </h2>
         <p className="mt-2 text-pdi-muted">{description}</p>
 
-        {items.length > 0 ? (
+        {items.length > 0 || allYears ? (
           groupByYear ? (
-            <YearGroupedGallery items={items} />
+            <YearGroupedGallery items={items} allYears={allYears} />
           ) : (
             <div className="mt-10">
               <GalleryLightbox items={items} />
@@ -40,7 +42,13 @@ export default function GalleryEraSection({
   );
 }
 
-function YearGroupedGallery({ items }: { items: GalleryItem[] }) {
+function YearGroupedGallery({
+  items,
+  allYears,
+}: {
+  items: GalleryItem[];
+  allYears?: number[];
+}) {
   const byYear = new Map<number, GalleryItem[]>();
   for (const item of items) {
     const y = item.year ?? 0;
@@ -48,20 +56,31 @@ function YearGroupedGallery({ items }: { items: GalleryItem[] }) {
     byYear.get(y)!.push(item);
   }
 
-  const years = [...byYear.keys()].sort((a, b) => b - a);
+  const years = allYears ?? [...byYear.keys()].sort((a, b) => b - a);
 
   return (
     <div className="mt-10 space-y-12">
-      {years.map((year) => (
-        <div key={year}>
-          <h3 className="font-display text-xl text-pdi-green">
-            {year || "Other"}
-          </h3>
-          <div className="mt-4">
-            <GalleryLightbox items={byYear.get(year)!} />
+      {years.map((year) => {
+        const yearItems = byYear.get(year);
+        return (
+          <div key={year}>
+            <h3 className="font-display text-xl text-pdi-green">
+              {year || "Other"}
+            </h3>
+            {yearItems && yearItems.length > 0 ? (
+              <div className="mt-4">
+                <GalleryLightbox items={yearItems} />
+              </div>
+            ) : (
+              <div className="mt-4 flex h-32 items-center justify-center rounded-xl border border-dashed border-white/10 bg-pdi-navy/50">
+                <p className="text-sm text-pdi-muted italic">
+                  Photos coming soon
+                </p>
+              </div>
+            )}
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

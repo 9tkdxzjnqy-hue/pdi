@@ -11,7 +11,7 @@ const competitions = [
   },
   {
     name: "WPDI",
-    description: "The women's invitational. Fierce and fabulous.",
+    description: "The women's invitational. In it to win it.",
     image: "/images/bar-community.jpeg",
     alt: "Three women at the PDI under purple and green ambient light",
   },

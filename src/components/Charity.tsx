@@ -35,8 +35,8 @@ export default function Charity() {
         <AnimateOnScroll delay={0.2}>
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-pdi-dark/10">
             <Image
-              src="/images/cup-toast.jpeg"
-              alt="Group raising cups in celebration at the PDI"
+              src="/images/cheque-2015.jpg"
+              alt="PDI committee presenting cheque to Children's Health Foundation Crumlin, 2015"
               fill
               className="object-cover transition-transform duration-500 hover:scale-105"
               sizes="(max-width: 768px) 100vw, 50vw"

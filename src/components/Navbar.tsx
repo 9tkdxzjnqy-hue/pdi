@@ -5,9 +5,9 @@ import Link from "next/link";
 
 const navLinks = [
   { label: "Competitions", href: "/competitions" },
-  { label: "Hall of Fame", href: "/hall-of-fame" },
   { label: "Gallery", href: "/gallery" },
   { label: "Stories", href: "/stories" },
+  { label: "Hall of Fame", href: "/hall-of-fame" },
   { label: "Remembering", href: "/remembering" },
 ];
 

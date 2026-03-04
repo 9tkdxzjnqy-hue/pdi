@@ -1,5 +1,14 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import GalleryLightbox from "@/components/GalleryLightbox";
+
+const letterImages = [
+  { src: "/gallery/letter-fireside-2015.jpg", alt: "Fireside chat — 2015", era: "early-days" as const },
+  { src: "/gallery/letter-fireside-2016.jpg", alt: "Fireside chat — 2016", era: "early-days" as const },
+  { src: "/gallery/letter-abroad-2015.jpg", alt: "A view from abroad — 2015", era: "early-days" as const },
+  { src: "/gallery/letter-selina-2019.jpg", alt: "A letter to the PDI — 2019", era: "early-days" as const },
+  { src: "/gallery/letter-the-boy-2019.jpg", alt: "The Boy's letter — 2019", era: "early-days" as const },
+];
 
 export const metadata = {
   title: "The Letters — PDI",
@@ -56,7 +65,7 @@ export default function LettersPage() {
           </div>
         </section>
 
-        <section className="px-6 pb-24">
+        <section className="px-6 pb-16">
           <div className="mx-auto max-w-3xl space-y-10">
             {letters.map((letter) => (
               <article
@@ -83,6 +92,20 @@ export default function LettersPage() {
                 </div>
               </article>
             ))}
+          </div>
+        </section>
+
+        <section className="border-t border-white/5 px-6 py-16">
+          <div className="mx-auto max-w-7xl">
+            <h2 className="font-display text-3xl text-pdi-text">
+              From the Booklets
+            </h2>
+            <p className="mt-2 text-pdi-muted">
+              Fireside chats, dispatches from abroad, and heartfelt words.
+            </p>
+            <div className="mt-10">
+              <GalleryLightbox items={letterImages} />
+            </div>
           </div>
         </section>
       </main>

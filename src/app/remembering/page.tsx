@@ -13,18 +13,21 @@ const members = [
   {
     name: "The Man",
     nickname: "The Man",
+    photo: "/images/the-man-remembering.jpg",
     tribute:
       "Tribute coming soon. If you have a memory of The Man at the PDI, we'd love to hear it.",
   },
   {
     name: "The Bat",
     nickname: "The Bat",
+    photo: "/images/the-bat-remembering.jpg",
     tribute:
       "He walked on as Batman and brought the house down. His spirit lives on through the Pat the Bat Memorial Trophy, awarded each year to the best walk-on. Tribute coming soon — if you have a memory of The Bat at the PDI, we'd love to hear it.",
   },
   {
     name: "Del",
     nickname: "Del",
+    photo: "/images/del-remembering.jpg",
     tribute:
       "Tribute coming soon. If you have a memory of Del at the PDI, we'd love to hear it.",
   },

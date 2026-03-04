@@ -22,6 +22,18 @@ const threads = [
     href: "/stories/letters",
   },
   {
+    title: "Reviews",
+    description:
+      "Looking back on the year that was.",
+    href: "/stories/reviews",
+  },
+  {
+    title: "Where Are They Now?",
+    description:
+      "Catching up with familiar faces from PDIs past.",
+    href: "/stories/where-are-they-now",
+  },
+  {
     title: "The Auction",
     description:
       "'The Gun' sells a bag of potatoes for a fortune. And that's just the start.",

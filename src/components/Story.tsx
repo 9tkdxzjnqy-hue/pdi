@@ -32,8 +32,8 @@ export default function Story() {
         <AnimateOnScroll delay={0.2}>
           <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
             <Image
-              src="/images/sequin-jacket-green.jpeg"
-              alt="Performer in green sequin jacket under electric green lights"
+              src="/gallery/early-event-03.jpg"
+              alt="Early PDI group photo"
               fill
               className="object-cover transition-transform duration-500 hover:scale-105"
               sizes="(max-width: 768px) 100vw, 50vw"

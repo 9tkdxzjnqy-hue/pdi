@@ -49,7 +49,7 @@ export const competitions: Competition[] = [
   {
     name: "WPDI",
     description:
-      "The women's invitational. Fierce and fabulous — the WPDI has quickly become one of the highlights of the night.",
+      "The women's invitational. In it to win it.",
     image: "/images/bar-community.jpeg",
     alt: "Three women at the PDI under purple and green ambient light",
     results: [
