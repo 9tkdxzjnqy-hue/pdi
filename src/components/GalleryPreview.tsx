@@ -25,18 +25,20 @@ export default function GalleryPreview() {
         </AnimateOnScroll>
 
         <AnimateOnScroll delay={0.2}>
-          <div className="mt-12 grid grid-cols-2 gap-3 md:grid-cols-3">
+          <div className="mt-12 columns-2 gap-3 md:columns-3">
             {previewImages.map((img) => (
               <Link
                 key={img.src}
                 href="/gallery"
-                className="relative aspect-square overflow-hidden rounded-lg"
+                className="mb-3 block overflow-hidden rounded-lg"
               >
                 <Image
                   src={img.src}
                   alt={img.alt}
-                  fill
-                  className="object-cover transition-transform duration-500 hover:scale-105"
+                  width={600}
+                  height={400}
+                  quality={85}
+                  className="w-full h-auto transition-transform duration-500 hover:scale-105"
                   sizes="(max-width: 768px) 50vw, 33vw"
                 />
               </Link>

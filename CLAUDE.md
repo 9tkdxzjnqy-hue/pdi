@@ -85,6 +85,17 @@ public/
 - **Headings:** Cabinet Grotesk Variable (weight 600–700), `font-display` class
 - **Body:** Satoshi Variable (weight 400–500), `font-body` class
 
+## Image Standards
+
+- **Minimum dimensions:** 600px in both width and height. Exceptions for older images or images with nostalgic value.
+- **File format:** Photos as `.jpg` (real JPEG, not renamed PNGs). Screenshots/graphics with transparency as `.png`. Always convert properly — never just rename the extension.
+- **Quality:** `quality={85}` on all gallery `<Image>` components (Next.js default is 75)
+- **Max width on disk:** 1200px — resize larger images with `sips --resampleWidth 1200`
+- **Display:** Natural aspect ratios (no forced square crop). CSS columns masonry layout.
+- **Naming:** `[year]-[description].jpg` or `profile-[nickname].jpg` — no real names ever
+- **Alt text:** Descriptive, nickname-only, no real names
+- **Lightbox:** All gallery images expand on click to show full resolution
+
 ## Key Conventions
 
 - Heroes: `pt-32 pb-16`, centred text, `font-display` title

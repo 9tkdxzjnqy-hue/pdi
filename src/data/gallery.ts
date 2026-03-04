@@ -1,4 +1,4 @@
-export type Era = "early-days" | "middle-years" | "recent";
+export type Era = "early-days" | "middle-years" | "recent" | "walk-ons";
 
 export interface GalleryItem {
   src: string;
@@ -23,6 +23,11 @@ export const eras: { id: Era; label: string; description: string }[] = [
     label: "Recent Years",
     description: "The modern PDI.",
   },
+  {
+    id: "walk-ons",
+    label: "The Walk-Ons",
+    description: "Through the double doors, into the smoke.",
+  },
 ];
 
 export const galleryItems: GalleryItem[] = [
@@ -36,14 +41,9 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/early-event-05.jpg", alt: "Early PDI candid", era: "early-days" },
   { src: "/gallery/early-event-06.jpg", alt: "Early PDI action shot", era: "early-days" },
   { src: "/gallery/early-event-07.jpg", alt: "Early PDI crowd shot", era: "early-days" },
-  { src: "/gallery/early-event-08.jpg", alt: "Early PDI event shot", era: "early-days" },
   { src: "/gallery/early-event-09.jpg", alt: "Early PDI event shot", era: "early-days" },
 
-  // 2008 throwback
-  { src: "/gallery/2008-the-boy-throwback.jpg", alt: "The Boy at the 2008 PDI", era: "early-days", year: 2008 },
-
   // 2013 event shots
-  { src: "/gallery/2013-event-01.jpg", alt: "PDI 2013 event shot", era: "early-days", year: 2013 },
   { src: "/gallery/2013-event-02.jpg", alt: "PDI 2013 at the oche", era: "early-days", year: 2013 },
   { src: "/gallery/2013-event-03.jpg", alt: "PDI 2013 action", era: "early-days", year: 2013 },
   { src: "/gallery/2013-event-04.jpg", alt: "PDI 2013 event shot", era: "early-days", year: 2013 },
@@ -61,7 +61,6 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/2013-the-educator-03.jpg", alt: "The Educator at the oche", era: "early-days", year: 2013 },
   { src: "/gallery/2013-doyler-01.jpg", alt: "Doyler at PDI 2013", era: "early-days", year: 2013 },
   { src: "/gallery/2013-doyler-02.jpg", alt: "Doyler throwing at PDI 2013", era: "early-days", year: 2013 },
-  { src: "/gallery/2013-digo.jpg", alt: "Digo at PDI 2013", era: "early-days", year: 2013 },
 
   // 2014 — Hall of Fame portrait
   { src: "/gallery/2014-the-boy-hof-portrait.jpg", alt: "The Boy — Hall of Fame portrait", era: "early-days", year: 2014 },
@@ -101,30 +100,12 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/2018-event-05.jpg", alt: "PDI 2018 event shot", era: "recent", year: 2018 },
   { src: "/gallery/2018-event-06.jpg", alt: "PDI 2018 event shot", era: "recent", year: 2018 },
   { src: "/gallery/2018-event-07.jpg", alt: "PDI 2018 event shot", era: "recent", year: 2018 },
-  { src: "/gallery/2018-stockdale.jpg", alt: "Stockdale at PDI 2018", era: "recent", year: 2018 },
-  { src: "/gallery/2018-walkon-01.jpg", alt: "Walk-on moment at PDI 2018", era: "recent", year: 2018 },
-  { src: "/gallery/2018-walkon-02.jpg", alt: "Walk-on at PDI 2018", era: "recent", year: 2018 },
-  { src: "/gallery/2018-walkon-03.jpg", alt: "Walk-on at PDI 2018", era: "recent", year: 2018 },
-  { src: "/gallery/2018-walkon-04.jpg", alt: "Walk-on at PDI 2018", era: "recent", year: 2018 },
-  { src: "/gallery/2018-walkon-05.jpg", alt: "Walk-on at PDI 2018", era: "recent", year: 2018 },
-  { src: "/gallery/2018-walkon-06.jpg", alt: "Walk-on at PDI 2018", era: "recent", year: 2018 },
-  { src: "/gallery/2018-walkon-07.jpg", alt: "Walk-on at PDI 2018", era: "recent", year: 2018 },
-  { src: "/gallery/2018-walkon-08.jpg", alt: "Walk-on at PDI 2018", era: "recent", year: 2018 },
-  { src: "/gallery/2018-walkon-09.jpg", alt: "Walk-on at PDI 2018", era: "recent", year: 2018 },
-  { src: "/gallery/2018-walkon-10.jpg", alt: "Walk-on at PDI 2018", era: "recent", year: 2018 },
-  { src: "/gallery/2018-walkon-11.jpg", alt: "Walk-on at PDI 2018", era: "recent", year: 2018 },
-  { src: "/gallery/2018-walkon-12.jpg", alt: "Walk-on at PDI 2018", era: "recent", year: 2018 },
-  { src: "/gallery/2018-walkon-13.jpg", alt: "Walk-on at PDI 2018", era: "recent", year: 2018 },
-  { src: "/gallery/2018-walkon-14.jpg", alt: "Walk-on at PDI 2018", era: "recent", year: 2018 },
-
   // 2019
-  { src: "/gallery/2019-walkon-elvis.jpg", alt: "Elvis walk-on at PDI 2019", era: "recent", year: 2019 },
   { src: "/gallery/2019-event-01.jpg", alt: "PDI 2019 event shot", era: "recent", year: 2019 },
 
   // Profiles from recent years
   { src: "/gallery/profile-the-gun.jpg", alt: "The Gun", era: "recent" },
   { src: "/gallery/profile-the-cat.jpg", alt: "The Cat", era: "recent" },
-  { src: "/gallery/profile-the-express.jpg", alt: "The Express", era: "recent" },
   { src: "/gallery/profile-the-educator.jpg", alt: "The Educator", era: "recent" },
   { src: "/gallery/profile-the-physio.jpg", alt: "The Physio", era: "recent" },
   { src: "/gallery/profile-sexy-boy.jpg", alt: "Sexy Boy", era: "recent" },
@@ -137,14 +118,12 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/profile-ally-pally.jpg", alt: "Ally Pally", era: "recent" },
   { src: "/gallery/profile-doyle.jpg", alt: "Doyle", era: "recent" },
   { src: "/gallery/profile-nugget.jpg", alt: "Nugget", era: "recent" },
-  { src: "/gallery/profile-simo.jpg", alt: "Simo", era: "recent" },
   { src: "/gallery/profile-mick.jpg", alt: "Mick", era: "recent" },
 
   // 2020
   { src: "/gallery/2020-cmrf-charity.jpg", alt: "CMRF Crumlin charity photo", era: "recent", year: 2020 },
   { src: "/gallery/2020-profile-the-boy.jpg", alt: "The Boy — PDI 2020", era: "recent", year: 2020 },
   { src: "/gallery/2020-profile-the-man.jpg", alt: "The Man — PDI 2020", era: "recent", year: 2020 },
-  { src: "/gallery/2020-profile-the-gun.jpg", alt: "The Gun — PDI 2020", era: "recent", year: 2020 },
   { src: "/gallery/2020-profile-the-cat.jpg", alt: "The Cat — PDI 2020", era: "recent", year: 2020 },
   { src: "/gallery/2020-profile-the-express.jpg", alt: "The Express — PDI 2020", era: "recent", year: 2020 },
   { src: "/gallery/2020-profile-the-educator.jpg", alt: "The Educator — PDI 2020", era: "recent", year: 2020 },
@@ -156,4 +135,20 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/2020-profile-russ.jpg", alt: "Russ — PDI 2020", era: "recent", year: 2020 },
   { src: "/gallery/2020-profile-mark-the-spark.jpg", alt: "Mark the Spark — PDI 2020", era: "recent", year: 2020 },
   { src: "/gallery/2020-profile-nugget.jpg", alt: "Nugget — PDI 2020", era: "recent", year: 2020 },
+
+  // === WALK-ONS ===
+  { src: "/gallery/2018-walkon-01.jpg", alt: "Walk-on moment at PDI 2018", era: "walk-ons", year: 2018 },
+  { src: "/gallery/2018-walkon-02.jpg", alt: "Walk-on at PDI 2018", era: "walk-ons", year: 2018 },
+  { src: "/gallery/2018-walkon-03.jpg", alt: "Walk-on at PDI 2018", era: "walk-ons", year: 2018 },
+  { src: "/gallery/2018-walkon-04.jpg", alt: "Walk-on at PDI 2018", era: "walk-ons", year: 2018 },
+  { src: "/gallery/2018-walkon-05.jpg", alt: "Walk-on at PDI 2018", era: "walk-ons", year: 2018 },
+  { src: "/gallery/2018-walkon-06.jpg", alt: "Walk-on at PDI 2018", era: "walk-ons", year: 2018 },
+  { src: "/gallery/2018-walkon-07.jpg", alt: "Walk-on at PDI 2018", era: "walk-ons", year: 2018 },
+  { src: "/gallery/2018-walkon-08.jpg", alt: "Walk-on at PDI 2018", era: "walk-ons", year: 2018 },
+  { src: "/gallery/2018-walkon-09.jpg", alt: "Walk-on at PDI 2018", era: "walk-ons", year: 2018 },
+  { src: "/gallery/2018-walkon-10.jpg", alt: "Walk-on at PDI 2018", era: "walk-ons", year: 2018 },
+  { src: "/gallery/2018-walkon-11.jpg", alt: "Walk-on at PDI 2018", era: "walk-ons", year: 2018 },
+  { src: "/gallery/2018-walkon-12.jpg", alt: "Walk-on at PDI 2018", era: "walk-ons", year: 2018 },
+  { src: "/gallery/2018-walkon-14.jpg", alt: "Walk-on at PDI 2018", era: "walk-ons", year: 2018 },
+  { src: "/gallery/2019-walkon-elvis.jpg", alt: "Elvis walk-on at PDI 2019", era: "walk-ons", year: 2019 },
 ];
