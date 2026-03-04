@@ -1,4 +1,14 @@
-export type Era = "early-days" | "middle-years" | "recent" | "walk-ons";
+export type Era =
+  | "early-days"
+  | "middle-years"
+  | "recent"
+  | "walk-ons"
+  | "male-players"
+  | "doing-our-bit"
+  | "reviews"
+  | "where-are-they-now"
+  | "letters"
+  | "ads";
 
 export interface GalleryItem {
   src: string;
@@ -7,7 +17,14 @@ export interface GalleryItem {
   year?: number;
 }
 
-export const eras: { id: Era; label: string; description: string }[] = [
+export interface EraInfo {
+  id: Era;
+  label: string;
+  description: string;
+  groupByYear?: boolean;
+}
+
+export const eras: EraInfo[] = [
   {
     id: "early-days",
     label: "The Early Days",
@@ -27,6 +44,37 @@ export const eras: { id: Era; label: string; description: string }[] = [
     id: "walk-ons",
     label: "The Walk-Ons",
     description: "Through the double doors, into the smoke.",
+  },
+  {
+    id: "male-players",
+    label: "The Players",
+    description: "The men who made the PDI what it is.",
+  },
+  {
+    id: "doing-our-bit",
+    label: "Doing Our Bit",
+    description: "Every year, the PDI raises funds for Children's Health Foundation Crumlin.",
+    groupByYear: true,
+  },
+  {
+    id: "reviews",
+    label: "Reviews",
+    description: "Looking back on the year that was.",
+  },
+  {
+    id: "where-are-they-now",
+    label: "Where Are They Now?",
+    description: "Catching up with familiar faces from PDIs past.",
+  },
+  {
+    id: "letters",
+    label: "Letters",
+    description: "Fireside chats, dispatches from abroad, and heartfelt words.",
+  },
+  {
+    id: "ads",
+    label: "The Sponsors",
+    description: "The businesses that backed the PDI over the years.",
   },
 ];
 
@@ -151,4 +199,69 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/2018-walkon-12.jpg", alt: "Walk-on at PDI 2018", era: "walk-ons", year: 2018 },
   { src: "/gallery/2018-walkon-14.jpg", alt: "Walk-on at PDI 2018", era: "walk-ons", year: 2018 },
   { src: "/gallery/2019-walkon-elvis.jpg", alt: "Elvis walk-on at PDI 2019", era: "walk-ons", year: 2019 },
+
+  // === THE PLAYERS (MEN) ===
+  { src: "/gallery/player-the-bat-the-cat-2013.jpg", alt: "The Bat and The Cat — PDI 2013", era: "male-players", year: 2013 },
+  { src: "/gallery/player-the-business-card-2013.jpg", alt: "The Business Card — player profile 2013", era: "male-players", year: 2013 },
+  { src: "/gallery/player-the-educator-2013.jpg", alt: "The Educator — player profile 2013", era: "male-players", year: 2013 },
+  { src: "/gallery/player-the-terror-2013.jpg", alt: "The Terror — player profile 2013", era: "male-players", year: 2013 },
+
+
+  // === DOING OUR BIT ===
+  { src: "/gallery/doing-our-bit-2014-chairman.jpg", alt: "Chairman's address 2014", era: "doing-our-bit", year: 2014 },
+  { src: "/gallery/doing-our-bit-2014-charity.jpg", alt: "Charity letter 2014", era: "doing-our-bit", year: 2014 },
+  { src: "/gallery/doing-our-bit-2014-prez.jpg", alt: "President's message 2014", era: "doing-our-bit", year: 2014 },
+  { src: "/gallery/doing-our-bit-2015-chairman.jpg", alt: "Chairman's address 2015", era: "doing-our-bit", year: 2015 },
+  { src: "/gallery/doing-our-bit-2015-charity.jpg", alt: "Charity letter 2015", era: "doing-our-bit", year: 2015 },
+  { src: "/gallery/doing-our-bit-2016-chairman.jpg", alt: "Chairman's address 2016", era: "doing-our-bit", year: 2016 },
+  { src: "/gallery/doing-our-bit-2016-charity.jpg", alt: "Charity letter 2016", era: "doing-our-bit", year: 2016 },
+  { src: "/gallery/doing-our-bit-2017-chairman-1.jpg", alt: "Chairman's address 2017", era: "doing-our-bit", year: 2017 },
+  { src: "/gallery/doing-our-bit-2017-chairman-2.jpg", alt: "Chairman's address 2017 — continued", era: "doing-our-bit", year: 2017 },
+  { src: "/gallery/doing-our-bit-2017-charity.jpg", alt: "Charity letter 2017", era: "doing-our-bit", year: 2017 },
+  { src: "/gallery/doing-our-bit-2018-chairman.jpg", alt: "Chairman's address 2018", era: "doing-our-bit", year: 2018 },
+  { src: "/gallery/doing-our-bit-2018-charity.jpg", alt: "Charity letter 2018", era: "doing-our-bit", year: 2018 },
+  { src: "/gallery/doing-our-bit-2018-cheque.jpg", alt: "Donation cheque presentation 2018", era: "doing-our-bit", year: 2018 },
+  { src: "/gallery/doing-our-bit-2019-chairman.jpg", alt: "Chairman's address 2019", era: "doing-our-bit", year: 2019 },
+  { src: "/gallery/doing-our-bit-2019-charity.jpg", alt: "Charity letter 2019", era: "doing-our-bit", year: 2019 },
+  { src: "/gallery/doing-our-bit-2020-chairman.jpg", alt: "Chairman's address 2020", era: "doing-our-bit", year: 2020 },
+  { src: "/gallery/doing-our-bit-2020-charity.jpg", alt: "Charity letter 2020", era: "doing-our-bit", year: 2020 },
+  { src: "/gallery/doing-our-bit-2020-cheque.jpg", alt: "Donation cheque presentation 2020", era: "doing-our-bit", year: 2020 },
+
+  // === REVIEWS ===
+  { src: "/gallery/review-2014-01.jpg", alt: "Review of the 2014 PDI — page 1", era: "reviews", year: 2014 },
+  { src: "/gallery/review-2014-02.jpg", alt: "Review of the 2014 PDI — page 2", era: "reviews", year: 2014 },
+  { src: "/gallery/review-2014-03.jpg", alt: "Review of the 2014 PDI — page 3", era: "reviews", year: 2014 },
+  { src: "/gallery/review-2015-01.jpg", alt: "Review of the 2015 PDI", era: "reviews", year: 2015 },
+  { src: "/gallery/review-2016-01.jpg", alt: "Review of the 2016 PDI — page 1", era: "reviews", year: 2016 },
+  { src: "/gallery/review-2016-02.jpg", alt: "Review of the 2016 PDI — page 2", era: "reviews", year: 2016 },
+  { src: "/gallery/review-2016-03.jpg", alt: "Review of the 2016 PDI — page 3", era: "reviews", year: 2016 },
+  { src: "/gallery/review-2016-04.jpg", alt: "Review of the 2016 PDI — page 4", era: "reviews", year: 2016 },
+  { src: "/gallery/review-2017-01.jpg", alt: "Review of the 2017 PDI", era: "reviews", year: 2017 },
+
+  // === WHERE ARE THEY NOW? ===
+  { src: "/gallery/watn-2015-01.jpg", alt: "Where are they now — 2015", era: "where-are-they-now", year: 2015 },
+  { src: "/gallery/watn-2015-02.jpg", alt: "Where are they now — 2015", era: "where-are-they-now", year: 2015 },
+  { src: "/gallery/watn-2015-03.jpg", alt: "Where are they now — 2015", era: "where-are-they-now", year: 2015 },
+  { src: "/gallery/watn-2015-04.jpg", alt: "Where are they now — 2015", era: "where-are-they-now", year: 2015 },
+  { src: "/gallery/watn-2016-01.jpg", alt: "Where are they now — 2016", era: "where-are-they-now", year: 2016 },
+  { src: "/gallery/watn-2016-02.jpg", alt: "Where are they now — 2016", era: "where-are-they-now", year: 2016 },
+  { src: "/gallery/watn-2016-03.jpg", alt: "Where are they now — 2016", era: "where-are-they-now", year: 2016 },
+
+  // === LETTERS ===
+  { src: "/gallery/letter-fireside-2015.jpg", alt: "Fireside chat — 2015", era: "letters", year: 2015 },
+  { src: "/gallery/letter-fireside-2016.jpg", alt: "Fireside chat — 2016", era: "letters", year: 2016 },
+  { src: "/gallery/letter-abroad-2015.jpg", alt: "A view from abroad — 2015", era: "letters", year: 2015 },
+  { src: "/gallery/letter-selina-2019.jpg", alt: "A letter to the PDI — 2019", era: "letters", year: 2019 },
+  { src: "/gallery/letter-the-boy-2019.jpg", alt: "The Boy's letter — 2019", era: "letters", year: 2019 },
+
+  // === THE SPONSORS ===
+  { src: "/gallery/ad-bridge-containers-2014.jpg", alt: "Bridge Containers — sponsor ad 2014", era: "ads", year: 2014 },
+  { src: "/gallery/ad-hedzer-2014.jpg", alt: "Hedzer — sponsor ad 2014", era: "ads", year: 2014 },
+  { src: "/gallery/ad-life-2014.jpg", alt: "Life — sponsor ad 2014", era: "ads", year: 2014 },
+  { src: "/gallery/ad-sackville-2015.jpg", alt: "Sackville Lounge — sponsor ad 2015", era: "ads", year: 2015 },
+  { src: "/gallery/ad-fantasy-lights-2017.jpg", alt: "Fantasy Lights — sponsor ad 2017", era: "ads", year: 2017 },
+  { src: "/gallery/ad-oreilly-recruitment-2017.jpg", alt: "O'Reilly Recruitment — sponsor ad 2017", era: "ads", year: 2017 },
+  { src: "/gallery/ad-think-bike-2017.jpg", alt: "Think Bike — sponsor ad 2017", era: "ads", year: 2017 },
+  { src: "/gallery/ad-devitts-2018.jpg", alt: "Devitts — sponsor ad 2018", era: "ads", year: 2018 },
+  { src: "/gallery/ad-iconic-2019.jpg", alt: "Iconic — sponsor ad 2019", era: "ads", year: 2019 },
 ];

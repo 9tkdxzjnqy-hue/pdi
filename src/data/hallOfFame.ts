@@ -16,22 +16,22 @@ export const inductees: Inductee[] = [
     year: 2012,
   },
   {
-    nickname: "The Cat",
+    nickname: "The Express",
     contribution: "Contribution details coming soon.",
     year: 2013,
   },
   {
-    nickname: "The Boy",
+    nickname: "The Cat",
     contribution: "Contribution details coming soon.",
     year: 2014,
   },
   {
-    nickname: "The Physio",
+    nickname: "The Boy",
     contribution: "Contribution details coming soon.",
     year: 2015,
   },
   {
-    nickname: "The Express",
+    nickname: "The Physio",
     contribution: "Contribution details coming soon.",
     year: 2016,
   },

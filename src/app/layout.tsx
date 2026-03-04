@@ -27,6 +27,7 @@ const satoshi = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://thepdi.ie"),
   title: "PDI — Paddy's Day Invitational",
   description:
     "Twenty years of darts, community, and raising funds for Children's Health Foundation Crumlin.",

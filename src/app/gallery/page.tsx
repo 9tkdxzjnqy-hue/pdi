@@ -21,6 +21,7 @@ export default function GalleryPage() {
             label={era.label}
             description={era.description}
             items={galleryItems.filter((item) => item.era === era.id)}
+            groupByYear={era.groupByYear}
           />
         ))}
 
