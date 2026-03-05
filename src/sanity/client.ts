@@ -5,7 +5,7 @@ let _client: SanityClient | null = null;
 let _writeClient: SanityClient | null = null;
 
 export function getClient(): SanityClient | null {
-  if (!projectId) return null;
+  if (!projectId || !/^[a-z0-9-]+$/.test(projectId)) return null;
   if (!_client) {
     _client = createClient({ projectId, dataset, apiVersion, useCdn: false });
   }
