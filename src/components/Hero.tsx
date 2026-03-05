@@ -4,9 +4,13 @@ interface HeroProps {
   variant?: "gradient" | "image";
   imageSrc?: string;
   imageAlt?: string;
+  title?: string;
+  subtitle?: string;
+  donationAmount?: string;
+  donationLabel?: string;
 }
 
-export default function Hero({ variant = "gradient", imageSrc, imageAlt = "" }: HeroProps) {
+export default function Hero({ variant = "gradient", imageSrc, imageAlt = "", title, subtitle, donationAmount, donationLabel }: HeroProps) {
   return (
     <section className="relative flex h-screen items-center justify-center overflow-hidden bg-pdi-dark">
       {variant === "image" && imageSrc ? (
@@ -40,17 +44,16 @@ export default function Hero({ variant = "gradient", imageSrc, imageAlt = "" }: 
 
       <div className="relative z-10 mx-auto max-w-5xl px-6 text-center">
         <h1 className="font-display text-5xl font-bold tracking-tight text-pdi-text md:text-7xl lg:text-[5.5rem] lg:leading-[1.05]" style={{ letterSpacing: "-0.02em" }}>
-          Twenty Years of Arrows, Walk-ons and Heart
+          {title ?? "Twenty Years of Arrows, Walk-ons and Heart"}
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-pdi-muted md:text-xl">
-          Templeogue&apos;s legendary charity darts tournament — all proceeds to
-          Children&apos;s Health Foundation Crumlin.
+          {subtitle ?? "Templeogue\u2019s legendary charity darts tournament \u2014 all proceeds to Children\u2019s Health Foundation Crumlin."}
         </p>
         <p className="mt-8 font-display text-4xl font-bold text-pdi-green md:text-5xl">
-          &euro;XX,XXX
+          {donationAmount ?? "\u20ACXX,XXX"}
         </p>
         <p className="mt-2 text-lg text-pdi-muted">
-          raised and counting
+          {donationLabel ?? "raised and counting"}
         </p>
       </div>
 

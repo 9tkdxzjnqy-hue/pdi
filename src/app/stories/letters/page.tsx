@@ -1,14 +1,8 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GalleryLightbox from "@/components/GalleryLightbox";
-
-const letterImages = [
-  { src: "/gallery/letter-fireside-2015.jpg", alt: "Fireside chat — 2015", era: "early-days" as const },
-  { src: "/gallery/letter-fireside-2016.jpg", alt: "Fireside chat — 2016", era: "early-days" as const },
-  { src: "/gallery/letter-abroad-2015.jpg", alt: "A view from abroad — 2015", era: "early-days" as const },
-  { src: "/gallery/letter-selina-2019.jpg", alt: "A letter to the PDI — 2019", era: "early-days" as const },
-  { src: "/gallery/letter-the-boy-2019.jpg", alt: "The Boy's letter — 2019", era: "early-days" as const },
-];
+import { getStoriesByThread } from "@/sanity/fetch";
+import type { Story } from "@/sanity/types";
 
 export const metadata = {
   title: "The Letters — PDI",
@@ -16,7 +10,15 @@ export const metadata = {
     "Letters, articles and correspondence from the PDI community over the years.",
 };
 
-const letters = [
+const fallbackLetterImages = [
+  { src: "/gallery/letter-fireside-2015.jpg", alt: "Fireside chat — 2015", era: "early-days" },
+  { src: "/gallery/letter-fireside-2016.jpg", alt: "Fireside chat — 2016", era: "early-days" },
+  { src: "/gallery/letter-abroad-2015.jpg", alt: "A view from abroad — 2015", era: "early-days" },
+  { src: "/gallery/letter-selina-2019.jpg", alt: "A letter to the PDI — 2019", era: "early-days" },
+  { src: "/gallery/letter-the-boy-2019.jpg", alt: "The Boy's letter — 2019", era: "early-days" },
+];
+
+const fallbackLetters: Story[] = [
   {
     year: 2019,
     title: "A Letter from America",
@@ -48,7 +50,18 @@ I wouldn't miss the PDI this year for the world — I'm really looking forward t
   },
 ];
 
-export default function LettersPage() {
+export default async function LettersPage() {
+  const sanityStories = await getStoriesByThread("letters");
+  const letters = sanityStories.length > 0 ? sanityStories : fallbackLetters;
+
+  // Separate text stories from image-only stories
+  const textLetters = letters.filter((l) => l.body);
+  // Collect all images from stories that have them, or fall back to hardcoded
+  const storyImages = letters.flatMap((l) =>
+    (l.images ?? []).map((img) => ({ ...img, era: "early-days" }))
+  );
+  const letterImages = storyImages.length > 0 ? storyImages : fallbackLetterImages;
+
   return (
     <>
       <Navbar />
@@ -67,26 +80,30 @@ export default function LettersPage() {
 
         <section className="px-6 pb-16">
           <div className="mx-auto max-w-3xl space-y-10">
-            {letters.map((letter) => (
+            {textLetters.map((letter) => (
               <article
                 key={letter.title}
                 className="rounded-xl bg-pdi-navy p-8"
               >
                 <div className="mb-6">
                   <div className="flex items-center gap-3">
-                    <span className="rounded-full bg-pdi-green/10 px-3 py-1 text-sm font-semibold text-pdi-green">
-                      {letter.year}
-                    </span>
+                    {letter.year && (
+                      <span className="rounded-full bg-pdi-green/10 px-3 py-1 text-sm font-semibold text-pdi-green">
+                        {letter.year}
+                      </span>
+                    )}
                   </div>
                   <h2 className="mt-4 font-display text-2xl text-pdi-text">
                     {letter.title}
                   </h2>
-                  <p className="mt-1 text-sm text-pdi-muted italic">
-                    by {letter.author}
-                  </p>
+                  {letter.author && (
+                    <p className="mt-1 text-sm text-pdi-muted italic">
+                      by {letter.author}
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-4 text-pdi-text/90 leading-relaxed">
-                  {letter.body.split("\n\n").map((paragraph, i) => (
+                  {letter.body!.split("\n\n").map((paragraph, i) => (
                     <p key={i}>{paragraph}</p>
                   ))}
                 </div>

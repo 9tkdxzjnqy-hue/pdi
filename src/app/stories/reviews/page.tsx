@@ -1,20 +1,23 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
+import { getStoriesByThread } from "@/sanity/fetch";
 
 export const metadata = {
   title: "Reviews — PDI",
   description: "Looking back on the year that was.",
 };
 
-const reviewsByYear = [
+const fallbackReviews = [
   {
+    title: "2017",
     year: 2017,
     images: [
       { src: "/gallery/review-2017-01.jpg", alt: "Review of the 2017 PDI" },
     ],
   },
   {
+    title: "2016",
     year: 2016,
     images: [
       { src: "/gallery/review-2016-01.jpg", alt: "Review of the 2016 PDI — page 1" },
@@ -24,12 +27,14 @@ const reviewsByYear = [
     ],
   },
   {
+    title: "2015",
     year: 2015,
     images: [
       { src: "/gallery/review-2015-01.jpg", alt: "Review of the 2015 PDI" },
     ],
   },
   {
+    title: "2014",
     year: 2014,
     images: [
       { src: "/gallery/review-2014-01.jpg", alt: "Review of the 2014 PDI — page 1" },
@@ -39,7 +44,10 @@ const reviewsByYear = [
   },
 ];
 
-export default function ReviewsPage() {
+export default async function ReviewsPage() {
+  const sanityStories = await getStoriesByThread("reviews");
+  const reviews = sanityStories.length > 0 ? sanityStories : fallbackReviews;
+
   return (
     <>
       <Navbar />
@@ -55,27 +63,31 @@ export default function ReviewsPage() {
 
         <section className="px-6 pb-24">
           <div className="mx-auto max-w-3xl space-y-10">
-            {reviewsByYear.map((group) => (
-              <article key={group.year} className="rounded-xl bg-pdi-navy p-8">
+            {reviews.map((group) => (
+              <article key={group.year ?? group.title} className="rounded-xl bg-pdi-navy p-8">
                 <div className="mb-6">
-                  <span className="rounded-full bg-pdi-green/10 px-3 py-1 text-sm font-semibold text-pdi-green">
-                    {group.year}
-                  </span>
+                  {group.year && (
+                    <span className="rounded-full bg-pdi-green/10 px-3 py-1 text-sm font-semibold text-pdi-green">
+                      {group.year}
+                    </span>
+                  )}
                 </div>
-                <div className="space-y-4">
-                  {group.images.map((img) => (
-                    <Image
-                      key={img.src}
-                      src={img.src}
-                      alt={img.alt}
-                      width={1200}
-                      height={800}
-                      className="w-full h-auto rounded-lg"
-                      quality={85}
-                      sizes="(max-width: 768px) 100vw, 672px"
-                    />
-                  ))}
-                </div>
+                {group.images && group.images.length > 0 && (
+                  <div className="space-y-4">
+                    {group.images.map((img) => (
+                      <Image
+                        key={img.src}
+                        src={img.src}
+                        alt={img.alt}
+                        width={1200}
+                        height={800}
+                        className="w-full h-auto rounded-lg"
+                        quality={85}
+                        sizes="(max-width: 768px) 100vw, 672px"
+                      />
+                    ))}
+                  </div>
+                )}
               </article>
             ))}
           </div>

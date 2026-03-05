@@ -2,25 +2,30 @@ import Navbar from "@/components/Navbar";
 import GalleryHero from "@/components/GalleryHero";
 import GalleryEraSection from "@/components/GalleryEraSection";
 import Footer from "@/components/Footer";
-import { eras, galleryItems } from "@/data/gallery";
+import { getEras, getGalleryByEra } from "@/sanity/fetch";
 
 export const metadata = {
   title: "Gallery — PDI",
   description: "Scenes from twenty years of the PDI.",
 };
 
-export default function GalleryPage() {
+export default async function GalleryPage() {
+  const eras = await getEras();
+  const eraItems = await Promise.all(
+    eras.map((era) => getGalleryByEra(era.eraId))
+  );
+
   return (
     <>
       <Navbar />
       <main className="bg-pdi-dark">
         <GalleryHero />
-        {eras.map((era) => (
+        {eras.map((era, i) => (
           <GalleryEraSection
-            key={era.id}
+            key={era.eraId}
             label={era.label}
             description={era.description}
-            items={galleryItems.filter((item) => item.era === era.id)}
+            items={eraItems[i]}
             groupByYear={era.groupByYear}
             allYears={era.allYears}
           />

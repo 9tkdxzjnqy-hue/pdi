@@ -1,4 +1,4 @@
-import type { GalleryItem } from "@/data/gallery";
+import type { GalleryItem } from "@/sanity/types";
 import GalleryLightbox from "./GalleryLightbox";
 
 interface GalleryEraSectionProps {

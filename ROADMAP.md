@@ -1,75 +1,83 @@
 # PDI Website — Roadmap
 
----
+**Launch target:** March 12th, 2026
+**Live at:** thepdi.ie
 
-## Phase 1: Launch (March 12th)
+## What's Done
 
-Share thepdi.ie with the WhatsApp group. The site needs to feel real and worth sharing, not finished.
-
-### Build
-- [x] Homepage v1 — hero, story, charity, competitions, gallery preview, footer
-- [ ] Remembering Our Own page — Tom, Pat, Kieran (waiting on photos + tributes)
-- [ ] Donate button — Stripe Payment Link (waiting on board to set up Stripe account). Falls back to childrenshealth.ie link until ready
-- [ ] Replace placeholder photos with crowdsourced content
-- [ ] Replace €XX,XXX with real fundraising total
-
-### Infrastructure
-- [x] GitHub repo
-- [x] Vercel deploy
-- [ ] Connect thepdi.ie domain to Vercel
-- [ ] Set up Google Drive folder for photo crowdsourcing
-
-### Content (dependencies on others)
-- [ ] Fundraising running total — ask board
-- [ ] Stripe account connected to PDI bank — ask board
-- [ ] Photos from the community — call out to main WhatsApp group
-- [ ] Photos + tributes for Tom, Pat, Kieran — ask board + main group
-- [ ] Booklet files from Pa
+- Homepage (hero, story, charity, competitions preview, gallery preview, footer)
+- Gallery page (101 images, 3 eras + walk-ons, lightbox)
+- Competitions page (PDI 2004–2025, WPDI, Walk-on, Shield, Hall of Fame)
+- Hall of Fame page (12 inductees)
+- Stories (landing + Chairman's Address + Letters + Reviews + Where Are They Now)
+- Remembering page (The Man, The Bat, Del — photos added)
+- Favicon
+- Domain (thepdi.ie) connected to Vercel
 
 ---
 
-## Phase 2: Core Pages (post-launch)
+## Chunk 1: Doc Cleanup *(30 mins)*
+- [x] Delete PROGRESS.md
+- [x] Delete LAUNCH_PLAN.md
+- [x] Write this ROADMAP.md
 
-Build out the main sections. Content will be flowing from the community by this point.
+## Chunk 2: Professional Polish *(1–2 hours)*
+Quick wins that make the site feel finished.
+- [ ] Open Graph + Twitter Card metadata (social sharing previews)
+- [ ] robots.txt + sitemap.xml
+- [ ] Missing meta descriptions (competitions, hall-of-fame, auction, videos)
+- [ ] Custom 404 page
+- [ ] Error boundary
+- [ ] Active nav link highlighting
+- [ ] Fix Donate button on sub-pages (`#charity` → `/#charity`)
+- [ ] Remove placeholder social links from footer
+- [ ] Skip-to-content link + aria-expanded on hamburger
 
-- [ ] Competition pages — PDI, WPDI, Walk-on of the Year, Shield. Past winners, format, photos
-- [ ] Gallery page — full page, browsable by year/era
-- [ ] Stories landing page — initial threads (The Auction, The Videos, The Letters)
-- [ ] Hall of Fame page
+## Chunk 3: Sanity CMS Setup *(2–3 days)*
+The biggest single piece. Enables board members to manage content directly.
+- [ ] Create Sanity project + install dependencies
+- [ ] Define schemas: gallery, hall-of-fame, remembering, competitions, site settings
+- [ ] Migrate existing data (TS files → Sanity)
+- [ ] Update Next.js components to fetch from Sanity
+- [ ] Set up Sanity Studio (admin UI)
+- [ ] Set up image pipeline (Sanity CDN)
+- [ ] Invite board members as editors
+- [ ] Document how to use the CMS for editors
+
+## Chunk 4: Content — Before Launch *(depends on others)*
+Content that needs input from the board/community.
+- [ ] Real fundraising total (replace €XX,XXX)
+- [ ] Remembering page tribute copy (photos done, text still placeholder)
+- [ ] Donate button — payment flow TBD
+  - Option A: Create dedicated Revolut account (enables Stripe or Revolut.me)
+  - Option B: Revolut Pocket as-is (limited integrations)
+  - Option C: Link directly to childrenshealth.ie
+- [ ] Add "The Man" to Hall of Fame (posthumous — on or after the night)
+- [ ] Final copy review — no placeholder text visible
+- [ ] Mobile check
+
+## Chunk 5: Post-Launch
+- [ ] On-the-day payment page (auction/raffle) — depends on payment flow decision
+- [ ] QR codes for venue
+- [ ] Hall of Fame contribution descriptions (11 of 12 still placeholder)
+- [ ] Stories: Auction + Videos (currently stubs)
+- [ ] Booklet Archive (waiting on Pa)
+- [ ] Sponsors page (waiting on logos)
+- [ ] WPDI nicknames (currently first names only)
 
 ---
 
-## Phase 3: Event Day (before the next PDI)
+## Content Committee
 
-Features needed for the event itself.
+Crowdsource content via WhatsApp group. Key asks:
+- Photos (originals, not WhatsApp compressed) → Google Drive / Dropbox
+- Fundraising running total
+- Tribute copy for Remembering page
+- Booklet files from Pa
+- Stories and memories
 
-- [ ] `/pay` page for on-the-day payments via Stripe (auction, raffle)
-- [ ] QR codes for tables/venue linking to payment page
-- [ ] Note: SumUp machine provided by the charity is already available for in-person card payments
+## Reference: Domain Setup
 
----
-
-## Phase 4: Growth
-
-Longer-term features once the site is established.
-
-- [ ] Booklet Archive — dependent on Pa providing digital copies
-- [ ] Sponsors page — dependent on collecting logos
-- [ ] Stories: additional threads as the community surfaces them
-- [ ] CMS integration — so non-technical admins can update gallery, Hall of Fame, etc.
-- [ ] Player registration for future years
-- [ ] Media upload — attendees submit photos/video for curated addition to gallery
-
----
-
-## Key Dependencies
-
-| Dependency | Owner | Status |
-|---|---|---|
-| Fundraising total | Board | Not yet requested |
-| Stripe account setup | Board (whoever has bank access) | Not yet started |
-| thepdi.ie DNS | Aidan (domain registrar) | Not yet done |
-| Photos from community | Main WhatsApp group | Google Drive folder not yet created |
-| Tom/Pat/Kieran photos + tributes | Board + main group | Not yet requested |
-| Booklet digital copies | Pa | Pending |
-| Sponsor logos | Board | Not yet collected |
+Domain is live. DNS records:
+- A record: `@` → `76.76.21.21`
+- CNAME: `www` → `cname.vercel-dns.com`

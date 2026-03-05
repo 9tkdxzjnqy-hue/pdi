@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import type { GalleryItem } from "@/data/gallery";
+import type { GalleryItem } from "@/sanity/types";
 
 interface GalleryLightboxProps {
   items: GalleryItem[];

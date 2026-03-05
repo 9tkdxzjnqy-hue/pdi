@@ -1,14 +1,16 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
+import { getStoriesByThread } from "@/sanity/fetch";
 
 export const metadata = {
   title: "Where Are They Now? — PDI",
   description: "Catching up with familiar faces from PDIs past.",
 };
 
-const watnByYear = [
+const fallbackWatn = [
   {
+    title: "2016",
     year: 2016,
     images: [
       { src: "/gallery/watn-2016-01.jpg", alt: "Where are they now — 2016" },
@@ -17,6 +19,7 @@ const watnByYear = [
     ],
   },
   {
+    title: "2015",
     year: 2015,
     images: [
       { src: "/gallery/watn-2015-01.jpg", alt: "Where are they now — 2015" },
@@ -27,7 +30,10 @@ const watnByYear = [
   },
 ];
 
-export default function WhereAreTheyNowPage() {
+export default async function WhereAreTheyNowPage() {
+  const sanityStories = await getStoriesByThread("where-are-they-now");
+  const groups = sanityStories.length > 0 ? sanityStories : fallbackWatn;
+
   return (
     <>
       <Navbar />
@@ -45,27 +51,31 @@ export default function WhereAreTheyNowPage() {
 
         <section className="px-6 pb-24">
           <div className="mx-auto max-w-3xl space-y-10">
-            {watnByYear.map((group) => (
-              <article key={group.year} className="rounded-xl bg-pdi-navy p-8">
+            {groups.map((group) => (
+              <article key={group.year ?? group.title} className="rounded-xl bg-pdi-navy p-8">
                 <div className="mb-6">
-                  <span className="rounded-full bg-pdi-green/10 px-3 py-1 text-sm font-semibold text-pdi-green">
-                    {group.year}
-                  </span>
+                  {group.year && (
+                    <span className="rounded-full bg-pdi-green/10 px-3 py-1 text-sm font-semibold text-pdi-green">
+                      {group.year}
+                    </span>
+                  )}
                 </div>
-                <div className="space-y-4">
-                  {group.images.map((img) => (
-                    <Image
-                      key={img.src}
-                      src={img.src}
-                      alt={img.alt}
-                      width={1200}
-                      height={800}
-                      className="w-full h-auto rounded-lg"
-                      quality={85}
-                      sizes="(max-width: 768px) 100vw, 672px"
-                    />
-                  ))}
-                </div>
+                {group.images && group.images.length > 0 && (
+                  <div className="space-y-4">
+                    {group.images.map((img) => (
+                      <Image
+                        key={img.src}
+                        src={img.src}
+                        alt={img.alt}
+                        width={1200}
+                        height={800}
+                        className="w-full h-auto rounded-lg"
+                        quality={85}
+                        sizes="(max-width: 768px) 100vw, 672px"
+                      />
+                    ))}
+                  </div>
+                )}
               </article>
             ))}
           </div>

@@ -1,71 +1,60 @@
 import Image from "next/image";
 import Link from "next/link";
 import AnimateOnScroll from "./AnimateOnScroll";
+import type { Competition } from "@/sanity/types";
+import { urlFor } from "@/sanity/image";
 
-const competitions = [
-  {
-    name: "The PDI",
-    description: "The main event. Who can hold their nerve?",
-    image: "/images/PDITrophy.jpeg",
-    alt: "The PDI trophy",
-  },
-  {
-    name: "WPDI",
-    description: "The women's invitational. In it to win it.",
-    image: "/images/bar-community.jpeg",
-    alt: "Three women at the PDI under purple and green ambient light",
-  },
-  {
-    name: "Walk-on of the Year",
-    description: "The most theatrical entrance takes the Pat the Bat Memorial Trophy.",
-    image: "/images/WalkOnTrophy.jpeg",
-    alt: "The Pat the Bat Memorial Trophy for Walk-on of the Year",
-  },
-  {
-    name: "The Shield",
-    description: "The Europa League of the PDI.",
-    image: "/images/walkon-green-smoke.jpeg",
-    alt: "Walk-on at doors with green smoke and lights",
-  },
-];
+interface CompetitionsPreviewProps {
+  competitions?: Competition[];
+  title?: string;
+  description?: string;
+  linkText?: string;
+}
 
-export default function CompetitionsPreview() {
+export default function CompetitionsPreview({ competitions, title, description, linkText }: CompetitionsPreviewProps) {
+  const items = competitions ?? fallbackCompetitions;
+
   return (
     <section id="competitions" className="bg-pdi-dark py-24">
       <div className="mx-auto max-w-7xl px-6">
         <AnimateOnScroll>
           <h2 className="font-display text-4xl font-semibold text-pdi-text md:text-5xl">
-            The Competitions
+            {title ?? "The Competitions"}
           </h2>
           <p className="mt-4 max-w-2xl text-lg text-pdi-muted">
-            Four ways to compete, one mission — raise as much as possible for
-            Crumlin.
+            {description ?? "Four ways to compete, one mission \u2014 raise as much as possible for Crumlin."}
           </p>
         </AnimateOnScroll>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {competitions.map((comp, i) => (
-            <AnimateOnScroll key={comp.name} delay={0.1 * (i + 1)}>
-              <div className="group relative aspect-[3/4] overflow-hidden rounded-xl">
-                <Image
-                  src={comp.image}
-                  alt={comp.alt}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-pdi-dark via-pdi-dark/30 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h3 className="font-display text-2xl font-semibold text-pdi-text">
-                    {comp.name}
-                  </h3>
-                  <p className="mt-1 text-sm text-pdi-muted">
-                    {comp.description}
-                  </p>
+          {items.map((comp, i) => {
+            const imgSrc = comp.image?.asset?._ref
+              ? urlFor(comp.image).width(600).height(800).url()
+              : (comp as Record<string, unknown>)._fallbackImage as string ?? "";
+
+            return (
+              <AnimateOnScroll key={comp.name} delay={0.1 * (i + 1)}>
+                <div className="group relative aspect-[3/4] overflow-hidden rounded-xl">
+                  <Image
+                    src={imgSrc}
+                    alt={comp.name}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-pdi-dark via-pdi-dark/30 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <h3 className="font-display text-2xl font-semibold text-pdi-text">
+                      {comp.name}
+                    </h3>
+                    <p className="mt-1 text-sm text-pdi-muted">
+                      {comp.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </AnimateOnScroll>
-          ))}
+              </AnimateOnScroll>
+            );
+          })}
         </div>
 
         <AnimateOnScroll>
@@ -74,7 +63,7 @@ export default function CompetitionsPreview() {
               href="/competitions"
               className="text-sm font-semibold text-pdi-green transition-colors hover:text-pdi-text"
             >
-              Explore Competitions &rarr;
+              {linkText ?? "Explore Competitions \u2192"}
             </Link>
           </div>
         </AnimateOnScroll>
@@ -82,3 +71,34 @@ export default function CompetitionsPreview() {
     </section>
   );
 }
+
+const fallbackCompetitions = [
+  {
+    name: "The PDI",
+    description: "The main event. Who can hold their nerve?",
+    image: { _type: "image" as const, asset: { _ref: "", _type: "reference" as const } },
+    _fallbackImage: "/images/PDITrophy.jpeg",
+    results: [],
+  },
+  {
+    name: "WPDI",
+    description: "The women's invitational. In it to win it.",
+    image: { _type: "image" as const, asset: { _ref: "", _type: "reference" as const } },
+    _fallbackImage: "/images/bar-community.jpeg",
+    results: [],
+  },
+  {
+    name: "Walk-on of the Year",
+    description: "The most theatrical entrance takes the Pat the Bat Memorial Trophy.",
+    image: { _type: "image" as const, asset: { _ref: "", _type: "reference" as const } },
+    _fallbackImage: "/images/WalkOnTrophy.jpeg",
+    results: [],
+  },
+  {
+    name: "The Shield",
+    description: "The Europa League of the PDI.",
+    image: { _type: "image" as const, asset: { _ref: "", _type: "reference" as const } },
+    _fallbackImage: "/images/walkon-green-smoke.jpeg",
+    results: [],
+  },
+];

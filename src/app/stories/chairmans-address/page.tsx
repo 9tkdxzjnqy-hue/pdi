@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { getStoriesByThread } from "@/sanity/fetch";
 
 export const metadata = {
   title: "The Chairman's Address — PDI",
@@ -7,10 +8,11 @@ export const metadata = {
     "Annual addresses from the PDI chairperson — history, tribute, and the year ahead.",
 };
 
-const addresses = [
+const fallbackAddresses = [
   {
     year: 2019,
-    chairman: "The Pawn",
+    author: "The Pawn",
+    title: "2019",
     body: `It is with great pleasure that I welcome you to the 2019 Paddy's Day Invitational. This is the 16th year of the PDI and I'm sure it will be the biggest and best yet with the proceeds once again going to Our Lady's Children's Hospital CMRF.
 
 2018 belonged to The Physio as he claimed another PDI crown to add to his growing collection. Dako sent shockwaves through the Lakeside with an unforgettable performance to wrestle the coveted Walk-on of the Year away from Bar. In the WPDI, Niamh took home the gold in her debut outing. Among all this nonsense we raised €9,461 for CMRF. Amazing stuff.
@@ -25,7 +27,8 @@ LETS PLAY DARTS!`,
   },
   {
     year: 2018,
-    chairman: "The Pawn",
+    author: "The Pawn",
+    title: "2018",
     body: `It is with great pleasure that I welcome you to the 2018 Paddy's Day Invitational. This is the 15th year of the PDI and I'm sure it will be the biggest and best yet with the proceeds once again going to Our Lady's Children's Hospital CMRF.
 
 2016 belonged to Bar as he not only defended the coveted Walk-on of the Year title but also completed a historic double by claiming his maiden PDI crown. Can the Champ Champ repeat the trick this year? In the WPDI, Sinead took home her second title and will be eager to complete the hat-trick today. Among all this nonsense we raised €10,780 for CMRF. Amazing stuff.
@@ -40,7 +43,8 @@ LETS PLAY DARTS!`,
   },
   {
     year: 2017,
-    chairman: "The Express",
+    author: "The Express",
+    title: "2017",
     body: `I am delighted to welcome you all to the St Judes 'Lakeside Lounge' for the 2017 Paddy's Day Invitational.
 
 The PDI has grown from a few friends launching arrows at a make-shift oche, to a 32-player PDI, and a 19-player WPDI today. Without the support and participation of all the players and friends of the tournament, the PDI would not be the event we have today. From those humble beginnings, the PDI has gone on to raise tens of thousands of euros for the amazing cause of Our Lady's Children's Hospital, and, therefore, before I go any further, I want to thank each and every one of you for helping make the PDI the very special event it is.
@@ -61,7 +65,8 @@ Let's play darts!`,
   },
   {
     year: 2015,
-    chairman: "The Cat",
+    author: "The Cat",
+    title: "2015",
     body: `It is with great pleasure that I welcome you all to the Paddy's Day Invitational 2015. This is the 11th year of the PDI and it is amazing to see how the PDI has grown yet still hold the same spirit of friendship that initially formed the PDI.
 
 This year will see 26 competitors in the PDI and 16 in the WPDI. New faces make their debut on the PDI stage this year and I'm sure will be captured by the spirit of the PDI.
@@ -79,7 +84,10 @@ Let's play darts!`,
   },
 ];
 
-export default function ChairmansAddressPage() {
+export default async function ChairmansAddressPage() {
+  const sanityStories = await getStoriesByThread("chairmans-address");
+  const addresses = sanityStories.length > 0 ? sanityStories : fallbackAddresses;
+
   return (
     <>
       <Navbar />
@@ -100,22 +108,28 @@ export default function ChairmansAddressPage() {
           <div className="mx-auto max-w-3xl space-y-10">
             {addresses.map((address) => (
               <article
-                key={address.year}
+                key={address.year ?? address.title}
                 className="rounded-xl bg-pdi-navy p-8"
               >
                 <div className="mb-6 flex items-center gap-3">
-                  <span className="rounded-full bg-pdi-green/10 px-3 py-1 text-sm font-semibold text-pdi-green">
-                    {address.year}
-                  </span>
-                  <span className="text-sm text-pdi-muted">
-                    Chairman: {address.chairman}
-                  </span>
+                  {address.year && (
+                    <span className="rounded-full bg-pdi-green/10 px-3 py-1 text-sm font-semibold text-pdi-green">
+                      {address.year}
+                    </span>
+                  )}
+                  {address.author && (
+                    <span className="text-sm text-pdi-muted">
+                      Chairman: {address.author}
+                    </span>
+                  )}
                 </div>
-                <div className="space-y-4 text-pdi-text/90 leading-relaxed">
-                  {address.body.split("\n\n").map((paragraph, i) => (
-                    <p key={i}>{paragraph}</p>
-                  ))}
-                </div>
+                {address.body && (
+                  <div className="space-y-4 text-pdi-text/90 leading-relaxed">
+                    {address.body.split("\n\n").map((paragraph, i) => (
+                      <p key={i}>{paragraph}</p>
+                    ))}
+                  </div>
+                )}
               </article>
             ))}
           </div>

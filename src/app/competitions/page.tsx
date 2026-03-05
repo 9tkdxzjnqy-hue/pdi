@@ -2,13 +2,15 @@ import Navbar from "@/components/Navbar";
 import CompetitionsHero from "@/components/CompetitionsHero";
 import CompetitionSection from "@/components/CompetitionSection";
 import Footer from "@/components/Footer";
-import { competitions } from "@/data/competitions";
+import { getCompetitions } from "@/sanity/fetch";
 
 export const metadata = {
   title: "Competitions | PDI",
 };
 
-export default function CompetitionsPage() {
+export default async function CompetitionsPage() {
+  const competitions = await getCompetitions();
+
   return (
     <>
       <Navbar />

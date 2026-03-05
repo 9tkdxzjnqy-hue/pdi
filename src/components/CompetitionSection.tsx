@@ -1,4 +1,4 @@
-import { Competition } from "@/data/competitions";
+import type { Competition } from "@/sanity/types";
 
 export default function CompetitionSection({
   competition,

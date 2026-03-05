@@ -20,6 +20,27 @@ export async function POST(req: NextRequest) {
       case "inductee":
         revalidateTag("inductees");
         break;
+      case "competition":
+        revalidateTag("competitions");
+        break;
+      case "galleryItem":
+        revalidateTag("gallery");
+        break;
+      case "era":
+        revalidateTag("eras");
+        break;
+      case "storyThread":
+        revalidateTag("storyThreads");
+        break;
+      case "story":
+        revalidateTag("stories");
+        break;
+      case "siteSettings":
+        revalidateTag("siteSettings");
+        break;
+      case "homePage":
+        revalidateTag("homePage");
+        break;
     }
 
     return NextResponse.json({ revalidated: true, now: Date.now() });

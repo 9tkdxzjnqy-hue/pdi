@@ -7,7 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed:hall-of-fame": "tsx --env-file=.env.local scripts/seed-inductees.ts"
+    "seed:hall-of-fame": "export $(grep -v '^#' .env.local | xargs) && tsx scripts/seed-inductees.ts",
+    "seed:competitions": "export $(grep -v '^#' .env.local | xargs) && tsx scripts/seed-competitions.ts",
+    "seed:gallery": "export $(grep -v '^#' .env.local | xargs) && tsx scripts/seed-gallery.ts",
+    "seed:stories": "export $(grep -v '^#' .env.local | xargs) && tsx scripts/seed-stories.ts",
+    "seed:homepage": "export $(grep -v '^#' .env.local | xargs) && tsx scripts/seed-homepage.ts"
   },
   "dependencies": {
     "@sanity/image-url": "^2.0.3",
