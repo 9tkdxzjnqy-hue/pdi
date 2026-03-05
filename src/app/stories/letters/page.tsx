@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import LetterAccordion from "@/components/LetterAccordion";
 import { getStoriesByThread } from "@/sanity/fetch";
 import type { Story } from "@/sanity/types";
 
@@ -194,38 +195,7 @@ export default async function LettersPage() {
         </section>
 
         <section className="px-6 pb-16">
-          <div className="mx-auto max-w-3xl space-y-10">
-            {letters.map((letter) => (
-              <article
-                key={`${letter.title}-${letter.year}`}
-                className="rounded-xl bg-pdi-navy p-8"
-              >
-                <div className="mb-6">
-                  <div className="flex items-center gap-3">
-                    {letter.year && (
-                      <span className="rounded-full bg-pdi-green/10 px-3 py-1 text-sm font-semibold text-pdi-green">
-                        {letter.year}
-                      </span>
-                    )}
-                  </div>
-                  <h2 className="mt-4 font-display text-2xl text-pdi-text">
-                    {letter.title}
-                  </h2>
-                  {letter.author && (
-                    <p className="mt-1 text-sm text-pdi-muted italic">
-                      by {letter.author}
-                    </p>
-                  )}
-                </div>
-
-                <div className="space-y-4 text-pdi-text/90 leading-relaxed">
-                  {letter.body!.split("\n\n").map((paragraph, i) => (
-                    <p key={i}>{paragraph}</p>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
+          <LetterAccordion letters={letters} />
         </section>
       </main>
       <Footer />
