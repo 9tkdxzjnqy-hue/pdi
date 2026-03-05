@@ -52,7 +52,7 @@ export default async function StoriesPage() {
   return (
     <>
       <Navbar />
-      <main className="bg-pdi-dark">
+      <main id="main-content" className="bg-pdi-dark">
         <StoriesHero />
         <section className="py-16">
           <div className="mx-auto max-w-7xl px-6">

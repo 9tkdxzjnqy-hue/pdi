@@ -40,15 +40,19 @@ Deployed to **Vercel** via push to `main`. Never push directly to main without a
 src/
 ├── app/
 │   ├── globals.css          # Tailwind v4 @theme tokens, animations, utilities
-│   ├── layout.tsx           # Root layout, font loading, body classes
+│   ├── layout.tsx           # Root layout, font loading, OG metadata, skip-to-content
 │   ├── page.tsx             # Homepage
+│   ├── not-found.tsx        # Custom 404 page
+│   ├── error.tsx            # Error boundary (client component)
+│   ├── robots.ts            # robots.txt (Next.js Metadata API)
+│   ├── sitemap.ts           # sitemap.xml (Next.js Metadata API)
 │   ├── competitions/        # Full results tables
 │   ├── hall-of-fame/        # Inductee cards
 │   ├── gallery/             # Photo gallery
 │   ├── stories/             # Story threads (chairman's address, letters, auction, videos)
 │   └── remembering/         # Remembering page
 ├── components/
-│   ├── Navbar.tsx            # Fixed nav with scroll behaviour
+│   ├── Navbar.tsx            # Fixed nav with scroll behaviour, active link highlighting
 │   ├── Hero.tsx              # Homepage hero (gradient/image variants)
 │   ├── AnimateOnScroll.tsx   # Scroll-triggered reveal wrapper
 │   ├── Story.tsx             # "Where It All Started" section

@@ -19,7 +19,7 @@ export default async function GalleryPage() {
   return (
     <>
       <Navbar />
-      <main className="bg-pdi-dark">
+      <main id="main-content" className="bg-pdi-dark">
         <GalleryHero />
         <GalleryNav eras={eras.map((era) => ({ eraId: era.eraId, label: era.label }))} />
         {eras.map((era, i) => (

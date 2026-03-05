@@ -3,13 +3,15 @@ import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "The Videos — PDI",
+  description:
+    "Intimidation videos, comedy entries, and productions that have no business being that good.",
 };
 
 export default function VideosPage() {
   return (
     <>
       <Navbar />
-      <main className="bg-pdi-dark">
+      <main id="main-content" className="bg-pdi-dark">
         <section className="pt-32 pb-16 text-center">
           <div className="mx-auto max-w-3xl px-6">
             <h1 className="font-display text-5xl text-pdi-text">The Videos</h1>

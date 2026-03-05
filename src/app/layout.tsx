@@ -31,6 +31,22 @@ export const metadata: Metadata = {
   title: "PDI — Paddy's Day Invitational",
   description:
     "Twenty years of darts, community, and raising funds for Children's Health Foundation Crumlin.",
+  openGraph: {
+    title: "PDI — Paddy's Day Invitational",
+    description:
+      "Twenty years of darts, community, and raising funds for Children's Health Foundation Crumlin.",
+    url: "https://thepdi.ie",
+    siteName: "PDI",
+    type: "website",
+    images: [{ url: "/images/hero-walkon-blue.jpeg" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PDI — Paddy's Day Invitational",
+    description:
+      "Twenty years of darts, community, and raising funds for Children's Health Foundation Crumlin.",
+    images: ["/images/hero-walkon-blue.jpeg"],
+  },
 };
 
 export default function RootLayout({
@@ -41,6 +57,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${cabinetGrotesk.variable} ${satoshi.variable}`}>
       <body className="bg-pdi-cream text-pdi-dark antialiased">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-pdi-green focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-pdi-dark"
+        >
+          Skip to content
+        </a>
         {children}
       </body>
     </html>

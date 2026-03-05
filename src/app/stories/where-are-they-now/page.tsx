@@ -37,7 +37,7 @@ export default async function WhereAreTheyNowPage() {
   return (
     <>
       <Navbar />
-      <main className="bg-pdi-dark">
+      <main id="main-content" className="bg-pdi-dark">
         <section className="pt-32 pb-16 text-center">
           <div className="mx-auto max-w-3xl px-6">
             <h1 className="font-display text-5xl text-pdi-text">

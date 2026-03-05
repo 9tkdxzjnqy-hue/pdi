@@ -6,10 +6,10 @@
 ## What's Done
 
 - Homepage (hero, story, charity, competitions preview, gallery preview, footer)
-- Gallery page (101 images, 3 eras + walk-ons, lightbox)
+- Gallery page (104 images, 8 eras, sticky pill nav, lightbox)
 - Competitions page (PDI 2004–2025, WPDI, Walk-on, Shield, Hall of Fame)
-- Hall of Fame page (12 inductees)
-- Stories (landing + Chairman's Address + Letters + Reviews + Where Are They Now)
+- Hall of Fame page (12 inductees, newest-first)
+- Stories (landing + Letters + Reviews + Where Are They Now)
 - Remembering page (The Man, The Bat, Del — photos added)
 - Favicon
 - Domain (thepdi.ie) connected to Vercel
@@ -24,17 +24,16 @@
 - [x] Delete LAUNCH_PLAN.md
 - [x] Write this ROADMAP.md
 
-## Chunk 2: Professional Polish *(1–2 hours)*
-Quick wins that make the site feel finished.
-- [ ] Open Graph + Twitter Card metadata (social sharing previews)
-- [ ] robots.txt + sitemap.xml
-- [ ] Missing meta descriptions (competitions, hall-of-fame, auction, videos)
-- [ ] Custom 404 page
-- [ ] Error boundary
-- [ ] Active nav link highlighting
+## Chunk 2: Professional Polish *(done)*
+- [x] Open Graph + Twitter Card metadata (social sharing previews)
+- [x] robots.txt + sitemap.xml
+- [x] Missing meta descriptions (competitions, hall-of-fame, auction, videos)
+- [x] Custom 404 page
+- [x] Error boundary
+- [x] Active nav link highlighting
 - [ ] Donate button → link to `/donate` page (see Chunk 4)
-- [ ] Remove placeholder social links from footer
-- [ ] Skip-to-content link + aria-expanded on hamburger
+- [x] Remove placeholder social links from footer
+- [x] Skip-to-content link + aria-expanded on hamburger
 
 ## Chunk 3: Sanity CMS Setup *(done)*
 - [x] Create Sanity project + install dependencies

@@ -26,11 +26,6 @@ export default function Footer() {
             >
               childrenshealth.ie
             </a>
-            <div className="flex gap-6">
-              <span className="text-sm text-pdi-muted">Instagram</span>
-              <span className="text-sm text-pdi-muted">Twitter</span>
-              <span className="text-sm text-pdi-muted">Facebook</span>
-            </div>
           </div>
         </div>
 

@@ -3,13 +3,15 @@ import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "The Auction — PDI",
+  description:
+    "The legendary PDI charity auction — where a bag of potatoes can fetch a fortune.",
 };
 
 export default function AuctionPage() {
   return (
     <>
       <Navbar />
-      <main className="bg-pdi-dark">
+      <main id="main-content" className="bg-pdi-dark">
         <section className="pt-32 pb-16 text-center">
           <div className="mx-auto max-w-3xl px-6">
             <h1 className="font-display text-5xl text-pdi-text">

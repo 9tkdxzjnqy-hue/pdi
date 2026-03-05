@@ -9,7 +9,7 @@ interface GalleryNavProps {
 export default function GalleryNav({ eras }: GalleryNavProps) {
   const [activeId, setActiveId] = useState<string>("");
   const scrollRef = useRef<HTMLDivElement>(null);
-  const pillRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
+  const pillRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
 
   useEffect(() => {
     const sections = eras

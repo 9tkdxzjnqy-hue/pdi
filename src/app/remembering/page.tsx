@@ -37,7 +37,7 @@ export default function RememberingPage() {
   return (
     <>
       <Navbar />
-      <main className="bg-pdi-dark">
+      <main id="main-content" className="bg-pdi-dark">
         <RememberingHero />
         {members.map((member) => (
           <MemberTribute key={member.name} {...member} />

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const navLinks = [
   { label: "Gallery", href: "/gallery" },
@@ -14,6 +15,7 @@ const navLinks = [
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,15 +41,19 @@ export default function Navbar() {
 
         {/* Desktop nav */}
         <div className="hidden items-center gap-8 md:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className="text-sm text-pdi-muted transition-colors hover:text-pdi-text"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const isActive =
+              pathname === link.href || pathname.startsWith(link.href + "/");
+            return (
+              <Link
+                key={link.label}
+                href={link.href}
+                className={`text-sm transition-colors hover:text-pdi-text ${isActive ? "text-pdi-text" : "text-pdi-muted"}`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
           <Link
             href="#charity"
             className="glow-green rounded-full bg-pdi-green px-5 py-2 text-sm font-semibold text-pdi-dark"
@@ -61,6 +67,7 @@ export default function Navbar() {
           className="flex flex-col gap-1.5 md:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
+          aria-expanded={menuOpen}
         >
           <span
             className={`h-0.5 w-6 bg-pdi-text transition-transform ${menuOpen ? "translate-y-2 rotate-45" : ""}`}
@@ -77,16 +84,20 @@ export default function Navbar() {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="border-t border-white/10 bg-pdi-dark/95 px-6 pb-6 backdrop-blur-md md:hidden">
-          {navLinks.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className="block py-3 text-pdi-muted transition-colors hover:text-pdi-text"
-              onClick={() => setMenuOpen(false)}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const isActive =
+              pathname === link.href || pathname.startsWith(link.href + "/");
+            return (
+              <Link
+                key={link.label}
+                href={link.href}
+                className={`block py-3 transition-colors hover:text-pdi-text ${isActive ? "text-pdi-text" : "text-pdi-muted"}`}
+                onClick={() => setMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
           <Link
             href="#charity"
             className="mt-2 inline-block rounded-full bg-pdi-green px-5 py-2 text-sm font-semibold text-pdi-dark"
