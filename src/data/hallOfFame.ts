@@ -6,44 +6,14 @@ export interface Inductee {
 
 export const inductees: Inductee[] = [
   {
-    nickname: "The Bat",
+    nickname: "Vinny",
     contribution: "Contribution details coming soon.",
-    year: 2011,
+    year: 2023,
   },
   {
-    nickname: "The Educator",
+    nickname: "The Rebel",
     contribution: "Contribution details coming soon.",
-    year: 2012,
-  },
-  {
-    nickname: "The Express",
-    contribution: "Contribution details coming soon.",
-    year: 2013,
-  },
-  {
-    nickname: "The Cat",
-    contribution: "Contribution details coming soon.",
-    year: 2014,
-  },
-  {
-    nickname: "The Boy",
-    contribution: "Contribution details coming soon.",
-    year: 2015,
-  },
-  {
-    nickname: "The Physio",
-    contribution: "Contribution details coming soon.",
-    year: 2016,
-  },
-  {
-    nickname: "The Trick & The Treat",
-    contribution: "Contribution details coming soon.",
-    year: 2017,
-  },
-  {
-    nickname: "The Gun",
-    contribution: "Contribution details coming soon.",
-    year: 2018,
+    year: 2022,
   },
   {
     nickname: "Sexy Boy",
@@ -51,17 +21,47 @@ export const inductees: Inductee[] = [
     year: 2019,
   },
   {
-    nickname: "Vinny",
+    nickname: "The Gun",
     contribution: "Contribution details coming soon.",
-    year: 2023,
+    year: 2018,
+  },
+  {
+    nickname: "The Trick & The Treat",
+    contribution: "Contribution details coming soon.",
+    year: 2017,
+  },
+  {
+    nickname: "The Physio",
+    contribution: "Contribution details coming soon.",
+    year: 2016,
+  },
+  {
+    nickname: "The Boy",
+    contribution: "Contribution details coming soon.",
+    year: 2015,
+  },
+  {
+    nickname: "The Cat",
+    contribution: "Contribution details coming soon.",
+    year: 2014,
+  },
+  {
+    nickname: "The Express",
+    contribution: "Contribution details coming soon.",
+    year: 2013,
+  },
+  {
+    nickname: "The Educator",
+    contribution: "Contribution details coming soon.",
+    year: 2012,
+  },
+  {
+    nickname: "The Bat",
+    contribution: "Contribution details coming soon.",
+    year: 2011,
   },
   {
     nickname: "The Hazards",
     contribution: "The live band.",
-  },
-  {
-    nickname: "The Rebel",
-    contribution: "Contribution details coming soon.",
-    year: 2022,
   },
 ];
