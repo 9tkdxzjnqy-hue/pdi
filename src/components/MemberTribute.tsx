@@ -27,7 +27,7 @@ export default function MemberTribute({
     <article className="border-b border-white/5 last:border-b-0">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-2 md:gap-16 lg:gap-20">
         {/* Photo or placeholder */}
-        <div className="relative aspect-[3/4] overflow-hidden rounded-xl bg-pdi-navy">
+        <div className="relative aspect-[4/5] max-h-[70vh] overflow-hidden rounded-xl bg-pdi-navy">
           {photo ? (
             <Image
               src={photo}
