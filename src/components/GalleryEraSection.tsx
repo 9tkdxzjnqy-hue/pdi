@@ -2,6 +2,7 @@ import type { GalleryItem } from "@/sanity/types";
 import GalleryLightbox from "./GalleryLightbox";
 
 interface GalleryEraSectionProps {
+  eraId: string;
   label: string;
   description: string;
   items: GalleryItem[];
@@ -10,6 +11,7 @@ interface GalleryEraSectionProps {
 }
 
 export default function GalleryEraSection({
+  eraId,
   label,
   description,
   items,
@@ -17,7 +19,7 @@ export default function GalleryEraSection({
   allYears,
 }: GalleryEraSectionProps) {
   return (
-    <section className="border-t border-white/5 py-16">
+    <section id={`era-${eraId}`} className="scroll-mt-32 border-t border-white/5 py-16">
       <div className="mx-auto max-w-7xl px-6">
         <h2 className="font-display text-3xl text-pdi-text md:text-4xl">
           {label}

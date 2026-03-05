@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import GalleryHero from "@/components/GalleryHero";
+import GalleryNav from "@/components/GalleryNav";
 import GalleryEraSection from "@/components/GalleryEraSection";
 import Footer from "@/components/Footer";
 import { getEras, getGalleryByEra } from "@/sanity/fetch";
@@ -20,9 +21,11 @@ export default async function GalleryPage() {
       <Navbar />
       <main className="bg-pdi-dark">
         <GalleryHero />
+        <GalleryNav eras={eras.map((era) => ({ eraId: era.eraId, label: era.label }))} />
         {eras.map((era, i) => (
           <GalleryEraSection
             key={era.eraId}
+            eraId={era.eraId}
             label={era.label}
             description={era.description}
             items={eraItems[i]}
