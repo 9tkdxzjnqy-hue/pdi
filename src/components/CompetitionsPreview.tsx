@@ -22,7 +22,7 @@ export default function CompetitionsPreview({ competitions, title, description, 
             {title ?? "The Competitions"}
           </h2>
           <p className="mt-4 max-w-2xl text-lg text-pdi-muted">
-            {description ?? "Four ways to compete, one mission \u2014 raise as much as possible for Crumlin."}
+            {description ?? "Every player finds their stage."}
           </p>
         </AnimateOnScroll>
 

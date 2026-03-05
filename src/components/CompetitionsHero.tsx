@@ -6,8 +6,7 @@ export default function CompetitionsHero() {
           The Competitions
         </h1>
         <p className="mt-6 text-lg text-pdi-muted">
-          Four ways to compete, one mission — raise as much as possible for
-          Crumlin.
+          Every player finds their stage.
         </p>
       </div>
     </section>
