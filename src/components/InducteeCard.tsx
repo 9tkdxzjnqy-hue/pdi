@@ -1,4 +1,4 @@
-import { Inductee } from "@/data/hallOfFame";
+import { Inductee } from "@/sanity/types";
 
 export default function InducteeCard({ nickname, contribution, year }: Inductee) {
   const label = year ? `Inducted ${year}` : undefined;

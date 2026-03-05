@@ -2,13 +2,15 @@ import Navbar from "@/components/Navbar";
 import HallOfFameHero from "@/components/HallOfFameHero";
 import InducteeCard from "@/components/InducteeCard";
 import Footer from "@/components/Footer";
-import { inductees } from "@/data/hallOfFame";
+import { getInductees } from "@/sanity/fetch";
 
 export const metadata = {
   title: "Hall of Fame | PDI",
 };
 
-export default function HallOfFamePage() {
+export default async function HallOfFamePage() {
+  const inductees = await getInductees();
+
   return (
     <>
       <Navbar />
