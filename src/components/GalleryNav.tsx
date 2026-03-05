@@ -58,11 +58,15 @@ export default function GalleryNav({ eras }: GalleryNavProps) {
         {eras.map((era) => {
           const isActive = activeId === `era-${era.eraId}`;
           return (
-            <a
+            <button
               key={era.eraId}
-              href={`#era-${era.eraId}`}
+              type="button"
               ref={(el) => {
                 if (el) pillRefs.current.set(era.eraId, el);
+              }}
+              onClick={() => {
+                const section = document.getElementById(`era-${era.eraId}`);
+                section?.scrollIntoView({ behavior: "smooth", block: "start" });
               }}
               aria-current={isActive ? "true" : undefined}
               className={`rounded-full px-4 py-2 text-sm whitespace-nowrap transition-colors ${
@@ -72,7 +76,7 @@ export default function GalleryNav({ eras }: GalleryNavProps) {
               }`}
             >
               {era.label}
-            </a>
+            </button>
           );
         })}
       </div>
