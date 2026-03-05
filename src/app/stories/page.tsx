@@ -11,12 +11,6 @@ export const metadata = {
 
 const fallbackThreads = [
   {
-    title: "The Chairman's Address",
-    description:
-      "The annual state of the union — history, tribute, and the year ahead.",
-    slug: "chairmans-address",
-  },
-  {
     title: "The Letters",
     description:
       "Letters, articles, and correspondence from the PDI community over the years.",
@@ -52,7 +46,8 @@ const fallbackThreads = [
 
 export default async function StoriesPage() {
   const sanityThreads = await getStoryThreads();
-  const threads = sanityThreads.length > 0 ? sanityThreads : fallbackThreads;
+  const allThreads = sanityThreads.length > 0 ? sanityThreads : fallbackThreads;
+  const threads = allThreads.filter((t) => t.slug !== "chairmans-address");
 
   return (
     <>
