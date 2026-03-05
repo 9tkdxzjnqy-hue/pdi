@@ -13,6 +13,9 @@
 - Remembering page (The Man, The Bat, Del — photos added)
 - Favicon
 - Domain (thepdi.ie) connected to Vercel
+- Sanity CMS — all content editable from Studio (thepdi.ie/studio)
+- Webhook revalidation — Studio publishes update the live site automatically
+- Homepage editable via CMS (siteSettings + homePage singletons)
 
 ---
 
@@ -29,35 +32,37 @@ Quick wins that make the site feel finished.
 - [ ] Custom 404 page
 - [ ] Error boundary
 - [ ] Active nav link highlighting
-- [ ] Fix Donate button on sub-pages (`#charity` → `/#charity`)
+- [ ] Donate button → link to `/donate` page (see Chunk 4)
 - [ ] Remove placeholder social links from footer
 - [ ] Skip-to-content link + aria-expanded on hamburger
 
-## Chunk 3: Sanity CMS Setup *(2–3 days)*
-The biggest single piece. Enables board members to manage content directly.
-- [ ] Create Sanity project + install dependencies
-- [ ] Define schemas: gallery, hall-of-fame, remembering, competitions, site settings
-- [ ] Migrate existing data (TS files → Sanity)
-- [ ] Update Next.js components to fetch from Sanity
-- [ ] Set up Sanity Studio (admin UI)
-- [ ] Set up image pipeline (Sanity CDN)
+## Chunk 3: Sanity CMS Setup *(done)*
+- [x] Create Sanity project + install dependencies
+- [x] Define schemas: gallery, hall-of-fame, competitions, stories, site settings, homepage
+- [x] Migrate existing data (TS files → Sanity)
+- [x] Update Next.js components to fetch from Sanity
+- [x] Set up Sanity Studio (admin UI) at thepdi.ie/studio
+- [x] Set up image pipeline (Sanity CDN)
+- [x] Webhook revalidation (publish in Studio → live site updates)
 - [ ] Invite board members as editors
 - [ ] Document how to use the CMS for editors
 
 ## Chunk 4: Content — Before Launch *(depends on others)*
 Content that needs input from the board/community.
-- [ ] Real fundraising total (replace €XX,XXX)
+- [x] Real fundraising total — now editable via CMS (Site Settings → Donation Amount)
 - [ ] Remembering page tribute copy (photos done, text still placeholder)
-- [ ] Donate button — payment flow TBD
-  - Option A: Create dedicated Revolut account (enables Stripe or Revolut.me)
-  - Option B: Revolut Pocket as-is (limited integrations)
-  - Option C: Link directly to childrenshealth.ie
+- [ ] Donate page (`/donate`)
+  - Dedicated page with intro copy (donation amount, Crumlin message) + Enthuse embed
+  - Waiting on Catherine to set up "PDI 2026" appeal in Enthuse and send iframe embed code
+  - Enthuse also supports logging offline donations (SumUp totals on the day)
+  - Nav Donate button links to `/donate`
+  - Embed URL stored in CMS (siteSettings) so it can be updated without a deploy
 - [ ] Add "The Man" to Hall of Fame (posthumous — on or after the night)
 - [ ] Final copy review — no placeholder text visible
 - [ ] Mobile check
 
 ## Chunk 5: Post-Launch
-- [ ] On-the-day payment page (auction/raffle) — depends on payment flow decision
+- [ ] On-the-day payment page (auction/raffle) — may be covered by Enthuse appeal
 - [ ] QR codes for venue
 - [ ] Hall of Fame contribution descriptions (11 of 12 still placeholder)
 - [ ] Stories: Auction + Videos (currently stubs)
