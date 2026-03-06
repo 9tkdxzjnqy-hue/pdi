@@ -39,6 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/hall-of-fame`, lastModified: new Date() },
     { url: `${baseUrl}/stories`, lastModified: new Date() },
     { url: `${baseUrl}/stories/letters`, lastModified: new Date() },
+    { url: `${baseUrl}/stories/correspondence`, lastModified: new Date() },
     { url: `${baseUrl}/stories/reviews`, lastModified: new Date() },
     { url: `${baseUrl}/stories/where-are-they-now`, lastModified: new Date() },
     { url: `${baseUrl}/stories/auction`, lastModified: new Date() },
