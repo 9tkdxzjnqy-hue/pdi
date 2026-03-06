@@ -55,6 +55,17 @@ export default async function StoriesPage() {
   const allThreads = sanityThreads.length > 0 ? sanityThreads : fallbackThreads;
   const threads = allThreads.filter((t) => t.slug !== "chairmans-address");
 
+  // Correspondence is not in Sanity — ensure it's always present
+  if (!threads.some((t) => t.slug === "correspondence")) {
+    const lettersIndex = threads.findIndex((t) => t.slug === "letters");
+    threads.splice(lettersIndex + 1, 0, {
+      title: "Correspondence",
+      description:
+        "Replies from notable figures invited to the 5th Annual PDI in 2010.",
+      slug: "correspondence",
+    });
+  }
+
   return (
     <>
       <Navbar />
