@@ -119,12 +119,26 @@ export default function VideosPage() {
               </div>
             </div>
 
-            <div className="rounded-xl bg-pdi-navy p-8">
-              <p className="text-pdi-muted">
-                More videos coming soon. If you were there and want to
-                contribute, get in touch with the committee.
-              </p>
-            </div>
+          </div>
+        </section>
+
+        <section className="border-t border-white/5 py-16">
+          <div className="mx-auto max-w-3xl px-6 text-center">
+            <h2 className="font-display text-3xl text-pdi-text">
+              Got videos?
+            </h2>
+            <p className="mt-4 text-lg text-pdi-muted">
+              Intimidation videos, walk-on clips, behind-the-scenes footage
+              &mdash; we want it all. Drop them in the shared drive.
+            </p>
+            <a
+              href="https://drive.google.com/drive/folders/1-kvii3GsJKUeMsDYhd8q2ZqTzYvJU_M7?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-block text-sm font-semibold text-pdi-green transition-colors hover:text-pdi-text"
+            >
+              Upload videos here &rarr;
+            </a>
           </div>
         </section>
       </main>
