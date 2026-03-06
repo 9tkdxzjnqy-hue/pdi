@@ -2,14 +2,13 @@ import Navbar from "@/components/Navbar";
 import StoriesHero from "@/components/StoriesHero";
 import StoryThreadCard from "@/components/StoryThreadCard";
 import Footer from "@/components/Footer";
-import { getStoryThreads } from "@/sanity/fetch";
 
 export const metadata = {
   title: "Stories — PDI",
   description: "The threads that make the PDI what it is.",
 };
 
-const fallbackThreads = [
+const threads = [
   {
     title: "The Letters",
     description:
@@ -46,26 +45,10 @@ const fallbackThreads = [
     description:
       "Intimidation videos, comedy entries, and productions that have no business being that good.",
     slug: "videos",
-    comingSoon: true,
   },
 ];
 
-export default async function StoriesPage() {
-  const sanityThreads = await getStoryThreads();
-  const allThreads = sanityThreads.length > 0 ? sanityThreads : fallbackThreads;
-  const threads = allThreads.filter((t) => t.slug !== "chairmans-address");
-
-  // Correspondence is not in Sanity — ensure it's always present
-  if (!threads.some((t) => t.slug === "correspondence")) {
-    const lettersIndex = threads.findIndex((t) => t.slug === "letters");
-    threads.splice(lettersIndex + 1, 0, {
-      title: "Correspondence",
-      description:
-        "Replies from notable figures invited to the 5th Annual PDI in 2010.",
-      slug: "correspondence",
-    });
-  }
-
+export default function StoriesPage() {
   return (
     <>
       <Navbar />
