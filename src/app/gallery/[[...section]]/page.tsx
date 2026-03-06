@@ -1,7 +1,9 @@
+import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import GalleryHero from "@/components/GalleryHero";
 import GalleryNav from "@/components/GalleryNav";
 import GalleryEraSection from "@/components/GalleryEraSection";
+import ScrollToSection from "@/components/ScrollToSection";
 import Footer from "@/components/Footer";
 import { getEras, getGalleryByEra } from "@/sanity/fetch";
 
@@ -10,7 +12,30 @@ export const metadata = {
   description: "Scenes from twenty years of the PDI.",
 };
 
-export default async function GalleryPage() {
+const VALID_ERA_SLUGS = [
+  "male-players",
+  "the-hazards",
+  "recent",
+  "middle-years",
+  "early-days",
+  "doing-our-bit",
+  "ads",
+];
+
+export default async function GalleryPage({
+  params,
+}: {
+  params: Promise<{ section?: string[] }>;
+}) {
+  const { section } = await params;
+  const slug = section?.[0];
+
+  if (slug && !VALID_ERA_SLUGS.includes(slug)) {
+    notFound();
+  }
+
+  const targetId = slug ? `era-${slug}` : undefined;
+
   const eras = await getEras();
   const eraItems = await Promise.all(
     eras.map((era) => getGalleryByEra(era.eraId))
@@ -21,7 +46,11 @@ export default async function GalleryPage() {
       <Navbar />
       <main id="main-content" className="bg-pdi-dark">
         <GalleryHero />
-        <GalleryNav eras={eras.map((era) => ({ eraId: era.eraId, label: era.label }))} />
+        <GalleryNav
+          eras={eras.map((era) => ({ eraId: era.eraId, label: era.label }))}
+          basePath="/gallery"
+        />
+        <ScrollToSection targetId={targetId} />
         {eras.map((era, i) => (
           <GalleryEraSection
             key={era.eraId}

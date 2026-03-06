@@ -1,6 +1,8 @@
+import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import CompetitionsHero from "@/components/CompetitionsHero";
 import CompetitionSection from "@/components/CompetitionSection";
+import ScrollToSection from "@/components/ScrollToSection";
 import Footer from "@/components/Footer";
 import { getCompetitions } from "@/sanity/fetch";
 
@@ -10,8 +12,26 @@ export const metadata = {
     "Full results for the PDI, WPDI, Shield, and Hall of Fame — every winner since 2004.",
 };
 
-export default async function CompetitionsPage() {
+function slugify(name: string) {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+}
+
+export default async function CompetitionsPage({
+  params,
+}: {
+  params: Promise<{ section?: string[] }>;
+}) {
+  const { section } = await params;
+  const slug = section?.[0];
+
   const competitions = await getCompetitions();
+  const validSlugs = competitions.map((c) => slugify(c.name));
+
+  if (slug && !validSlugs.includes(slug)) {
+    notFound();
+  }
+
+  const targetId = slug ? `comp-${slug}` : undefined;
 
   return (
     <>
@@ -25,10 +45,12 @@ export default async function CompetitionsPage() {
               <CompetitionSection
                 key={competition.name}
                 competition={competition}
+                sectionId={`comp-${slugify(competition.name)}`}
               />
             ))}
           </div>
         </section>
+        <ScrollToSection targetId={targetId} />
       </main>
 
       <Footer />

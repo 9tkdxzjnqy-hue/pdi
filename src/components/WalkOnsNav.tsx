@@ -4,11 +4,13 @@ import { useEffect, useRef, useState } from "react";
 
 interface WalkOnsNavProps {
   years: number[];
+  basePath?: string;
 }
 
-export default function WalkOnsNav({ years }: WalkOnsNavProps) {
+export default function WalkOnsNav({ years, basePath }: WalkOnsNavProps) {
   const [activeId, setActiveId] = useState<string>("");
   const pillRefs = useRef<Map<number, HTMLButtonElement>>(new Map());
+  const scrollingTo = useRef<string | null>(null);
 
   useEffect(() => {
     const sections = years
@@ -35,15 +37,22 @@ export default function WalkOnsNav({ years }: WalkOnsNavProps) {
     return () => observer.disconnect();
   }, [years]);
 
-  // Auto-scroll active pill into view
+  // Auto-scroll active pill into view + sync URL
   useEffect(() => {
     if (!activeId) return;
-    const year = Number(activeId.replace("year-", ""));
+    const yearStr = activeId.replace("year-", "");
+    const year = Number(yearStr);
     const pill = pillRefs.current.get(year);
     if (pill) {
       pill.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
     }
-  }, [activeId]);
+    if (basePath) {
+      // During a click scroll, only update URL when we reach the destination
+      if (scrollingTo.current && scrollingTo.current !== yearStr) return;
+      if (scrollingTo.current === yearStr) scrollingTo.current = null;
+      history.replaceState(null, "", `${basePath}/${year}`);
+    }
+  }, [activeId, basePath]);
 
   return (
     <nav
@@ -61,8 +70,12 @@ export default function WalkOnsNav({ years }: WalkOnsNavProps) {
                 if (el) pillRefs.current.set(year, el);
               }}
               onClick={() => {
+                scrollingTo.current = String(year);
                 const section = document.getElementById(`year-${year}`);
                 section?.scrollIntoView({ behavior: "smooth", block: "start" });
+                if (basePath) {
+                  history.replaceState(null, "", `${basePath}/${year}`);
+                }
               }}
               aria-current={isActive ? "true" : undefined}
               className={`rounded-full px-4 py-2 text-sm whitespace-nowrap transition-colors ${

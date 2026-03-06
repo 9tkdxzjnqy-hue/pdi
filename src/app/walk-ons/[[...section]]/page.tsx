@@ -1,7 +1,9 @@
+import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import WalkOnsHero from "@/components/WalkOnsHero";
 import WalkOnsNav from "@/components/WalkOnsNav";
 import WalkOnYearSection from "@/components/WalkOnYearSection";
+import ScrollToSection from "@/components/ScrollToSection";
 import Footer from "@/components/Footer";
 import { getGalleryByEra } from "@/sanity/fetch";
 import { walkOnEra } from "@/data/gallery";
@@ -14,9 +16,24 @@ export const metadata = {
     "The centrepiece of the PDI — every player's theatrical entrance through the double doors. Photos, videos, and Walk-on of the Year winners.",
 };
 
-export default async function WalkOnsPage() {
-  const items = await getGalleryByEra("walk-ons");
+export default async function WalkOnsPage({
+  params,
+}: {
+  params: Promise<{ section?: string[] }>;
+}) {
+  const { section } = await params;
+  const slug = section?.[0];
+
   const years = walkOnEra.allYears ?? [];
+  const validYears = years.map(String);
+
+  if (slug && !validYears.includes(slug)) {
+    notFound();
+  }
+
+  const targetId = slug ? `year-${slug}` : undefined;
+
+  const items = await getGalleryByEra("walk-ons");
 
   // Group items by year
   const byYear = new Map<number, GalleryItem[]>();
@@ -36,7 +53,8 @@ export default async function WalkOnsPage() {
       <Navbar />
       <main id="main-content" className="bg-pdi-dark">
         <WalkOnsHero />
-        <WalkOnsNav years={years} />
+        <WalkOnsNav years={years} basePath="/walk-ons" />
+        <ScrollToSection targetId={targetId} />
         {years.map((year) => {
           const result = resultsByYear.get(year);
           return (

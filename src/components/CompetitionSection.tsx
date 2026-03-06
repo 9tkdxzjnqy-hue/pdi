@@ -2,15 +2,17 @@ import type { Competition } from "@/sanity/types";
 
 export default function CompetitionSection({
   competition,
+  sectionId,
 }: {
   competition: Competition;
+  sectionId?: string;
 }) {
   const hasVenue = competition.results.some((r) => r.venue);
   const hasRunnerUp = competition.results.some((r) => r.runnerUp);
   const hasWalkOnName = competition.results.some((r) => r.walkOnName);
 
   return (
-    <div className="rounded-xl bg-pdi-navy p-8">
+    <div id={sectionId} className="scroll-mt-32 rounded-xl bg-pdi-navy p-8">
       <h2 className="font-display text-3xl text-pdi-text">
         {competition.name}
       </h2>
