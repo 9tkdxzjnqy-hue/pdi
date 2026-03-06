@@ -9,7 +9,13 @@ export default defineType({
       name: "image",
       title: "Image",
       type: "image",
-      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "youtubeId",
+      title: "YouTube Video ID",
+      type: "string",
+      description:
+        "The video ID from a YouTube URL (e.g. 'zTcOhsZMr1U' from youtube.com/watch?v=zTcOhsZMr1U). Leave blank for photo items.",
     }),
     defineField({
       name: "alt",

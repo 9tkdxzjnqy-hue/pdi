@@ -40,6 +40,13 @@ async function seed() {
   let skipped = 0;
 
   for (const item of galleryItems) {
+    // Skip video-only items (no image to upload)
+    if (!item.src) {
+      console.log(`  SKIP (video): ${item.alt}`);
+      skipped++;
+      continue;
+    }
+
     const imagePath = path.join(process.cwd(), "public", item.src);
 
     if (!existsSync(imagePath)) {

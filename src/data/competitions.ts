@@ -14,6 +14,29 @@ export interface Competition {
   results: CompetitionResult[];
 }
 
+export const walkOnCompetition: Competition = {
+  name: "Walk-on of the Year",
+  description:
+    "The most theatrical entrance takes the Pat the Bat Memorial Trophy. Creativity, showmanship, and sheer audacity — anything goes.",
+  image: "/images/WalkOnTrophy.jpeg",
+  alt: "The Pat the Bat Memorial Trophy for Walk-on of the Year",
+  results: [
+    { year: 2013, winner: "The Cat", walkOnName: "The Proposal" },
+    { year: 2014, winner: "Byrner", walkOnName: "The Undertaker" },
+    { year: 2015, winner: "Sexy Boy", walkOnName: "Sexy Boy" },
+    { year: 2016, winner: "Gat", walkOnName: "David Brent" },
+    { year: 2017, winner: "Gat", walkOnName: "Riverdance" },
+    { year: 2018, winner: "The Spark", walkOnName: "Time Warp" },
+    { year: 2019, winner: "Sexy Boy", walkOnName: "Baywatch" },
+    { year: 2020 },
+    { year: 2021 },
+    { year: 2022, winner: "Gat", walkOnName: "Inches" },
+    { year: 2023, winner: "The Cat and the Kitten", walkOnName: "Mini Me" },
+    { year: 2024, winner: "Monster", walkOnName: "Stone Cold" },
+    { year: 2025, winner: "The Rebel", walkOnName: "A Song for Europe" },
+  ],
+};
+
 export const competitions: Competition[] = [
   {
     name: "The PDI",
@@ -66,28 +89,6 @@ export const competitions: Competition[] = [
       { year: 2023 },
       { year: 2024 },
       { year: 2025 },
-    ],
-  },
-  {
-    name: "Walk-on of the Year",
-    description:
-      "The most theatrical entrance takes the Pat the Bat Memorial Trophy. Creativity, showmanship, and sheer audacity — anything goes.",
-    image: "/images/WalkOnTrophy.jpeg",
-    alt: "The Pat the Bat Memorial Trophy for Walk-on of the Year",
-    results: [
-      { year: 2013, winner: "The Cat", walkOnName: "The Proposal" },
-      { year: 2014, winner: "Byrner", walkOnName: "The Undertaker" },
-      { year: 2015, winner: "Sexy Boy", walkOnName: "Sexy Boy" },
-      { year: 2016, winner: "Gat", walkOnName: "David Brent" },
-      { year: 2017, winner: "Gat", walkOnName: "Riverdance" },
-      { year: 2018, winner: "The Spark", walkOnName: "Time Warp" },
-      { year: 2019, winner: "Sexy Boy", walkOnName: "Baywatch" },
-      { year: 2020 },
-      { year: 2021 },
-      { year: 2022, winner: "Gat", walkOnName: "Inches" },
-      { year: 2023, winner: "The Cat and the Kitten", walkOnName: "Mini Me" },
-      { year: 2024, winner: "Monster", walkOnName: "Stone Cold" },
-      { year: 2025, winner: "The Rebel", walkOnName: "A Song for Europe" },
     ],
   },
   {

@@ -35,14 +35,16 @@ export const galleryByEraQuery = `*[_type == "galleryItem" && era == $era] | ord
   alt,
   era,
   year,
-  featured
+  featured,
+  youtubeId
 }`;
 
 export const featuredGalleryQuery = `*[_type == "galleryItem" && featured == true] | order(year desc) {
   "src": image.asset->url,
   alt,
   era,
-  year
+  year,
+  youtubeId
 }`;
 
 export const storyThreadsQuery = `*[_type == "storyThread"] | order(displayOrder asc) {

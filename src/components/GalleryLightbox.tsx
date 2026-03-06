@@ -8,6 +8,8 @@ interface GalleryLightboxProps {
   items: GalleryItem[];
 }
 
+const isVideo = (item: GalleryItem) => !!item.youtubeId;
+
 export default function GalleryLightbox({ items }: GalleryLightboxProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -55,21 +57,51 @@ export default function GalleryLightbox({ items }: GalleryLightboxProps) {
       <div className="columns-2 gap-3 md:columns-3 md:gap-4 lg:columns-4">
         {items.map((item, index) => (
           <button
-            key={item.src}
+            key={item.youtubeId ?? item.src}
             type="button"
             onClick={() => open(index)}
             className="mb-3 block w-full cursor-zoom-in overflow-hidden rounded-lg md:mb-4"
           >
             <div className="relative">
-              <Image
-                src={item.src}
-                alt={item.alt}
-                width={600}
-                height={400}
-                className="w-full h-auto transition-transform duration-500 hover:scale-105"
-                quality={85}
-                sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-              />
+              {isVideo(item) ? (
+                <>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg`}
+                    alt={item.alt}
+                    className="w-full h-auto transition-transform duration-500 hover:scale-105"
+                    loading="lazy"
+                  />
+                  {/* Play button overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <svg
+                      width="64"
+                      height="64"
+                      viewBox="0 0 64 64"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="drop-shadow-lg"
+                    >
+                      <circle cx="32" cy="32" r="30" fill="rgba(0,0,0,0.6)" stroke="white" strokeWidth="2" />
+                      <polygon points="26,20 26,44 46,32" fill="white" />
+                    </svg>
+                  </div>
+                  {/* Caption */}
+                  <span className="absolute bottom-0 left-0 right-0 bg-pdi-dark/80 px-2 py-1.5 text-xs font-semibold text-pdi-text text-center backdrop-blur-sm">
+                    {item.alt}
+                  </span>
+                </>
+              ) : (
+                <Image
+                  src={item.src!}
+                  alt={item.alt}
+                  width={600}
+                  height={400}
+                  className="w-full h-auto transition-transform duration-500 hover:scale-105"
+                  quality={85}
+                  sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                />
+              )}
               {item.year && (
                 <span className="absolute bottom-2 right-2 rounded bg-pdi-dark/80 px-2 py-0.5 text-xs font-semibold text-pdi-text backdrop-blur-sm">
                   {item.year}
@@ -138,19 +170,33 @@ export default function GalleryLightbox({ items }: GalleryLightboxProps) {
               </svg>
             </button>
 
-            {/* Image */}
-            <div className="relative max-h-[85dvh] max-w-[90vw]">
-              <Image
-                src={activeItem.src}
-                alt={activeItem.alt}
-                width={1200}
-                height={800}
-                className="max-h-[85dvh] w-auto object-contain"
-                quality={85}
-                sizes="90vw"
-                priority
-              />
-            </div>
+            {/* Content — video or image */}
+            {isVideo(activeItem) ? (
+              <div className="aspect-video w-full max-w-[90vw] max-h-[85dvh]" style={{ maxWidth: "min(90vw, 85dvh * 16 / 9)" }}>
+                <iframe
+                  key={activeItem.youtubeId}
+                  src={`https://www.youtube.com/embed/${activeItem.youtubeId}`}
+                  title={activeItem.alt}
+                  allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  loading="lazy"
+                  className="h-full w-full rounded-lg"
+                />
+              </div>
+            ) : (
+              <div className="relative max-h-[85dvh] max-w-[90vw]">
+                <Image
+                  src={activeItem.src!}
+                  alt={activeItem.alt}
+                  width={1200}
+                  height={800}
+                  className="max-h-[85dvh] w-auto object-contain"
+                  quality={85}
+                  sizes="90vw"
+                  priority
+                />
+              </div>
+            )}
 
             {/* Next button */}
             <button

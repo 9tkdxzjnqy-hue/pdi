@@ -7,7 +7,7 @@ import { getCompetitions } from "@/sanity/fetch";
 export const metadata = {
   title: "Competitions — PDI",
   description:
-    "Full results for the PDI, WPDI, Walk-on of the Year, Shield, and Hall of Fame — every winner since 2004.",
+    "Full results for the PDI, WPDI, Shield, and Hall of Fame — every winner since 2004.",
 };
 
 export default async function CompetitionsPage() {

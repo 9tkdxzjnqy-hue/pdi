@@ -38,14 +38,14 @@ export default function GalleryPreview({ images, title, description, linkText, u
 
         <AnimateOnScroll delay={0.2}>
           <div className="mt-12 columns-2 gap-3 md:columns-3">
-            {items.map((img) => (
+            {items.filter((img) => img.src).map((img) => (
               <Link
                 key={img.src}
                 href="/gallery"
                 className="mb-3 block overflow-hidden rounded-lg"
               >
                 <Image
-                  src={img.src}
+                  src={img.src!}
                   alt={img.alt}
                   width={600}
                   height={400}

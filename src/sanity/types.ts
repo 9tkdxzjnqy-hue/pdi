@@ -31,11 +31,12 @@ export interface Competition {
 }
 
 export interface GalleryItem {
-  src: string;
+  src?: string;
   alt: string;
   era: string;
   year?: number;
   featured?: boolean;
+  youtubeId?: string;
 }
 
 export interface EraInfo {

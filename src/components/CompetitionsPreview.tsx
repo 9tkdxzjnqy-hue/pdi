@@ -88,17 +88,17 @@ const fallbackCompetitions = [
     results: [],
   },
   {
-    name: "Walk-on of the Year",
-    description: "The most theatrical entrance takes the Pat the Bat Memorial Trophy.",
-    image: { _type: "image" as const, asset: { _ref: "", _type: "reference" as const } },
-    _fallbackImage: "/images/WalkOnTrophy.jpeg",
-    results: [],
-  },
-  {
     name: "The Shield",
     description: "The Europa League of the PDI.",
     image: { _type: "image" as const, asset: { _ref: "", _type: "reference" as const } },
     _fallbackImage: "/images/walkon-green-smoke.jpeg",
+    results: [],
+  },
+  {
+    name: "Hall of Fame",
+    description: "One name added each year for their contribution to the PDI.",
+    image: { _type: "image" as const, asset: { _ref: "", _type: "reference" as const } },
+    _fallbackImage: "/images/hero-walkon-blue.jpeg",
     results: [],
   },
 ];

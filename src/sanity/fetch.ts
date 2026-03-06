@@ -58,7 +58,7 @@ export async function getCompetitions(): Promise<Competition[]> {
       return toFallbackCompetitions();
     }
 
-    return result;
+    return result.filter((c) => c.name !== "Walk-on of the Year");
   } catch {
     console.error("Failed to fetch competitions from Sanity, using fallback data");
     return toFallbackCompetitions();
@@ -111,11 +111,19 @@ export async function getEras(): Promise<EraInfo[]> {
       return toFallbackEras();
     }
 
-    return result;
+    return result.filter((e) => e.eraId !== "walk-ons");
   } catch {
     console.error("Failed to fetch eras from Sanity, using fallback data");
     return toFallbackEras();
   }
+}
+
+// Video-only items from fallback data (no src, only youtubeId) that need
+// to be merged into results regardless of whether Sanity returns data.
+function getFallbackVideos(eraId: string): GalleryItem[] {
+  return fallbackGalleryItems.filter(
+    (item) => item.era === eraId && !item.src && item.youtubeId
+  );
 }
 
 export async function getGalleryByEra(eraId: string): Promise<GalleryItem[]> {
@@ -131,7 +139,9 @@ export async function getGalleryByEra(eraId: string): Promise<GalleryItem[]> {
       return fallbackGalleryItems.filter((item) => item.era === eraId);
     }
 
-    return result;
+    // Merge in video-only items from fallback data
+    const videos = getFallbackVideos(eraId);
+    return videos.length > 0 ? [...result, ...videos] : result;
   } catch {
     console.error(`Failed to fetch gallery items for era ${eraId}, using fallback data`);
     return fallbackGalleryItems.filter((item) => item.era === eraId);

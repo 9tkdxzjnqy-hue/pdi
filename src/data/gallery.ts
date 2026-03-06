@@ -9,10 +9,11 @@ export type Era =
   | "ads";
 
 export interface GalleryItem {
-  src: string;
+  src?: string;
   alt: string;
   era: Era;
   year?: number;
+  youtubeId?: string;
 }
 
 export interface EraInfo {
@@ -23,14 +24,15 @@ export interface EraInfo {
   allYears?: number[];
 }
 
+export const walkOnEra: EraInfo = {
+  id: "walk-ons",
+  label: "The Walk-Ons",
+  description: "Through the double doors, into the smoke.",
+  groupByYear: true,
+  allYears: [2025, 2024, 2023, 2022, 2019, 2018, 2017, 2016, 2015, 2014, 2013],
+};
+
 export const eras: EraInfo[] = [
-  {
-    id: "walk-ons",
-    label: "The Walk-Ons",
-    description: "Through the double doors, into the smoke.",
-    groupByYear: true,
-    allYears: [2025, 2024, 2023, 2022, 2019, 2018, 2017, 2016, 2015, 2014, 2013],
-  },
   {
     id: "male-players",
     label: "The Players",
@@ -159,6 +161,8 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/2020-profile-russ.jpg", alt: "Russ — PDI 2020", era: "recent", year: 2020 },
 
   // === WALK-ONS ===
+  { youtubeId: "zTcOhsZMr1U", alt: "Pog mo Thoin — 2015 walk-on", era: "walk-ons", year: 2015 },
+  { youtubeId: "wopnHvGMzGY", alt: "The Bat — 2015 walk-on", era: "walk-ons", year: 2015 },
   { src: "/gallery/2018-walkon-01.jpg", alt: "Gat's Riverdance walk-on at PDI 2016", era: "walk-ons", year: 2016 },
   { src: "/gallery/2018-walkon-02.jpg", alt: "Gat's Riverdance walk-on at PDI 2016", era: "walk-ons", year: 2016 },
   { src: "/gallery/2018-walkon-03.jpg", alt: "Gat's Riverdance walk-on at PDI 2016", era: "walk-ons", year: 2016 },
