@@ -19,7 +19,7 @@ export function getWriteClient(): SanityClient {
       dataset,
       apiVersion,
       useCdn: false,
-      token: process.env.SANITY_API_TOKEN,
+      token: process.env.SANITY_API_TOKEN?.trim(),
     });
   }
   return _writeClient;

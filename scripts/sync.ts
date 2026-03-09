@@ -61,5 +61,8 @@ async function sync() {
 
 sync().catch((err) => {
   console.error("\nSync failed:", err);
-  process.exit(1);
+  // Don't block the build — site will use existing Sanity data
+  if (process.env.SYNC_REQUIRED === "true") {
+    process.exit(1);
+  }
 });
