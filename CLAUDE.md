@@ -30,9 +30,28 @@ nvm use 20          # requires Node 20+
 npm run dev         # local dev server (localhost:3000)
 npm run build       # production build — must pass before pushing
 npm run lint        # ESLint
+npm run sync        # push local TS data → Sanity (also runs on deploy)
+npm run pull        # pull Sanity data → local TS files
 ```
 
 Deployed to **Vercel** via push to `main`. Never push directly to main without a passing build.
+
+### Two-way data sync
+
+Data lives in both TypeScript files (`src/data/`) and Sanity Studio. Either can be the source of truth:
+
+```bash
+# Someone edits in Sanity Studio:
+npm run pull        # Sanity → local TS files
+git diff            # review changes
+npm run build       # verify it compiles
+git commit          # commit pulled data
+
+# Someone edits TS files:
+npm run sync        # TS → Sanity (also runs automatically on deploy)
+```
+
+`pull` covers competitions, inductees, and gallery. Stories and homepage are excluded (hardcoded in seed scripts, rarely edited in Sanity).
 
 ## Project Structure
 
@@ -63,7 +82,7 @@ src/
 │   └── ...                   # Page-specific heroes, cards
 └── data/
     ├── competitions.ts       # Competition results by year
-    ├── gallery.ts            # Gallery items (src, alt, era, year)
+    ├── gallery.ts            # Gallery items (src, alt, era, year, featured)
     └── hallOfFame.ts         # Hall of Fame inductees
 public/
 ├── fonts/                    # Self-hosted .woff2 (Cabinet Grotesk, Satoshi)
