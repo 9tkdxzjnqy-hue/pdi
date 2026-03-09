@@ -6,11 +6,12 @@ import type { GalleryItem } from "@/sanity/types";
 
 interface GalleryLightboxProps {
   items: GalleryItem[];
+  columns?: string;
 }
 
 const isVideo = (item: GalleryItem) => !!item.youtubeId;
 
-export default function GalleryLightbox({ items }: GalleryLightboxProps) {
+export default function GalleryLightbox({ items, columns }: GalleryLightboxProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -54,7 +55,7 @@ export default function GalleryLightbox({ items }: GalleryLightboxProps) {
   return (
     <>
       {/* Image grid — masonry via CSS columns */}
-      <div className="columns-2 gap-3 md:columns-3 md:gap-4 lg:columns-4">
+      <div className={columns ?? "columns-2 gap-3 md:columns-3 md:gap-4 lg:columns-4"}>
         {items.map((item, index) => (
           <button
             key={item.youtubeId ?? item.src}

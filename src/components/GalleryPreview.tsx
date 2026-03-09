@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import AnimateOnScroll from "./AnimateOnScroll";
+import GalleryLightbox from "./GalleryLightbox";
 import type { GalleryItem } from "@/sanity/types";
 
 interface GalleryPreviewProps {
@@ -37,24 +37,8 @@ export default function GalleryPreview({ images, title, description, linkText, u
         </AnimateOnScroll>
 
         <AnimateOnScroll delay={0.2}>
-          <div className="mt-12 columns-2 gap-3 md:columns-3">
-            {items.filter((img) => img.src).map((img) => (
-              <Link
-                key={img.src}
-                href="/gallery"
-                className="mb-3 block overflow-hidden rounded-lg"
-              >
-                <Image
-                  src={img.src!}
-                  alt={img.alt}
-                  width={600}
-                  height={400}
-                  quality={85}
-                  className="w-full h-auto transition-transform duration-500 hover:scale-105"
-                  sizes="(max-width: 768px) 50vw, 33vw"
-                />
-              </Link>
-            ))}
+          <div className="mt-12">
+            <GalleryLightbox items={items.filter((img) => img.src)} columns="columns-2 gap-3 md:columns-3" />
           </div>
         </AnimateOnScroll>
 
