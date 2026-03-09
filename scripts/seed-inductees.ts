@@ -15,12 +15,13 @@ export async function seedInductees() {
 
   const syncedIds: string[] = [];
 
+  const tx = client.transaction();
   for (const inductee of inductees) {
     const slug = toSlug(inductee.nickname);
     const _id = `inductee-${slug}`;
     syncedIds.push(_id);
 
-    await client.createOrReplace({
+    tx.createOrReplace({
       _id,
       _type: "inductee" as const,
       nickname: inductee.nickname,
@@ -28,8 +29,9 @@ export async function seedInductees() {
       year: inductee.year,
       slug: { _type: "slug" as const, current: slug },
     });
-    console.log(`  Synced: ${inductee.nickname} (${_id})`);
   }
+  await tx.commit();
+  console.log(`  Synced ${syncedIds.length} inductees in one transaction`);
 
   // Clean up stale documents
   const existing = await client.fetch<string[]>(

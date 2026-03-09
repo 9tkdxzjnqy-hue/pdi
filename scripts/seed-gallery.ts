@@ -19,19 +19,47 @@ function filenameToId(src: string): string {
   return `gallery-${base}`;
 }
 
+const IMAGE_UPLOAD_CONCURRENCY = 5;
+
+async function uploadInBatches(
+  client: ReturnType<typeof getWriteClient>,
+  items: { src: string; _id: string }[],
+  batchSize: number,
+) {
+  const results = new Map<string, string>(); // _id → asset._id
+  for (let i = 0; i < items.length; i += batchSize) {
+    const batch = items.slice(i, i + batchSize);
+    const uploaded = await Promise.all(
+      batch.map(async ({ src, _id }) => {
+        const imagePath = path.join(process.cwd(), "public", src);
+        const asset = await client.assets.upload("image", createReadStream(imagePath), {
+          filename: path.basename(src),
+        });
+        console.log(`  Uploaded: ${src}`);
+        return { _id, assetId: asset._id };
+      }),
+    );
+    for (const { _id, assetId } of uploaded) {
+      results.set(_id, assetId);
+    }
+  }
+  return results;
+}
+
 export async function seedGallery() {
   const client = getWriteClient();
 
-  // --- Seed Eras ---
+  // --- Seed Eras (batch into one transaction) ---
   console.log(`Syncing ${eras.length} eras...`);
   const eraIds: string[] = [];
 
+  const eraTx = client.transaction();
   for (let i = 0; i < eras.length; i++) {
     const era = eras[i];
     const _id = `era-${era.id}`;
     eraIds.push(_id);
 
-    await client.createOrReplace({
+    eraTx.createOrReplace({
       _id,
       _type: "era" as const,
       eraId: era.id,
@@ -41,51 +69,36 @@ export async function seedGallery() {
       allYears: era.allYears,
       displayOrder: i + 1,
     });
-    console.log(`  Synced era: ${era.label} (${_id})`);
   }
+  await eraTx.commit();
+  console.log(`  Synced ${eraIds.length} eras in one transaction`);
 
-  // Clean up stale eras
-  const existingEras = await client.fetch<string[]>(`*[_type == "era"]._id`);
-  const eraIdSet = new Set(eraIds);
-  const staleEras = existingEras.filter((id) => !eraIdSet.has(id));
-  if (staleEras.length > 0) {
-    const tx = client.transaction();
-    for (const id of staleEras) tx.delete(id);
-    await tx.commit();
-    console.log(`  Deleted ${staleEras.length} stale era(s)`);
-  }
-
-  // --- Seed Gallery Items ---
-  console.log(`\nSyncing ${galleryItems.length} gallery items...`);
-
-  // Fetch existing gallery docs to skip image re-uploads
+  // --- Fetch existing gallery items (single query for both image check and cleanup) ---
   const existing = await client.fetch<{ _id: string; hasImage: boolean }[]>(
     `*[_type == "galleryItem"]{ _id, "hasImage": defined(image.asset._ref) }`
   );
   const existingMap = new Map(existing.map((e) => [e._id, e]));
+  const allExistingIds = new Set(existing.map((e) => e._id));
+
+  // --- Seed Gallery Items ---
+  console.log(`\nSyncing ${galleryItems.length} gallery items...`);
 
   let uploaded = 0;
   let skipped = 0;
   let videoOnly = 0;
   const galleryIds: string[] = [];
 
+  // Separate items into categories
+  const videoItems: typeof galleryItems = [];
+  const patchItems: { item: typeof galleryItems[0]; _id: string }[] = [];
+  const uploadItems: { item: typeof galleryItems[0]; _id: string; src: string }[] = [];
+
   for (const item of galleryItems) {
-    // Video-only items (no image to upload)
     if (!item.src) {
       if (item.youtubeId) {
         const _id = `gallery-video-${item.youtubeId}`;
         galleryIds.push(_id);
-        await client.createOrReplace({
-          _id,
-          _type: "galleryItem" as const,
-          alt: item.alt,
-          era: item.era,
-          year: item.year,
-          youtubeId: item.youtubeId,
-          featured: false,
-        });
-        videoOnly++;
-        console.log(`  Synced video: ${item.alt} (${_id})`);
+        videoItems.push(item);
       } else {
         console.log(`  SKIP (no src or youtubeId): ${item.alt}`);
         skipped++;
@@ -105,46 +118,102 @@ export async function seedGallery() {
 
     const existingDoc = existingMap.get(_id);
     if (existingDoc?.hasImage) {
-      // Document exists with image — update metadata only, preserve image
-      await client.patch(_id).set({
-        alt: item.alt,
-        era: item.era,
-        year: item.year,
-        youtubeId: item.youtubeId,
-        featured: featuredSrcs.has(item.src),
-      }).commit();
-      console.log(`  Synced (skip upload): ${item.alt}`);
+      patchItems.push({ item, _id });
     } else {
-      // New item or missing image — upload
-      const imageAsset = await client.assets.upload("image", createReadStream(imagePath), {
-        filename: path.basename(item.src),
-      });
-
-      await client.createOrReplace({
-        _id,
-        _type: "galleryItem" as const,
-        image: {
-          _type: "image" as const,
-          asset: {
-            _type: "reference" as const,
-            _ref: imageAsset._id,
-          },
-        },
-        alt: item.alt,
-        era: item.era,
-        year: item.year,
-        youtubeId: item.youtubeId,
-        featured: featuredSrcs.has(item.src),
-      });
-      uploaded++;
-      console.log(`  Uploaded: ${item.alt} (${_id})`);
+      uploadItems.push({ item, _id, src: item.src });
     }
   }
 
-  // Clean up stale gallery items
-  const existingGallery = await client.fetch<string[]>(`*[_type == "galleryItem"]._id`);
+  // Batch video-only items into one transaction
+  if (videoItems.length > 0) {
+    const videoTx = client.transaction();
+    for (const item of videoItems) {
+      const _id = `gallery-video-${item.youtubeId}`;
+      videoTx.createOrReplace({
+        _id,
+        _type: "galleryItem" as const,
+        alt: item.alt,
+        era: item.era,
+        year: item.year,
+        youtubeId: item.youtubeId,
+        featured: false,
+      });
+    }
+    await videoTx.commit();
+    videoOnly = videoItems.length;
+    console.log(`  Synced ${videoOnly} video items in one transaction`);
+  }
+
+  // Batch all metadata patches into transactions (chunks of 50)
+  if (patchItems.length > 0) {
+    const CHUNK_SIZE = 50;
+    for (let i = 0; i < patchItems.length; i += CHUNK_SIZE) {
+      const chunk = patchItems.slice(i, i + CHUNK_SIZE);
+      const patchTx = client.transaction();
+      for (const { item, _id } of chunk) {
+        patchTx.patch(_id, (p) => p.set({
+          alt: item.alt,
+          era: item.era,
+          year: item.year,
+          youtubeId: item.youtubeId,
+          featured: featuredSrcs.has(item.src!),
+        }));
+      }
+      await patchTx.commit();
+      console.log(`  Patched ${chunk.length} gallery items (batch ${Math.floor(i / CHUNK_SIZE) + 1})`);
+    }
+  }
+
+  // Upload new images in parallel batches, then batch createOrReplace
+  if (uploadItems.length > 0) {
+    console.log(`  Uploading ${uploadItems.length} new images...`);
+    const assetMap = await uploadInBatches(
+      client,
+      uploadItems.map(({ src, _id }) => ({ src, _id })),
+      IMAGE_UPLOAD_CONCURRENCY,
+    );
+
+    const CHUNK_SIZE = 50;
+    for (let i = 0; i < uploadItems.length; i += CHUNK_SIZE) {
+      const chunk = uploadItems.slice(i, i + CHUNK_SIZE);
+      const uploadTx = client.transaction();
+      for (const { item, _id } of chunk) {
+        const assetId = assetMap.get(_id);
+        if (!assetId) continue;
+        uploadTx.createOrReplace({
+          _id,
+          _type: "galleryItem" as const,
+          image: {
+            _type: "image" as const,
+            asset: { _type: "reference" as const, _ref: assetId },
+          },
+          alt: item.alt,
+          era: item.era,
+          year: item.year,
+          youtubeId: item.youtubeId,
+          featured: featuredSrcs.has(item.src!),
+        });
+      }
+      await uploadTx.commit();
+    }
+    uploaded = uploadItems.length;
+    console.log(`  Uploaded and synced ${uploaded} new gallery items`);
+  }
+
+  // Clean up stale eras
+  const existingEras = await client.fetch<string[]>(`*[_type == "era"]._id`);
+  const eraIdSet = new Set(eraIds);
+  const staleEras = existingEras.filter((id) => !eraIdSet.has(id));
+  if (staleEras.length > 0) {
+    const tx = client.transaction();
+    for (const id of staleEras) tx.delete(id);
+    await tx.commit();
+    console.log(`  Deleted ${staleEras.length} stale era(s)`);
+  }
+
+  // Clean up stale gallery items (reuse the initial fetch instead of a separate query)
   const galleryIdSet = new Set(galleryIds);
-  const staleGallery = existingGallery.filter((id) => !galleryIdSet.has(id));
+  const staleGallery = [...allExistingIds].filter((id) => !galleryIdSet.has(id));
   if (staleGallery.length > 0) {
     const tx = client.transaction();
     for (const id of staleGallery) tx.delete(id);

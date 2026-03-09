@@ -24,19 +24,21 @@ export async function seedCompetitions() {
   const featuredNames = new Set(["The PDI", "WPDI", "Walk-on of the Year", "The Shield"]);
   const syncedIds: string[] = [];
 
+  // Separate into existing (patch metadata only) and new (need image upload)
+  const patchTx = client.transaction();
+  let patchCount = 0;
+  const needsUpload: { comp: typeof allCompetitions[0]; index: number; _id: string }[] = [];
+
   for (let i = 0; i < allCompetitions.length; i++) {
     const comp = allCompetitions[i];
     const slug = toSlug(comp.name);
     const _id = `competition-${slug}`;
     syncedIds.push(_id);
 
-    // Only upload image if document doesn't already have one
-    let imageRef;
     const existingDoc = existingMap.get(_id);
     if (existingDoc?.hasImage) {
       console.log(`  Skip image upload (exists): ${comp.image}`);
-      // Document exists with image — update metadata only, preserve image
-      await client.patch(_id).set({
+      patchTx.patch(_id, (p) => p.set({
         name: comp.name,
         description: comp.description,
         slug: { _type: "slug" as const, current: slug },
@@ -51,30 +53,41 @@ export async function seedCompetitions() {
           walkOnName: r.walkOnName,
           venue: r.venue,
         })),
-      }).commit();
+      }));
+      patchCount++;
     } else {
+      needsUpload.push({ comp, index: i, _id });
+    }
+  }
+
+  // Commit all patches in one transaction
+  if (patchCount > 0) {
+    await patchTx.commit();
+    console.log(`  Patched ${patchCount} competitions in one transaction`);
+  }
+
+  // Upload images for new competitions, then batch their createOrReplace
+  if (needsUpload.length > 0) {
+    const uploadTx = client.transaction();
+    for (const { comp, index, _id } of needsUpload) {
       console.log(`  Uploading image: ${comp.image}`);
       const imagePath = path.join(process.cwd(), "public", comp.image);
       const imageAsset = await client.assets.upload("image", createReadStream(imagePath), {
         filename: path.basename(comp.image),
       });
-      imageRef = {
-        _type: "image" as const,
-        asset: {
-          _type: "reference" as const,
-          _ref: imageAsset._id,
-        },
-      };
-
-      await client.createOrReplace({
+      const slug = toSlug(comp.name);
+      uploadTx.createOrReplace({
         _id,
         _type: "competition" as const,
         name: comp.name,
         description: comp.description,
-        image: imageRef,
+        image: {
+          _type: "image" as const,
+          asset: { _type: "reference" as const, _ref: imageAsset._id },
+        },
         slug: { _type: "slug" as const, current: slug },
         featured: featuredNames.has(comp.name),
-        displayOrder: i + 1,
+        displayOrder: index + 1,
         results: comp.results.map((r) => ({
           _type: "object" as const,
           _key: `result-${r.year}`,
@@ -86,9 +99,11 @@ export async function seedCompetitions() {
         })),
       });
     }
-
-    console.log(`  Synced: ${comp.name} (${_id}) — ${comp.results.length} results`);
+    await uploadTx.commit();
+    console.log(`  Uploaded and synced ${needsUpload.length} new competitions`);
   }
+
+  console.log(`  Total: ${syncedIds.length} competitions synced`);
 
   // Clean up stale documents
   const allExisting = await client.fetch<string[]>(
