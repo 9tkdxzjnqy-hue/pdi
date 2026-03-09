@@ -14,6 +14,7 @@ export interface GalleryItem {
   era: Era;
   year?: number;
   youtubeId?: string;
+  featured?: boolean;
 }
 
 export interface EraInfo {
@@ -72,122 +73,73 @@ export const eras: EraInfo[] = [
 ];
 
 export const galleryItems: GalleryItem[] = [
-  // === EARLY DAYS (pre-2015) ===
+  // === THE PLAYERS ===
+  { src: "/gallery/player-the-bat-the-cat-2013.jpg", alt: "The Bat and The Cat — PDI 2013", era: "male-players", year: 2013 },
+  { src: "/gallery/player-the-business-card-2013.jpg", alt: "The Business Card — player profile 2013", era: "male-players", year: 2013 },
+  { src: "/gallery/player-the-educator-2013.jpg", alt: "The Educator — player profile 2013", era: "male-players", year: 2013 },
+  { src: "/gallery/player-the-terror-2013.jpg", alt: "The Terror — player profile 2013", era: "male-players", year: 2013 },
+  { src: "/gallery/2022-a-lister-pdi-winner.jpg", alt: "A Lister — PDI winner 2022", era: "male-players", year: 2022 },
+  { src: "/gallery/2025-the-kitten.jpg", alt: "The Kitten — Shield winner 2025", era: "male-players", year: 2025 },
 
-  // Yesteryear — historical event shots from the early PDI
-  { src: "/gallery/early-event-01.jpg", alt: "Early PDI event shot", era: "middle-years" },
-  { src: "/gallery/early-event-02.jpg", alt: "Early PDI event shot", era: "early-days" },
-  { src: "/gallery/early-event-03.jpg", alt: "Early PDI group photo", era: "early-days" },
-  { src: "/gallery/early-event-04.jpg", alt: "Early PDI event shot", era: "middle-years" },
-  { src: "/gallery/early-event-05.jpg", alt: "Early PDI candid", era: "early-days" },
-  { src: "/gallery/early-event-06.jpg", alt: "Early PDI action shot", era: "early-days" },
-  { src: "/gallery/early-event-07.jpg", alt: "Donation cheque presentation 2014", era: "doing-our-bit", year: 2014 },
-  { src: "/gallery/early-event-09.jpg", alt: "Early PDI event shot", era: "middle-years" },
-
-  // 2013 event shots
-  { src: "/gallery/2013-event-02.jpg", alt: "PDI 2013 at the oche", era: "early-days", year: 2013 },
-  { src: "/gallery/2013-event-03.jpg", alt: "PDI 2013 action", era: "early-days", year: 2013 },
+  // === THE HAZARDS ===
   { src: "/gallery/2013-event-05.jpg", alt: "The Hazards performing at PDI 2013", era: "the-hazards", year: 2013 },
-  { src: "/gallery/2013-event-06.jpg", alt: "PDI 2013 action shot", era: "early-days", year: 2013 },
-  { src: "/gallery/2013-event-08.jpg", alt: "PDI 2013 throwing darts", era: "walk-ons", year: 2013 },
-  { src: "/gallery/2013-event-09.jpg", alt: "PDI 2013 event shot", era: "early-days", year: 2013 },
-  { src: "/gallery/2013-mick.jpg", alt: "Mick at PDI 2013", era: "walk-ons", year: 2013 },
-  { src: "/gallery/2013-sexy-boy.jpg", alt: "Sexy Boy at PDI 2013", era: "walk-ons", year: 2013 },
-  { src: "/gallery/2013-vinny-01.jpg", alt: "Vinny at PDI 2013", era: "walk-ons", year: 2013 },
-  { src: "/gallery/2013-vinny-02.jpg", alt: "Vinny throwing at PDI 2013", era: "walk-ons", year: 2013 },
-  { src: "/gallery/2013-the-educator-01.jpg", alt: "The Educator at PDI 2013", era: "walk-ons", year: 2013 },
-  { src: "/gallery/2013-the-educator-02.jpg", alt: "The Educator throwing at PDI 2013", era: "walk-ons", year: 2013 },
-  { src: "/gallery/2013-doyler-02.jpg", alt: "Doyler throwing at PDI 2013", era: "early-days", year: 2013 },
-
-  // 2014 — Hall of Fame portrait
-
-  // === MIDDLE YEARS (2015–2017) ===
-
-  // 2015
   { src: "/gallery/2015-the-hazards.jpg", alt: "The Hazards — PDI house band", era: "the-hazards", year: 2015 },
+
+  // === RECENT YEARS ===
+  { src: "/gallery/2018-cover.jpg", alt: "PDI 2018 booklet cover", era: "recent", year: 2018, featured: true },
+  { src: "/gallery/2018-event-05.jpg", alt: "PDI 2018 event shot", era: "recent", year: 2018 },
+  { src: "/gallery/2018-event-06.jpg", alt: "PDI 2018 event shot", era: "recent", year: 2018 },
+  { src: "/gallery/2018-event-07.jpg", alt: "PDI 2018 event shot", era: "recent", year: 2018 },
+  { src: "/gallery/2019-event-01.jpg", alt: "PDI 2019 event shot", era: "recent", year: 2019, featured: true },
+  { src: "/gallery/2020-profile-campbell.jpg", alt: "Campbell — PDI 2020", era: "recent", year: 2020 },
+  { src: "/gallery/2020-profile-russ.jpg", alt: "Russ — PDI 2020", era: "recent", year: 2020 },
+  { src: "/gallery/2020-profile-the-a-lister.jpg", alt: "The A-Lister — PDI 2020", era: "recent", year: 2020 },
+  { src: "/gallery/2020-profile-the-boy.jpg", alt: "The Boy — PDI 2020", era: "recent", year: 2020 },
+  { src: "/gallery/2020-profile-the-cat.jpg", alt: "The Cat — PDI 2020", era: "recent", year: 2020 },
+  { src: "/gallery/2020-profile-the-man.jpg", alt: "The Man — PDI 2020", era: "recent", year: 2020 },
+  { src: "/gallery/2020-profile-vinny.jpg", alt: "Vinny — PDI 2020", era: "recent", year: 2020 },
+  { src: "/gallery/2022-a-lister-the-next-morning.jpg", alt: "A Lister — the next morning with the PDI trophy 2022", era: "recent", year: 2022 },
+  { src: "/gallery/profile-ally-pally.jpg", alt: "Ally Pally", era: "recent" },
+  { src: "/gallery/profile-bad-medicine.jpg", alt: "Bad Medicine", era: "recent" },
+  { src: "/gallery/profile-hawaii-501.jpg", alt: "Hawaii 501", era: "recent" },
+  { src: "/gallery/profile-nugget.jpg", alt: "Nugget", era: "recent" },
+  { src: "/gallery/profile-the-undertaker.jpg", alt: "The Undertaker", era: "recent" },
+
+  // === THE MIDDLE YEARS ===
   { src: "/gallery/2015-charity-cheque.jpg", alt: "PDI charity cheque presentation", era: "middle-years", year: 2015 },
   { src: "/gallery/2015-charity-thankyou.jpg", alt: "Thank-you letter from Children's Hospital", era: "middle-years", year: 2015 },
-
-  // 2016
   { src: "/gallery/2016-the-physio-hof.jpg", alt: "The Physio — Hall of Fame 2016", era: "middle-years", year: 2016 },
-
-  // Profiles from middle years
-  { src: "/gallery/profile-the-bat.jpg", alt: "The Bat", era: "middle-years" },
-  { src: "/gallery/profile-the-boy.jpg", alt: "The Boy", era: "middle-years" },
-  { src: "/gallery/profile-the-man.jpg", alt: "The Man", era: "middle-years" },
-  { src: "/gallery/profile-bar.jpg", alt: "Bar", era: "middle-years" },
-  { src: "/gallery/profile-russ.jpg", alt: "Russ", era: "middle-years" },
-
-  // 2017
   { src: "/gallery/2017-chairperson.jpg", alt: "PDI 2017 chairperson", era: "middle-years", year: 2017 },
   { src: "/gallery/2017-event-01.jpg", alt: "PDI 2017 event shot", era: "middle-years", year: 2017 },
   { src: "/gallery/2017-event-02.jpg", alt: "PDI 2017 event shot", era: "middle-years", year: 2017 },
   { src: "/gallery/2017-event-03.jpg", alt: "PDI 2017 event shot", era: "middle-years", year: 2017 },
   { src: "/gallery/2017-hof-induction.jpg", alt: "Hall of Fame induction 2017", era: "middle-years", year: 2017 },
-
-  // === RECENT YEARS (2018–2020) ===
-
-  // 2018
-  { src: "/gallery/2022-a-lister-the-next-morning.jpg", alt: "A Lister — the next morning with the PDI trophy 2022", era: "recent", year: 2022 },
-  { src: "/gallery/2018-cover.jpg", alt: "PDI 2018 booklet cover", era: "recent", year: 2018 },
-  { src: "/gallery/2018-event-04.jpg", alt: "PDI 2018 event action", era: "recent", year: 2018 },
-  { src: "/gallery/2018-event-05.jpg", alt: "PDI 2018 event shot", era: "recent", year: 2018 },
-  { src: "/gallery/2018-event-06.jpg", alt: "PDI 2018 event shot", era: "recent", year: 2018 },
-  { src: "/gallery/2018-event-07.jpg", alt: "PDI 2018 event shot", era: "recent", year: 2018 },
-  // 2019
-  { src: "/gallery/2019-event-01.jpg", alt: "PDI 2019 event shot", era: "recent", year: 2019 },
-
-  // Profiles from recent years
-  { src: "/gallery/profile-the-undertaker.jpg", alt: "The Undertaker", era: "recent" },
-  { src: "/gallery/profile-hawaii-501.jpg", alt: "Hawaii 501", era: "recent" },
-  { src: "/gallery/profile-bad-medicine.jpg", alt: "Bad Medicine", era: "recent" },
-  { src: "/gallery/profile-ally-pally.jpg", alt: "Ally Pally", era: "recent" },
-  { src: "/gallery/profile-nugget.jpg", alt: "Nugget", era: "recent" },
-
-  // 2020
-  { src: "/gallery/2020-profile-the-boy.jpg", alt: "The Boy — PDI 2020", era: "recent", year: 2020 },
-  { src: "/gallery/2020-profile-the-man.jpg", alt: "The Man — PDI 2020", era: "recent", year: 2020 },
-  { src: "/gallery/2020-profile-the-cat.jpg", alt: "The Cat — PDI 2020", era: "recent", year: 2020 },
-  { src: "/gallery/2020-profile-the-express.jpg", alt: "The Express — PDI 2019", era: "walk-ons", year: 2019 },
-  { src: "/gallery/2020-profile-the-a-lister.jpg", alt: "The A-Lister — PDI 2020", era: "recent", year: 2020 },
-  { src: "/gallery/2020-profile-vinny.jpg", alt: "Vinny — PDI 2020", era: "recent", year: 2020 },
-  { src: "/gallery/2020-profile-campbell.jpg", alt: "Campbell — PDI 2020", era: "recent", year: 2020 },
   { src: "/gallery/2020-profile-geoff.jpg", alt: "Geoff — PDI 2020", era: "middle-years", year: 2020 },
-  { src: "/gallery/2020-profile-russ.jpg", alt: "Russ — PDI 2020", era: "recent", year: 2020 },
+  { src: "/gallery/early-event-01.jpg", alt: "Early PDI event shot", era: "middle-years" },
+  { src: "/gallery/early-event-04.jpg", alt: "Early PDI event shot", era: "middle-years", featured: true },
+  { src: "/gallery/early-event-09.jpg", alt: "Early PDI event shot", era: "middle-years" },
+  { src: "/gallery/profile-bar.jpg", alt: "Bar", era: "middle-years" },
+  { src: "/gallery/profile-russ.jpg", alt: "Russ", era: "middle-years" },
+  { src: "/gallery/profile-the-bat.jpg", alt: "The Bat", era: "middle-years" },
+  { src: "/gallery/profile-the-boy.jpg", alt: "The Boy", era: "middle-years" },
+  { src: "/gallery/profile-the-man.jpg", alt: "The Man", era: "middle-years", featured: true },
 
-  // === WALK-ONS ===
-  { src: "/gallery/2025-the-rebel-walk-on.jpg", alt: "The Rebel in the green sequin jacket — PDI 2025", era: "walk-ons", year: 2025 },
-  { youtubeId: "zTcOhsZMr1U", alt: "Pog mo Thoin — 2015 walk-on", era: "walk-ons", year: 2015 },
-  { youtubeId: "wopnHvGMzGY", alt: "The Bat — 2015 walk-on", era: "walk-ons", year: 2015 },
-  { src: "/gallery/2018-walkon-01.jpg", alt: "Gat's Riverdance walk-on at PDI 2016", era: "walk-ons", year: 2016 },
-  { src: "/gallery/2018-walkon-02.jpg", alt: "Gat's Riverdance walk-on at PDI 2016", era: "walk-ons", year: 2016 },
-  { src: "/gallery/2018-walkon-03.jpg", alt: "Gat's Riverdance walk-on at PDI 2016", era: "walk-ons", year: 2016 },
-  { src: "/gallery/2018-walkon-05.jpg", alt: "Gat's David Brent walk-on at PDI 2017", era: "walk-ons", year: 2017 },
-  { src: "/gallery/2018-walkon-06.jpg", alt: "Gat's David Brent walk-on at PDI 2017", era: "walk-ons", year: 2017 },
-  { src: "/gallery/2018-walkon-08.jpg", alt: "Gat's David Brent walk-on at PDI 2017", era: "walk-ons", year: 2017 },
-  { src: "/gallery/2018-walkon-07.jpg", alt: "Gat's David Brent walk-on at PDI 2017", era: "walk-ons", year: 2017 },
-  { src: "/gallery/2018-walkon-09.jpg", alt: "Gat's David Brent walk-on at PDI 2017", era: "walk-ons", year: 2017 },
-  { src: "/gallery/2018-walkon-04.jpg", alt: "Gat's David Brent walk-on at PDI 2017", era: "walk-ons", year: 2017 },
-  { src: "/gallery/2018-walkon-11.jpg", alt: "Gat's Riverdance walk-on at PDI 2016", era: "walk-ons", year: 2016 },
-  { src: "/gallery/2018-walkon-12.jpg", alt: "Gat's Riverdance walk-on at PDI 2016", era: "walk-ons", year: 2016 },
-  { src: "/gallery/2018-walkon-14.jpg", alt: "Gat's Riverdance walk-on at PDI 2016", era: "walk-ons", year: 2016 },
-
-  // === THE PLAYERS (MEN) ===
-  { src: "/gallery/2025-the-kitten.jpg", alt: "The Kitten — Shield winner 2025", era: "male-players", year: 2025 },
-  { src: "/gallery/2022-a-lister-pdi-winner.jpg", alt: "A Lister — PDI winner 2022", era: "male-players", year: 2022 },
-  { src: "/gallery/player-the-bat-the-cat-2013.jpg", alt: "The Bat and The Cat — PDI 2013", era: "male-players", year: 2013 },
-  { src: "/gallery/player-the-business-card-2013.jpg", alt: "The Business Card — player profile 2013", era: "male-players", year: 2013 },
-  { src: "/gallery/player-the-educator-2013.jpg", alt: "The Educator — player profile 2013", era: "male-players", year: 2013 },
-  { src: "/gallery/player-the-terror-2013.jpg", alt: "The Terror — player profile 2013", era: "male-players", year: 2013 },
-
-
-
-
+  // === THE EARLY DAYS ===
+  { src: "/gallery/2013-doyler-02.jpg", alt: "Doyler throwing at PDI 2013", era: "early-days", year: 2013 },
+  { src: "/gallery/2013-event-02.jpg", alt: "PDI 2013 at the oche", era: "early-days", year: 2013 },
+  { src: "/gallery/2013-event-03.jpg", alt: "PDI 2013 action", era: "early-days", year: 2013 },
+  { src: "/gallery/2013-event-06.jpg", alt: "PDI 2013 action shot", era: "early-days", year: 2013 },
+  { src: "/gallery/2013-event-09.jpg", alt: "PDI 2013 event shot", era: "early-days", year: 2013 },
+  { src: "/gallery/early-event-02.jpg", alt: "Early PDI event shot", era: "early-days" },
+  { src: "/gallery/early-event-03.jpg", alt: "Early PDI group photo", era: "early-days" },
+  { src: "/gallery/early-event-05.jpg", alt: "Early PDI candid", era: "early-days" },
+  { src: "/gallery/early-event-06.jpg", alt: "Early PDI action shot", era: "early-days" },
 
   // === DOING OUR BIT ===
   { src: "/gallery/doing-our-bit-2014-chairman.jpg", alt: "Chairman's address 2014", era: "doing-our-bit", year: 2014 },
   { src: "/gallery/doing-our-bit-2014-charity.jpg", alt: "Charity letter 2014", era: "doing-our-bit", year: 2014 },
   { src: "/gallery/doing-our-bit-2014-prez.jpg", alt: "President's message 2014", era: "doing-our-bit", year: 2014 },
+  { src: "/gallery/early-event-07.jpg", alt: "Donation cheque presentation 2014", era: "doing-our-bit", year: 2014 },
   { src: "/gallery/doing-our-bit-2015-chairman.jpg", alt: "Chairman's address 2015", era: "doing-our-bit", year: 2015 },
   { src: "/gallery/doing-our-bit-2015-charity.jpg", alt: "Charity letter 2015", era: "doing-our-bit", year: 2015 },
   { src: "/gallery/doing-our-bit-2016-chairman.jpg", alt: "Chairman's address 2016", era: "doing-our-bit", year: 2016 },
@@ -214,4 +166,29 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/ad-think-bike-2017.jpg", alt: "Think Bike — sponsor ad 2017", era: "ads", year: 2017 },
   { src: "/gallery/ad-devitts-2018.jpg", alt: "Devitts — sponsor ad 2018", era: "ads", year: 2018 },
   { src: "/gallery/ad-iconic-2019.jpg", alt: "Iconic — sponsor ad 2019", era: "ads", year: 2019 },
+
+  // === WALK-ONS ===
+  { src: "/gallery/2013-event-08.jpg", alt: "PDI 2013 throwing darts", era: "walk-ons", year: 2013 },
+  { src: "/gallery/2013-mick.jpg", alt: "Mick at PDI 2013", era: "walk-ons", year: 2013 },
+  { src: "/gallery/2013-sexy-boy.jpg", alt: "Sexy Boy at PDI 2013", era: "walk-ons", year: 2013 },
+  { src: "/gallery/2013-the-educator-01.jpg", alt: "The Educator at PDI 2013", era: "walk-ons", year: 2013 },
+  { src: "/gallery/2013-the-educator-02.jpg", alt: "The Educator throwing at PDI 2013", era: "walk-ons", year: 2013 },
+  { src: "/gallery/2013-vinny-01.jpg", alt: "Vinny at PDI 2013", era: "walk-ons", year: 2013 },
+  { src: "/gallery/2013-vinny-02.jpg", alt: "Vinny throwing at PDI 2013", era: "walk-ons", year: 2013 },
+  { youtubeId: "wopnHvGMzGY", alt: "The Bat — 2015 walk-on", era: "walk-ons", year: 2015 },
+  { youtubeId: "zTcOhsZMr1U", alt: "Pog mo Thoin — 2015 walk-on", era: "walk-ons", year: 2015 },
+  { src: "/gallery/2018-walkon-01.jpg", alt: "Gat's Riverdance walk-on at PDI 2016", era: "walk-ons", year: 2016, featured: true },
+  { src: "/gallery/2018-walkon-02.jpg", alt: "Gat's Riverdance walk-on at PDI 2016", era: "walk-ons", year: 2016 },
+  { src: "/gallery/2018-walkon-03.jpg", alt: "Gat's Riverdance walk-on at PDI 2016", era: "walk-ons", year: 2016 },
+  { src: "/gallery/2018-walkon-11.jpg", alt: "Gat's Riverdance walk-on at PDI 2016", era: "walk-ons", year: 2016 },
+  { src: "/gallery/2018-walkon-12.jpg", alt: "Gat's Riverdance walk-on at PDI 2016", era: "walk-ons", year: 2016 },
+  { src: "/gallery/2018-walkon-14.jpg", alt: "Gat's Riverdance walk-on at PDI 2016", era: "walk-ons", year: 2016 },
+  { src: "/gallery/2018-walkon-04.jpg", alt: "Gat's David Brent walk-on at PDI 2017", era: "walk-ons", year: 2017 },
+  { src: "/gallery/2018-walkon-05.jpg", alt: "Gat's David Brent walk-on at PDI 2017", era: "walk-ons", year: 2017 },
+  { src: "/gallery/2018-walkon-06.jpg", alt: "Gat's David Brent walk-on at PDI 2017", era: "walk-ons", year: 2017 },
+  { src: "/gallery/2018-walkon-07.jpg", alt: "Gat's David Brent walk-on at PDI 2017", era: "walk-ons", year: 2017 },
+  { src: "/gallery/2018-walkon-08.jpg", alt: "Gat's David Brent walk-on at PDI 2017", era: "walk-ons", year: 2017 },
+  { src: "/gallery/2018-walkon-09.jpg", alt: "Gat's David Brent walk-on at PDI 2017", era: "walk-ons", year: 2017 },
+  { src: "/gallery/2020-profile-the-express.jpg", alt: "The Express — PDI 2019", era: "walk-ons", year: 2019 },
+  { src: "/gallery/2025-the-rebel-walk-on.jpg", alt: "The Rebel in the green sequin jacket — PDI 2025", era: "walk-ons", year: 2025 },
 ];

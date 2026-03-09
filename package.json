@@ -12,7 +12,8 @@
     "seed:gallery": "export $(grep -v '^#' .env.local | xargs) && tsx scripts/seed-gallery.ts",
     "seed:stories": "export $(grep -v '^#' .env.local | xargs) && tsx scripts/seed-stories.ts",
     "seed:homepage": "export $(grep -v '^#' .env.local | xargs) && tsx scripts/seed-homepage.ts",
-    "sync": "export $(grep -v '^#' .env.local | xargs) && tsx scripts/sync.ts"
+    "sync": "export $(grep -v '^#' .env.local | xargs) && tsx scripts/sync.ts",
+    "pull": "export $(grep -v '^#' .env.local | xargs) && tsx scripts/pull.ts"
   },
   "dependencies": {
     "@sanity/image-url": "^2.0.3",
