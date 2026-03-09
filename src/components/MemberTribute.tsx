@@ -60,9 +60,11 @@ export default function MemberTribute({
           </h2>
 
           {tribute && (
-            <p className="mt-6 text-lg leading-relaxed text-pdi-text/80">
-              {tribute}
-            </p>
+            <div className="mt-6 space-y-4 text-lg leading-relaxed text-pdi-text/80">
+              {tribute.split("\n\n").map((para, i) => (
+                <p key={i}>{para}</p>
+              ))}
+            </div>
           )}
 
           {poem && (
