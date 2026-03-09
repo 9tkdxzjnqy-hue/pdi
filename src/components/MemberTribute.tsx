@@ -7,6 +7,11 @@ interface MemberTributeProps {
   tribute: string;
   quote?: string;
   quoteAttribution?: string;
+  poem?: {
+    title: string;
+    author: string;
+    lines: string[];
+  };
 }
 
 export default function MemberTribute({
@@ -16,8 +21,8 @@ export default function MemberTribute({
   tribute,
   quote,
   quoteAttribution,
+  poem,
 }: MemberTributeProps) {
-  const [firstName] = name.split(" ");
   const initials = name
     .split(" ")
     .map((n) => n[0])
@@ -51,14 +56,29 @@ export default function MemberTribute({
         {/* Text content */}
         <div className="flex flex-col justify-center">
           <h2 className="font-display text-3xl text-pdi-text md:text-4xl">
-            {firstName}{" "}
-            <span className="text-pdi-green">&ldquo;{nickname}&rdquo;</span>{" "}
-            {name.split(" ").slice(1).join(" ")}
+            {nickname}
           </h2>
 
-          <p className="mt-6 text-lg leading-relaxed text-pdi-text/80">
-            {tribute}
-          </p>
+          {tribute && (
+            <p className="mt-6 text-lg leading-relaxed text-pdi-text/80">
+              {tribute}
+            </p>
+          )}
+
+          {poem && (
+            <blockquote className="mt-6 border-l-2 border-pdi-green/30 pl-5">
+              <div className="space-y-4 text-lg leading-relaxed text-pdi-text/80 italic">
+                {poem.lines.map((stanza, i) => (
+                  <p key={i} className="whitespace-pre-line">
+                    {stanza}
+                  </p>
+                ))}
+              </div>
+              <cite className="mt-4 block text-sm text-pdi-muted/60 not-italic">
+                &mdash; {poem.author}
+              </cite>
+            </blockquote>
+          )}
 
           {quote && (
             <blockquote className="mt-8 border-l-2 border-pdi-green/30 pl-5">

@@ -21,8 +21,18 @@ const members = [
     name: "The Bat",
     nickname: "The Bat",
     photo: "/images/the-bat-remembering.jpg",
-    tribute:
-      "He walked on as Batman and brought the house down. His spirit lives on through the Pat the Bat Memorial Trophy, awarded each year to the best walk-on. Tribute coming soon — if you have a memory of The Bat at the PDI, we'd love to hear it.",
+    tribute: "",
+    poem: {
+      title: "The Bat",
+      author: "The Gun",
+      lines: [
+        "When the day arrived,\nCigarettes in abundance\nNo smoker left without\nBottom door, cigarette store.",
+        "Then came the bombs\nOf joy for every girl and boy\nDepth charges handled with fine aplomb\nTo the 12 noon start and the means to go on",
+        "Costume insecurity, never;\nConfidence, onwards forever.\nBatman, the original walk-on star attraction\nFor every guest he was best",
+        "Raffle tickets would find him magnetically\nHis desire itself majestic and deep\nTo the masses he would speak\nIn his company no one ever cheap",
+        "The bat will live on\nFor now, forever, his memory never gone",
+      ],
+    },
   },
   {
     name: "Del",
