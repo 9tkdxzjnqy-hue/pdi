@@ -366,16 +366,19 @@ async function uploadImage(
 export async function seedStories() {
   const client = getWriteClient();
 
-  // --- Create threads (batch into one transaction) ---
-  console.log("Syncing story threads...");
-  const threadIds: string[] = [];
+  // --- Seed threads (create only if missing — once created, Sanity is the source of truth) ---
+  console.log("Seeding story threads...");
+  const existingThreadIds = new Set(
+    await client.fetch<string[]>(`*[_type == "storyThread"]._id`)
+  );
 
+  let threadCreated = 0;
   const threadTx = client.transaction();
   for (const thread of threads) {
     const _id = `thread-${thread.slug}`;
-    threadIds.push(_id);
+    if (existingThreadIds.has(_id)) continue;
 
-    threadTx.createOrReplace({
+    threadTx.create({
       _id,
       _type: "storyThread" as const,
       title: thread.title,
@@ -384,28 +387,31 @@ export async function seedStories() {
       comingSoon: thread.comingSoon,
       displayOrder: thread.displayOrder,
     });
+    threadCreated++;
   }
-  await threadTx.commit();
-  console.log(`  Synced ${threadIds.length} threads in one transaction`);
+  if (threadCreated > 0) {
+    await threadTx.commit();
+    console.log(`  Created ${threadCreated} new threads`);
+  } else {
+    console.log(`  Skip: all ${threads.length} threads already exist`);
+  }
 
-  // --- Fetch existing stories to check for images ---
-  const existingStories = await client.fetch<{ _id: string; hasImages: boolean }[]>(
-    `*[_type == "story"]{ _id, "hasImages": count(images) > 0 }`
+  // --- Seed stories (create only if missing) ---
+  const existingStoryIds = new Set(
+    await client.fetch<string[]>(`*[_type == "story"]._id`)
   );
-  const existingStoryMap = new Map(existingStories.map((e) => [e._id, e]));
 
-  const storyIds: string[] = [];
-
-  // --- Text-only stories (chairman's addresses + letters) in one transaction ---
-  console.log("\nSyncing text stories (chairman's addresses + letters)...");
+  // Text-only stories (chairman's addresses + letters)
+  console.log("\nSeeding text stories...");
+  let textCreated = 0;
   const textTx = client.transaction();
 
   for (let i = 0; i < chairmansAddresses.length; i++) {
     const addr = chairmansAddresses[i];
     const _id = `story-chairmans-address-${addr.year}-${i}`;
-    storyIds.push(_id);
+    if (existingStoryIds.has(_id)) continue;
 
-    textTx.createOrReplace({
+    textTx.create({
       _id,
       _type: "story" as const,
       title: `${addr.year}`,
@@ -415,14 +421,15 @@ export async function seedStories() {
       body: addr.body,
       displayOrder: i + 1,
     });
+    textCreated++;
   }
 
   for (let i = 0; i < letters.length; i++) {
     const letter = letters[i];
     const _id = `story-letters-${letter.year}-${i}`;
-    storyIds.push(_id);
+    if (existingStoryIds.has(_id)) continue;
 
-    textTx.createOrReplace({
+    textTx.create({
       _id,
       _type: "story" as const,
       title: letter.title,
@@ -432,13 +439,18 @@ export async function seedStories() {
       body: letter.body,
       displayOrder: i + 1,
     });
+    textCreated++;
   }
 
-  await textTx.commit();
-  console.log(`  Synced ${chairmansAddresses.length} addresses + ${letters.length} letters in one transaction`);
+  if (textCreated > 0) {
+    await textTx.commit();
+    console.log(`  Created ${textCreated} new text stories`);
+  } else {
+    console.log(`  Skip: all text stories already exist`);
+  }
 
-  // --- Image-based stories (reviews + WATN) ---
-  // Separate into patch (existing with images) and upload (new/missing images)
+  // Image-based stories (reviews + WATN) — only upload for missing stories
+  console.log("\nSeeding image stories...");
   type ImageStoryGroup = {
     _id: string;
     year: number;
@@ -447,71 +459,36 @@ export async function seedStories() {
     images: { path: string; alt: string }[];
   };
 
-  const imagePatchTx = client.transaction();
-  let imagePatchCount = 0;
   const imageUploadGroups: ImageStoryGroup[] = [];
 
-  console.log("\nSyncing review stories...");
   for (let i = 0; i < reviews.length; i++) {
     const review = reviews[i];
     const _id = `story-reviews-${review.year}-${i}`;
-    storyIds.push(_id);
+    if (existingStoryIds.has(_id)) continue;
 
-    const existingDoc = existingStoryMap.get(_id);
-    if (existingDoc?.hasImages) {
-      imagePatchTx.patch(_id, (p) => p.set({
-        title: `${review.year}`,
-        thread: { _type: "reference" as const, _ref: "thread-reviews" },
-        year: review.year,
-        displayOrder: i + 1,
-      }));
-      imagePatchCount++;
-      console.log(`  Skip upload (exists): ${review.year}`);
-    } else {
-      imageUploadGroups.push({
-        _id,
-        year: review.year,
-        threadRef: "thread-reviews",
-        displayOrder: i + 1,
-        images: review.images,
-      });
-    }
+    imageUploadGroups.push({
+      _id,
+      year: review.year,
+      threadRef: "thread-reviews",
+      displayOrder: i + 1,
+      images: review.images,
+    });
   }
 
-  console.log("\nSyncing 'Where Are They Now?' stories...");
   for (let i = 0; i < watn.length; i++) {
     const group = watn[i];
     const _id = `story-where-are-they-now-${group.year}-${i}`;
-    storyIds.push(_id);
+    if (existingStoryIds.has(_id)) continue;
 
-    const existingDoc = existingStoryMap.get(_id);
-    if (existingDoc?.hasImages) {
-      imagePatchTx.patch(_id, (p) => p.set({
-        title: `${group.year}`,
-        thread: { _type: "reference" as const, _ref: "thread-where-are-they-now" },
-        year: group.year,
-        displayOrder: i + 1,
-      }));
-      imagePatchCount++;
-      console.log(`  Skip upload (exists): ${group.year}`);
-    } else {
-      imageUploadGroups.push({
-        _id,
-        year: group.year,
-        threadRef: "thread-where-are-they-now",
-        displayOrder: i + 1,
-        images: group.images,
-      });
-    }
+    imageUploadGroups.push({
+      _id,
+      year: group.year,
+      threadRef: "thread-where-are-they-now",
+      displayOrder: i + 1,
+      images: group.images,
+    });
   }
 
-  // Commit all image story patches in one transaction
-  if (imagePatchCount > 0) {
-    await imagePatchTx.commit();
-    console.log(`  Patched ${imagePatchCount} image stories in one transaction`);
-  }
-
-  // Upload images for new stories (parallel within each group), then batch createOrReplace
   if (imageUploadGroups.length > 0) {
     const uploadTx = client.transaction();
     for (const group of imageUploadGroups) {
@@ -520,7 +497,7 @@ export async function seedStories() {
         group.images.map((img) => uploadImage(client, img.path, img.alt)),
       );
       const validImgs = imgs.filter(Boolean);
-      uploadTx.createOrReplace({
+      uploadTx.create({
         _id: group._id,
         _type: "story" as const,
         title: `${group.year}`,
@@ -531,34 +508,17 @@ export async function seedStories() {
       });
     }
     await uploadTx.commit();
-    console.log(`  Uploaded and synced ${imageUploadGroups.length} image stories`);
+    console.log(`  Created ${imageUploadGroups.length} new image stories`);
+  } else {
+    console.log(`  Skip: all image stories already exist`);
   }
 
-  // Clean up stale stories first (stories reference threads, so must be deleted first)
-  const allExistingStories = await client.fetch<string[]>(`*[_type == "story"]._id`);
-  const storyIdSet = new Set(storyIds);
-  const staleStories = allExistingStories.filter((id) => !storyIdSet.has(id));
-  if (staleStories.length > 0) {
-    const tx = client.transaction();
-    for (const id of staleStories) tx.delete(id);
-    await tx.commit();
-    console.log(`  Deleted ${staleStories.length} stale story/stories`);
-  }
-
-  // Clean up stale threads (after stories, since stories reference threads)
-  const existingThreads = await client.fetch<string[]>(`*[_type == "storyThread"]._id`);
-  const threadIdSet = new Set(threadIds);
-  const staleThreads = existingThreads.filter((id) => !threadIdSet.has(id));
-  if (staleThreads.length > 0) {
-    const tx = client.transaction();
-    for (const id of staleThreads) tx.delete(id);
-    await tx.commit();
-    console.log(`  Deleted ${staleThreads.length} stale thread(s)`);
-  }
+  // No stale cleanup — Sanity is the source of truth for stories.
+  // Stories added or removed in Sanity Studio are preserved.
 
   return {
-    threads: { synced: threadIds.length, deleted: staleThreads.length },
-    stories: { synced: storyIds.length, deleted: staleStories.length },
+    threads: { synced: threads.length, deleted: 0 },
+    stories: { synced: chairmansAddresses.length + letters.length + reviews.length + watn.length, deleted: 0 },
   };
 }
 
