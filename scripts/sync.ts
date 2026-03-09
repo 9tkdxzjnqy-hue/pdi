@@ -5,6 +5,11 @@ import { seedStories } from "./seed-stories";
 import { seedGallery } from "./seed-gallery";
 
 async function sync() {
+  if (!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || !process.env.SANITY_API_TOKEN) {
+    console.log("Sync skipped: SANITY env vars not set");
+    return;
+  }
+
   console.log("=== PDI Sync: Local → Sanity ===\n");
   const start = Date.now();
 
