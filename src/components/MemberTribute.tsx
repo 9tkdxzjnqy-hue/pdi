@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 
 interface MemberTributeProps {
@@ -14,6 +17,8 @@ interface MemberTributeProps {
   };
 }
 
+const PREVIEW_PARAGRAPHS = 2;
+
 export default function MemberTribute({
   name,
   nickname,
@@ -23,10 +28,16 @@ export default function MemberTribute({
   quoteAttribution,
   poem,
 }: MemberTributeProps) {
+  const [expanded, setExpanded] = useState(false);
   const initials = name
     .split(" ")
     .map((n) => n[0])
     .join("");
+
+  const paragraphs = tribute ? tribute.split("\n\n") : [];
+  const isLong = paragraphs.length > PREVIEW_PARAGRAPHS;
+  const previewParagraphs = paragraphs.slice(0, PREVIEW_PARAGRAPHS);
+  const remainingParagraphs = paragraphs.slice(PREVIEW_PARAGRAPHS);
 
   return (
     <article className="border-b border-white/5 last:border-b-0">
@@ -59,11 +70,38 @@ export default function MemberTribute({
             {nickname}
           </h2>
 
-          {tribute && (
+          {paragraphs.length > 0 && (
             <div className="mt-6 space-y-4 text-lg leading-relaxed text-pdi-text/80">
-              {tribute.split("\n\n").map((para, i) => (
+              {previewParagraphs.map((para, i) => (
                 <p key={i}>{para}</p>
               ))}
+
+              {isLong && (
+                <>
+                  <div
+                    className={`grid transition-[grid-template-rows] duration-300 motion-reduce:duration-0 ${
+                      expanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="space-y-4">
+                        {remainingParagraphs.map((para, i) => (
+                          <p key={i}>{para}</p>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setExpanded(!expanded)}
+                    aria-expanded={expanded}
+                    className="cursor-pointer text-sm font-semibold text-pdi-green hover:text-pdi-teal transition-colors"
+                  >
+                    {expanded ? "Read less" : "Read more"}
+                  </button>
+                </>
+              )}
             </div>
           )}
 

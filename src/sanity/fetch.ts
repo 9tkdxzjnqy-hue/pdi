@@ -142,12 +142,12 @@ export async function getGalleryByEra(eraId: string): Promise<GalleryItem[]> {
 export async function getFeaturedGalleryImages(): Promise<GalleryItem[]> {
   const client = getClient();
   const featuredSrcs = new Set([
-    "/gallery/2022-a-lister-the-next-morning.jpg",
-    "/gallery/2020-profile-the-a-lister.jpg",
     "/gallery/2018-cover.jpg",
     "/gallery/2018-walkon-01.jpg",
     "/gallery/early-event-04.jpg",
     "/gallery/2018-event-04.jpg",
+    "/gallery/profile-the-man.jpg",
+    "/gallery/2019-event-01.jpg",
   ]);
   const fallback = fallbackGalleryItems
     .filter((item) => item.src && featuredSrcs.has(item.src))

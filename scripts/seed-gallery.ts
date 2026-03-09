@@ -5,12 +5,12 @@ import path from "path";
 
 // These are the 6 images currently shown on the homepage preview
 const featuredSrcs = new Set([
-  "/gallery/2022-a-lister-the-next-morning.jpg",
-  "/gallery/2020-profile-the-a-lister.jpg",
   "/gallery/2018-cover.jpg",
   "/gallery/2018-walkon-01.jpg",
   "/gallery/early-event-04.jpg",
   "/gallery/2018-event-04.jpg",
+  "/gallery/profile-the-man.jpg",
+  "/gallery/2019-event-01.jpg",
 ]);
 
 function filenameToId(src: string): string {
@@ -156,6 +156,7 @@ export async function seedGallery() {
           era: item.era,
           year: item.year,
           youtubeId: item.youtubeId,
+          featured: featuredSrcs.has(item.src!),
         }));
       }
       await patchTx.commit();
