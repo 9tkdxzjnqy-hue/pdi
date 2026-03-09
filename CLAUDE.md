@@ -36,12 +36,20 @@ npm run pull        # pull Sanity data → local TS files
 
 Deployed to **Vercel** via push to `main`. Never push directly to main without a passing build.
 
-### Two-way data sync
+### Data sync & Sanity ownership
 
-Data lives in both TypeScript files (`src/data/`) and Sanity Studio. Either can be the source of truth:
+Sync runs on every deploy. Some data is **create-once** (Sanity owns it after initial seed), some is **two-way** (editable in both TS files and Sanity).
+
+**Sanity owns (safe to edit in Studio, never overwritten by deploy):**
+- Site settings (donation amount, charity name/URL)
+- Homepage (hero title, story text, charity heading, all copy)
+- Stories & threads (letters, reviews, chairman's addresses)
+
+**Two-way (requires `npm run pull` to preserve Sanity edits):**
+- Competitions, inductees, gallery — sync pushes TS → Sanity on deploy
 
 ```bash
-# Someone edits in Sanity Studio:
+# Someone edits competitions/inductees/gallery in Sanity Studio:
 npm run pull        # Sanity → local TS files
 git diff            # review changes
 npm run build       # verify it compiles
@@ -50,8 +58,6 @@ git commit          # commit pulled data
 # Someone edits TS files:
 npm run sync        # TS → Sanity (also runs automatically on deploy)
 ```
-
-`pull` covers competitions, inductees, and gallery. Stories and homepage are excluded (hardcoded in seed scripts, rarely edited in Sanity).
 
 ## Project Structure
 
