@@ -99,19 +99,26 @@ export async function seedHomepage() {
     console.log("  Synced: homePage");
   }
 
-  // Seed site settings (small doc, always createOrReplace)
-  console.log("Syncing site settings...");
-  await client.createOrReplace({
-    _id: "siteSettings",
-    _type: "siteSettings",
-    donationAmount: "€XX,XXX",
-    donationLabel: "raised and counting",
-    charityName: "Children's Health Foundation Crumlin",
-    charityUrl: "https://childrenshealth.ie",
-    galleryUploadUrl:
-      "https://drive.google.com/drive/folders/1-kvii3GsJKUeMsDYhd8q2ZqTzYvJU_M7?usp=sharing",
-  });
-  console.log("  Synced: siteSettings");
+  // Seed site settings only if it doesn't exist yet — once created, Sanity is the source of truth
+  const settingsExist = await client.fetch<boolean>(
+    `defined(*[_id == "siteSettings"][0]._id)`
+  );
+  if (!settingsExist) {
+    console.log("Seeding site settings (first time)...");
+    await client.create({
+      _id: "siteSettings",
+      _type: "siteSettings",
+      donationAmount: "€XX,XXX",
+      donationLabel: "raised and counting",
+      charityName: "Children's Health Foundation Crumlin",
+      charityUrl: "https://childrenshealth.ie",
+      galleryUploadUrl:
+        "https://drive.google.com/drive/folders/1-kvii3GsJKUeMsDYhd8q2ZqTzYvJU_M7?usp=sharing",
+    });
+    console.log("  Created: siteSettings");
+  } else {
+    console.log("  Skip: siteSettings (already exists, editable in Sanity)");
+  }
 }
 
 // Allow running standalone
