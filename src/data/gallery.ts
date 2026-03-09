@@ -83,14 +83,14 @@ export const galleryItems: GalleryItem[] = [
 
   // === THE HAZARDS ===
   { src: "/gallery/2013-event-05.jpg", alt: "The Hazards performing at PDI 2013", era: "the-hazards", year: 2013 },
-  { src: "/gallery/2015-the-hazards.jpg", alt: "The Hazards — PDI house band", era: "the-hazards", year: 2015 },
+  { src: "/gallery/2015-the-hazards.jpg", alt: "The Hazards — PDI house band", era: "the-hazards", year: 2015, featured: true },
 
   // === RECENT YEARS ===
-  { src: "/gallery/2018-cover.jpg", alt: "PDI 2018 booklet cover", era: "recent", year: 2018, featured: true },
+  { src: "/gallery/2018-cover.jpg", alt: "PDI 2018 booklet cover", era: "recent", year: 2018 },
   { src: "/gallery/2018-event-05.jpg", alt: "PDI 2018 event shot", era: "recent", year: 2018 },
   { src: "/gallery/2018-event-06.jpg", alt: "PDI 2018 event shot", era: "recent", year: 2018 },
   { src: "/gallery/2018-event-07.jpg", alt: "PDI 2018 event shot", era: "recent", year: 2018 },
-  { src: "/gallery/2019-event-01.jpg", alt: "PDI 2019 event shot", era: "recent", year: 2019, featured: true },
+  { src: "/gallery/2019-event-01.jpg", alt: "PDI 2019 event shot", era: "recent", year: 2019 },
   { src: "/gallery/2020-profile-campbell.jpg", alt: "Campbell — PDI 2020", era: "recent", year: 2020 },
   { src: "/gallery/2020-profile-russ.jpg", alt: "Russ — PDI 2020", era: "recent", year: 2020 },
   { src: "/gallery/2020-profile-the-a-lister.jpg", alt: "The A-Lister — PDI 2020", era: "recent", year: 2020 },
@@ -117,12 +117,12 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/2020-profile-geoff.jpg", alt: "Geoff — PDI 2020", era: "middle-years", year: 2020 },
   { src: "/gallery/early-event-01.jpg", alt: "Early PDI event shot", era: "middle-years" },
   { src: "/gallery/early-event-04.jpg", alt: "Early PDI event shot", era: "middle-years", featured: true },
-  { src: "/gallery/early-event-09.jpg", alt: "Early PDI event shot", era: "middle-years" },
+  { src: "/gallery/early-event-09.jpg", alt: "Early PDI event shot", era: "middle-years", featured: true },
   { src: "/gallery/profile-bar.jpg", alt: "Bar", era: "middle-years" },
   { src: "/gallery/profile-russ.jpg", alt: "Russ", era: "middle-years" },
   { src: "/gallery/profile-the-bat.jpg", alt: "The Bat", era: "middle-years" },
   { src: "/gallery/profile-the-boy.jpg", alt: "The Boy", era: "middle-years" },
-  { src: "/gallery/profile-the-man.jpg", alt: "The Man", era: "middle-years", featured: true },
+  { src: "/gallery/profile-the-man.jpg", alt: "The Man", era: "middle-years" },
 
   // === THE EARLY DAYS ===
   { src: "/gallery/2013-doyler-02.jpg", alt: "Doyler throwing at PDI 2013", era: "early-days", year: 2013 },
@@ -177,7 +177,7 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/2013-vinny-02.jpg", alt: "Vinny throwing at PDI 2013", era: "walk-ons", year: 2013 },
   { youtubeId: "wopnHvGMzGY", alt: "The Bat — 2015 walk-on", era: "walk-ons", year: 2015 },
   { youtubeId: "zTcOhsZMr1U", alt: "Pog mo Thoin — 2015 walk-on", era: "walk-ons", year: 2015 },
-  { src: "/gallery/2018-walkon-01.jpg", alt: "Gat's Riverdance walk-on at PDI 2016", era: "walk-ons", year: 2016, featured: true },
+  { src: "/gallery/2018-walkon-01.jpg", alt: "Gat's Riverdance walk-on at PDI 2016", era: "walk-ons", year: 2016 },
   { src: "/gallery/2018-walkon-02.jpg", alt: "Gat's Riverdance walk-on at PDI 2016", era: "walk-ons", year: 2016 },
   { src: "/gallery/2018-walkon-03.jpg", alt: "Gat's Riverdance walk-on at PDI 2016", era: "walk-ons", year: 2016 },
   { src: "/gallery/2018-walkon-11.jpg", alt: "Gat's Riverdance walk-on at PDI 2016", era: "walk-ons", year: 2016 },
