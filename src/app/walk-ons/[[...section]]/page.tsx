@@ -40,9 +40,16 @@ export default async function WalkOnsPage({
     walkOnCompetition.results.map((r) => [r.year, r])
   );
 
-  // Collect winner photos so we can exclude them from the gallery grid
+  // Collect winner photo URLs so we can exclude them from the gallery grid.
+  // Also build a set of winner names by year so we can catch Sanity CDN
+  // versions of the same image (whose URLs differ from local paths).
   const winnerPhotos = new Set(
     walkOnCompetition.results.map((r) => r.photo).filter(Boolean)
+  );
+  const winnersByYear = new Map(
+    walkOnCompetition.results
+      .filter((r) => r.photo && r.winner)
+      .map((r) => [r.year, r.winner!.toLowerCase()])
   );
 
   // Group items by year, excluding any that are used as winner photos
@@ -50,6 +57,9 @@ export default async function WalkOnsPage({
   for (const item of items) {
     if (item.src && winnerPhotos.has(item.src)) continue;
     const y = item.year ?? 0;
+    // Also exclude Sanity items whose alt text matches the winner name for that year
+    const winnerName = winnersByYear.get(y);
+    if (winnerName && item.src?.startsWith("http") && item.alt.toLowerCase().includes(winnerName)) continue;
     if (!byYear.has(y)) byYear.set(y, []);
     byYear.get(y)!.push(item);
   }
