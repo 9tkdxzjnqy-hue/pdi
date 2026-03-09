@@ -118,13 +118,6 @@ export async function getEras(): Promise<EraInfo[]> {
   }
 }
 
-// Video-only items from fallback data (no src, only youtubeId) that need
-// to be merged into results regardless of whether Sanity returns data.
-function getFallbackVideos(eraId: string): GalleryItem[] {
-  return fallbackGalleryItems.filter(
-    (item) => item.era === eraId && !item.src && item.youtubeId
-  );
-}
 
 export async function getGalleryByEra(eraId: string): Promise<GalleryItem[]> {
   const client = getClient();
@@ -139,9 +132,7 @@ export async function getGalleryByEra(eraId: string): Promise<GalleryItem[]> {
       return fallbackGalleryItems.filter((item) => item.era === eraId);
     }
 
-    // Merge in video-only items from fallback data
-    const videos = getFallbackVideos(eraId);
-    return videos.length > 0 ? [...result, ...videos] : result;
+    return result;
   } catch {
     console.error(`Failed to fetch gallery items for era ${eraId}, using fallback data`);
     return fallbackGalleryItems.filter((item) => item.era === eraId);
@@ -150,8 +141,16 @@ export async function getGalleryByEra(eraId: string): Promise<GalleryItem[]> {
 
 export async function getFeaturedGalleryImages(): Promise<GalleryItem[]> {
   const client = getClient();
+  const featuredSrcs = new Set([
+    "/gallery/2022-a-lister-the-next-morning.jpg",
+    "/gallery/2020-profile-the-a-lister.jpg",
+    "/gallery/2018-cover.jpg",
+    "/gallery/2018-walkon-01.jpg",
+    "/gallery/early-event-04.jpg",
+    "/gallery/2018-event-04.jpg",
+  ]);
   const fallback = fallbackGalleryItems
-    .filter((_, i) => [30, 27, 31, 56, 4, 28].includes(i))
+    .filter((item) => item.src && featuredSrcs.has(item.src))
     .slice(0, 6);
   if (!client) return fallback;
 

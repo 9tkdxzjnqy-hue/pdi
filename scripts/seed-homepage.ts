@@ -17,7 +17,7 @@ async function uploadImage(client: ReturnType<typeof getWriteClient>, filePath: 
   };
 }
 
-async function seed() {
+export async function seedHomepage() {
   const client = getWriteClient();
 
   // Upload images
@@ -28,7 +28,7 @@ async function seed() {
   const charityImage = await uploadImage(client, "public/images/cheque-2015.jpg");
 
   // Seed site settings
-  console.log("Seeding site settings...");
+  console.log("Syncing site settings...");
   await client.createOrReplace({
     _id: "siteSettings",
     _type: "siteSettings",
@@ -39,10 +39,10 @@ async function seed() {
     galleryUploadUrl:
       "https://drive.google.com/drive/folders/1-kvii3GsJKUeMsDYhd8q2ZqTzYvJU_M7?usp=sharing",
   });
-  console.log("  Created: siteSettings");
+  console.log("  Synced: siteSettings");
 
   // Seed homepage
-  console.log("Seeding homepage...");
+  console.log("Syncing homepage...");
   await client.createOrReplace({
     _id: "homePage",
     _type: "homePage",
@@ -82,12 +82,15 @@ async function seed() {
     galleryLinkText: "View full gallery →",
     galleryUploadText: "Got photos? Upload them here →",
   });
-  console.log("  Created: homePage");
-
-  console.log("Done!");
+  console.log("  Synced: homePage");
 }
 
-seed().catch((err) => {
-  console.error("Seed failed:", err);
-  process.exit(1);
-});
+// Allow running standalone
+if (require.main === module) {
+  seedHomepage()
+    .then(() => console.log("Done!"))
+    .catch((err) => {
+      console.error("Seed failed:", err);
+      process.exit(1);
+    });
+}

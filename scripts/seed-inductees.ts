@@ -9,28 +9,54 @@ function toSlug(nickname: string): string {
     .replace(/(^-|-$)/g, "");
 }
 
-async function seed() {
+export async function seedInductees() {
   const client = getWriteClient();
-  console.log(`Seeding ${inductees.length} inductees...`);
+  console.log(`Syncing ${inductees.length} inductees...`);
+
+  const syncedIds: string[] = [];
 
   for (const inductee of inductees) {
     const slug = toSlug(inductee.nickname);
-    const doc = {
+    const _id = `inductee-${slug}`;
+    syncedIds.push(_id);
+
+    await client.createOrReplace({
+      _id,
       _type: "inductee" as const,
       nickname: inductee.nickname,
       contribution: inductee.contribution,
       year: inductee.year,
       slug: { _type: "slug" as const, current: slug },
-    };
-
-    const result = await client.create(doc);
-    console.log(`  Created: ${inductee.nickname} (${result._id})`);
+    });
+    console.log(`  Synced: ${inductee.nickname} (${_id})`);
   }
 
-  console.log("Done!");
+  // Clean up stale documents
+  const existing = await client.fetch<string[]>(
+    `*[_type == "inductee"]._id`
+  );
+  const syncedSet = new Set(syncedIds);
+  const stale = existing.filter((id) => !syncedSet.has(id));
+  if (stale.length > 0) {
+    const tx = client.transaction();
+    for (const id of stale) {
+      tx.delete(id);
+    }
+    await tx.commit();
+    console.log(`  Deleted ${stale.length} stale inductee(s)`);
+  }
+
+  return { synced: syncedIds.length, deleted: stale.length };
 }
 
-seed().catch((err) => {
-  console.error("Seed failed:", err);
-  process.exit(1);
-});
+// Allow running standalone
+if (require.main === module) {
+  seedInductees()
+    .then(({ synced, deleted }) => {
+      console.log(`Done! Synced: ${synced}, Deleted: ${deleted}`);
+    })
+    .catch((err) => {
+      console.error("Seed failed:", err);
+      process.exit(1);
+    });
+}

@@ -342,7 +342,11 @@ const watn = [
   },
 ];
 
-async function uploadImage(client: ReturnType<typeof getWriteClient>, imagePath: string, alt: string) {
+async function uploadImage(
+  client: ReturnType<typeof getWriteClient>,
+  imagePath: string,
+  alt: string,
+) {
   const fullPath = path.join(process.cwd(), "public", imagePath);
   if (!existsSync(fullPath)) {
     console.log(`  SKIP (not found): ${imagePath}`);
@@ -359,112 +363,188 @@ async function uploadImage(client: ReturnType<typeof getWriteClient>, imagePath:
   };
 }
 
-async function seed() {
+export async function seedStories() {
   const client = getWriteClient();
 
   // --- Create threads ---
-  console.log("Creating story threads...");
-  const threadIds: Record<string, string> = {};
+  console.log("Syncing story threads...");
+  const threadIds: string[] = [];
 
   for (const thread of threads) {
-    const doc = {
+    const _id = `thread-${thread.slug}`;
+    threadIds.push(_id);
+
+    await client.createOrReplace({
+      _id,
       _type: "storyThread" as const,
       title: thread.title,
       description: thread.description,
       slug: { _type: "slug" as const, current: thread.slug },
       comingSoon: thread.comingSoon,
       displayOrder: thread.displayOrder,
-    };
-
-    const result = await client.create(doc);
-    threadIds[thread.slug] = result._id;
-    console.log(`  Thread: ${thread.title} (${result._id})`);
+    });
+    console.log(`  Synced thread: ${thread.title} (${_id})`);
   }
 
+  // --- Fetch existing stories to check for images ---
+  const existingStories = await client.fetch<{ _id: string; hasImages: boolean }[]>(
+    `*[_type == "story"]{ _id, "hasImages": count(images) > 0 }`
+  );
+  const existingStoryMap = new Map(existingStories.map((e) => [e._id, e]));
+
+  const storyIds: string[] = [];
+
   // --- Chairman's Address stories ---
-  console.log("\nCreating chairman's address stories...");
+  console.log("\nSyncing chairman's address stories...");
   for (let i = 0; i < chairmansAddresses.length; i++) {
     const addr = chairmansAddresses[i];
-    const doc = {
+    const _id = `story-chairmans-address-${addr.year}-${i}`;
+    storyIds.push(_id);
+
+    await client.createOrReplace({
+      _id,
       _type: "story" as const,
       title: `${addr.year}`,
-      thread: { _type: "reference" as const, _ref: threadIds["chairmans-address"] },
+      thread: { _type: "reference" as const, _ref: "thread-chairmans-address" },
       year: addr.year,
       author: addr.author,
       body: addr.body,
       displayOrder: i + 1,
-    };
-
-    const result = await client.create(doc);
-    console.log(`  ${addr.year} — ${addr.author} (${result._id})`);
+    });
+    console.log(`  Synced: ${addr.year} — ${addr.author} (${_id})`);
   }
 
   // --- Letter stories ---
-  console.log("\nCreating letter stories...");
+  console.log("\nSyncing letter stories...");
   for (let i = 0; i < letters.length; i++) {
     const letter = letters[i];
-    const doc = {
+    const _id = `story-letters-${letter.year}-${i}`;
+    storyIds.push(_id);
+
+    await client.createOrReplace({
+      _id,
       _type: "story" as const,
       title: letter.title,
-      thread: { _type: "reference" as const, _ref: threadIds["letters"] },
+      thread: { _type: "reference" as const, _ref: "thread-letters" },
       year: letter.year,
       author: letter.author,
       body: letter.body,
       displayOrder: i + 1,
-    };
-
-    const result = await client.create(doc);
-    console.log(`  ${letter.title} (${result._id})`);
+    });
+    console.log(`  Synced: ${letter.title} (${_id})`);
   }
 
   // --- Review stories ---
-  console.log("\nCreating review stories...");
+  console.log("\nSyncing review stories...");
   for (let i = 0; i < reviews.length; i++) {
     const review = reviews[i];
-    console.log(`  Uploading ${review.images.length} images for ${review.year}...`);
-    const imgs = [];
-    for (const img of review.images) {
-      const uploaded = await uploadImage(client, img.path, img.alt);
-      if (uploaded) imgs.push(uploaded);
+    const _id = `story-reviews-${review.year}-${i}`;
+    storyIds.push(_id);
+
+    const existingDoc = existingStoryMap.get(_id);
+    if (existingDoc?.hasImages) {
+      // Preserve existing images, update metadata only
+      await client.patch(_id).set({
+        title: `${review.year}`,
+        thread: { _type: "reference" as const, _ref: "thread-reviews" },
+        year: review.year,
+        displayOrder: i + 1,
+      }).commit();
+      console.log(`  Synced (skip upload): ${review.year} (${_id})`);
+    } else {
+      console.log(`  Uploading ${review.images.length} images for ${review.year}...`);
+      const imgs = [];
+      for (const img of review.images) {
+        const uploaded = await uploadImage(client, img.path, img.alt);
+        if (uploaded) imgs.push(uploaded);
+      }
+      await client.createOrReplace({
+        _id,
+        _type: "story" as const,
+        title: `${review.year}`,
+        thread: { _type: "reference" as const, _ref: "thread-reviews" },
+        year: review.year,
+        images: imgs,
+        displayOrder: i + 1,
+      });
+      console.log(`  Synced: ${review.year} — ${imgs.length} images (${_id})`);
     }
-    const doc = {
-      _type: "story" as const,
-      title: `${review.year}`,
-      thread: { _type: "reference" as const, _ref: threadIds["reviews"] },
-      year: review.year,
-      images: imgs,
-      displayOrder: i + 1,
-    };
-    const result = await client.create(doc);
-    console.log(`  ${review.year} — ${imgs.length} images (${result._id})`);
   }
 
   // --- WATN stories ---
-  console.log("\nCreating 'Where Are They Now?' stories...");
+  console.log("\nSyncing 'Where Are They Now?' stories...");
   for (let i = 0; i < watn.length; i++) {
     const group = watn[i];
-    console.log(`  Uploading ${group.images.length} images for ${group.year}...`);
-    const imgs = [];
-    for (const img of group.images) {
-      const uploaded = await uploadImage(client, img.path, img.alt);
-      if (uploaded) imgs.push(uploaded);
+    const _id = `story-where-are-they-now-${group.year}-${i}`;
+    storyIds.push(_id);
+
+    const existingDoc = existingStoryMap.get(_id);
+    if (existingDoc?.hasImages) {
+      await client.patch(_id).set({
+        title: `${group.year}`,
+        thread: { _type: "reference" as const, _ref: "thread-where-are-they-now" },
+        year: group.year,
+        displayOrder: i + 1,
+      }).commit();
+      console.log(`  Synced (skip upload): ${group.year} (${_id})`);
+    } else {
+      console.log(`  Uploading ${group.images.length} images for ${group.year}...`);
+      const imgs = [];
+      for (const img of group.images) {
+        const uploaded = await uploadImage(client, img.path, img.alt);
+        if (uploaded) imgs.push(uploaded);
+      }
+      await client.createOrReplace({
+        _id,
+        _type: "story" as const,
+        title: `${group.year}`,
+        thread: { _type: "reference" as const, _ref: "thread-where-are-they-now" },
+        year: group.year,
+        images: imgs,
+        displayOrder: i + 1,
+      });
+      console.log(`  Synced: ${group.year} — ${imgs.length} images (${_id})`);
     }
-    const doc = {
-      _type: "story" as const,
-      title: `${group.year}`,
-      thread: { _type: "reference" as const, _ref: threadIds["where-are-they-now"] },
-      year: group.year,
-      images: imgs,
-      displayOrder: i + 1,
-    };
-    const result = await client.create(doc);
-    console.log(`  ${group.year} — ${imgs.length} images (${result._id})`);
   }
 
-  console.log("\nDone!");
+  // Clean up stale stories first (stories reference threads, so must be deleted first)
+  const allExistingStories = await client.fetch<string[]>(`*[_type == "story"]._id`);
+  const storyIdSet = new Set(storyIds);
+  const staleStories = allExistingStories.filter((id) => !storyIdSet.has(id));
+  if (staleStories.length > 0) {
+    const tx = client.transaction();
+    for (const id of staleStories) tx.delete(id);
+    await tx.commit();
+    console.log(`  Deleted ${staleStories.length} stale story/stories`);
+  }
+
+  // Clean up stale threads (after stories, since stories reference threads)
+  const existingThreads = await client.fetch<string[]>(`*[_type == "storyThread"]._id`);
+  const threadIdSet = new Set(threadIds);
+  const staleThreads = existingThreads.filter((id) => !threadIdSet.has(id));
+  if (staleThreads.length > 0) {
+    const tx = client.transaction();
+    for (const id of staleThreads) tx.delete(id);
+    await tx.commit();
+    console.log(`  Deleted ${staleThreads.length} stale thread(s)`);
+  }
+
+  return {
+    threads: { synced: threadIds.length, deleted: staleThreads.length },
+    stories: { synced: storyIds.length, deleted: staleStories.length },
+  };
 }
 
-seed().catch((err) => {
-  console.error("Seed failed:", err);
-  process.exit(1);
-});
+// Allow running standalone
+if (require.main === module) {
+  seedStories()
+    .then((result) => {
+      console.log(`\nDone!`);
+      console.log(`  Threads: ${result.threads.synced} synced, ${result.threads.deleted} deleted`);
+      console.log(`  Stories: ${result.stories.synced} synced, ${result.stories.deleted} deleted`);
+    })
+    .catch((err) => {
+      console.error("Seed failed:", err);
+      process.exit(1);
+    });
+}
