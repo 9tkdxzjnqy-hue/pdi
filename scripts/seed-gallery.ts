@@ -3,15 +3,8 @@ import { eras, galleryItems } from "../src/data/gallery";
 import { createReadStream, existsSync } from "fs";
 import path from "path";
 
-// These are the 6 images currently shown on the homepage preview
-const featuredSrcs = new Set([
-  "/gallery/2018-cover.jpg",
-  "/gallery/2018-walkon-01.jpg",
-  "/gallery/early-event-04.jpg",
-  "/gallery/2018-event-04.jpg",
-  "/gallery/profile-the-man.jpg",
-  "/gallery/2019-event-01.jpg",
-]);
+// Featured items are now controlled by the `featured` field on each gallery item
+// (editable in Sanity Studio, pulled into TS via `npm run pull`)
 
 function filenameToId(src: string): string {
   // "/gallery/2018-cover.jpg" → "gallery-2018-cover"
@@ -156,7 +149,7 @@ export async function seedGallery() {
           era: item.era,
           year: item.year,
           youtubeId: item.youtubeId,
-          featured: featuredSrcs.has(item.src!),
+          featured: item.featured ?? false,
         }));
       }
       await patchTx.commit();
@@ -191,7 +184,7 @@ export async function seedGallery() {
           era: item.era,
           year: item.year,
           youtubeId: item.youtubeId,
-          featured: featuredSrcs.has(item.src!),
+          featured: item.featured ?? false,
         });
       }
       await uploadTx.commit();
