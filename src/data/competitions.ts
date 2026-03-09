@@ -31,9 +31,9 @@ export const walkOnCompetition: Competition = {
     { year: 2019, winner: "Sexy Boy", walkOnName: "Baywatch", photo: "/gallery/2020-profile-sexy-boy.jpg" },
     { year: 2020 },
     { year: 2021 },
-    { year: 2022, winner: "Gat", walkOnName: "Inches" },
+    { year: 2022, winner: "Gat", walkOnName: "Inches", photo: "/gallery/2022-gat-walk-on.jpg" },
     { year: 2023, winner: "The Cat and the Kitten", walkOnName: "Mini Me" },
-    { year: 2024, winner: "Monster", walkOnName: "Stone Cold" },
+    { year: 2024, winner: "Monster", walkOnName: "Stone Cold", photo: "/gallery/2024-monster-walk-on.jpg" },
     { year: 2025, winner: "The Rebel", walkOnName: "A Song for Europe", photo: "/gallery/2025-the-rebel-walk-on.jpg" },
   ],
 };

@@ -130,6 +130,7 @@ export const galleryItems: GalleryItem[] = [
   // === RECENT YEARS (2018–2020) ===
 
   // 2018
+  { src: "/gallery/2022-a-lister-the-next-morning.jpg", alt: "A Lister — the next morning with the PDI trophy 2022", era: "recent", year: 2022 },
   { src: "/gallery/2018-cover.jpg", alt: "PDI 2018 booklet cover", era: "recent", year: 2018 },
   { src: "/gallery/2018-event-04.jpg", alt: "PDI 2018 event action", era: "recent", year: 2018 },
   { src: "/gallery/2018-event-05.jpg", alt: "PDI 2018 event shot", era: "recent", year: 2018 },
@@ -176,6 +177,8 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/2018-walkon-14.jpg", alt: "Gat's Riverdance walk-on at PDI 2016", era: "walk-ons", year: 2016 },
 
   // === THE PLAYERS (MEN) ===
+  { src: "/gallery/2025-the-kitten.jpg", alt: "The Kitten — Shield winner 2025", era: "male-players", year: 2025 },
+  { src: "/gallery/2022-a-lister-pdi-winner.jpg", alt: "A Lister — PDI winner 2022", era: "male-players", year: 2022 },
   { src: "/gallery/player-the-bat-the-cat-2013.jpg", alt: "The Bat and The Cat — PDI 2013", era: "male-players", year: 2013 },
   { src: "/gallery/player-the-business-card-2013.jpg", alt: "The Business Card — player profile 2013", era: "male-players", year: 2013 },
   { src: "/gallery/player-the-educator-2013.jpg", alt: "The Educator — player profile 2013", era: "male-players", year: 2013 },
