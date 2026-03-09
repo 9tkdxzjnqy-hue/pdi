@@ -52,9 +52,16 @@ export default defineConfig({
                   .title("Gallery")
                   .items([
                     S.listItem()
-                      .title("Photos")
+                      .title("Homepage Showcase")
                       .child(
-                        S.documentTypeList("galleryItem").title("Photos")
+                        S.documentList()
+                          .title("Homepage Showcase")
+                          .filter('_type == "galleryItem" && featured == true')
+                      ),
+                    S.listItem()
+                      .title("All Photos")
+                      .child(
+                        S.documentTypeList("galleryItem").title("All Photos")
                       ),
                     S.listItem()
                       .title("Eras")
