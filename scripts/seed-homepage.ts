@@ -71,10 +71,10 @@ export async function seedHomepage() {
       "PDI committee presenting cheque to Children's Health Foundation Crumlin, 2015",
 
     // Competitions
-    competitionsTitle: "The Competitions",
+    competitionsTitle: "Roll of Honour",
     competitionsDescription:
       "Four ways to compete, one mission — raise as much as possible for Crumlin.",
-    competitionsLinkText: "Explore Competitions →",
+    competitionsLinkText: "Explore Roll of Honour →",
 
     // Gallery
     galleryTitle: "Gallery",

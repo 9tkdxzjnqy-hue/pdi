@@ -1,5 +1,5 @@
 import { getWriteClient } from "../src/sanity/client";
-import { competitions } from "../src/data/competitions";
+import { competitions, walkOnCompetition } from "../src/data/competitions";
 import { createReadStream } from "fs";
 import path from "path";
 
@@ -12,7 +12,8 @@ function toSlug(name: string): string {
 
 export async function seedCompetitions() {
   const client = getWriteClient();
-  console.log(`Syncing ${competitions.length} competitions...`);
+  const allCompetitions = [...competitions, walkOnCompetition];
+  console.log(`Syncing ${allCompetitions.length} competitions...`);
 
   // Fetch existing competition docs to check for existing images
   const existing = await client.fetch<{ _id: string; hasImage: boolean }[]>(
@@ -23,8 +24,8 @@ export async function seedCompetitions() {
   const featuredNames = new Set(["The PDI", "WPDI", "Walk-on of the Year", "The Shield"]);
   const syncedIds: string[] = [];
 
-  for (let i = 0; i < competitions.length; i++) {
-    const comp = competitions[i];
+  for (let i = 0; i < allCompetitions.length; i++) {
+    const comp = allCompetitions[i];
     const slug = toSlug(comp.name);
     const _id = `competition-${slug}`;
     syncedIds.push(_id);

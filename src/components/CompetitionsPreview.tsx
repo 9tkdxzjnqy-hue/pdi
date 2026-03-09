@@ -95,10 +95,10 @@ const fallbackCompetitions = [
     results: [],
   },
   {
-    name: "Hall of Fame",
-    description: "One name added each year for their contribution to the PDI.",
+    name: "Walk-on of the Year",
+    description: "The most theatrical entrance takes the trophy.",
     image: { _type: "image" as const, asset: { _ref: "", _type: "reference" as const } },
-    _fallbackImage: "/images/hero-walkon-blue.jpeg",
+    _fallbackImage: "/images/WalkOnTrophy.jpeg",
     results: [],
   },
 ];
