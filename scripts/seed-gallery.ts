@@ -156,7 +156,6 @@ export async function seedGallery() {
           era: item.era,
           year: item.year,
           youtubeId: item.youtubeId,
-          featured: featuredSrcs.has(item.src!),
         }));
       }
       await patchTx.commit();
