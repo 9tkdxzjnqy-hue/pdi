@@ -19,7 +19,7 @@ export default function CompetitionsPreview({ competitions, title, description, 
       <div className="mx-auto max-w-7xl px-6">
         <AnimateOnScroll>
           <h2 className="font-display text-4xl font-semibold text-pdi-text md:text-5xl">
-            {title ?? "The Competitions"}
+            {title ?? "Roll of Honour"}
           </h2>
           <p className="mt-4 max-w-2xl text-lg text-pdi-muted">
             {description ?? "Every player finds their stage."}
@@ -63,7 +63,7 @@ export default function CompetitionsPreview({ competitions, title, description, 
               href="/competitions"
               className="text-sm font-semibold text-pdi-green transition-colors hover:text-pdi-text"
             >
-              {linkText ?? "Explore Competitions \u2192"}
+              {linkText ?? "Explore Roll of Honour \u2192"}
             </Link>
           </div>
         </AnimateOnScroll>

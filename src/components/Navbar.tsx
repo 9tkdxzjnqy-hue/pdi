@@ -8,7 +8,7 @@ const navLinks = [
   { label: "Walk-Ons", href: "/walk-ons" },
   { label: "Gallery", href: "/gallery" },
   { label: "Stories", href: "/stories" },
-  { label: "Competitions", href: "/competitions" },
+  { label: "Roll of Honour", href: "/competitions" },
   { label: "Hall of Fame", href: "/hall-of-fame" },
   { label: "Remembering", href: "/remembering" },
 ];

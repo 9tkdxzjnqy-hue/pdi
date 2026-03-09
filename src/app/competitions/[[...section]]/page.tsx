@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import { getCompetitions } from "@/sanity/fetch";
 
 export const metadata = {
-  title: "Competitions — PDI",
+  title: "Roll of Honour — PDI",
   description:
     "Full results for the PDI, WPDI, Shield, and Hall of Fame — every winner since 2004.",
 };
