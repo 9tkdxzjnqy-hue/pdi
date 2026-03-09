@@ -111,7 +111,7 @@ export const competitions: Competition[] = [
       { year: 2020 },
       { year: 2021 },
       { year: 2022 },
-      { year: 2023 },
+      { year: 2023, winner: "The Physio", runnerUp: "Ally Pally" },
       { year: 2024 },
       { year: 2025, winner: "The Kitten", runnerUp: "A Lister" },
     ],

@@ -1,7 +1,8 @@
 export const inducteesQuery = `*[_type == "inductee"] | order(year desc, nickname asc) {
   nickname,
   contribution,
-  year
+  year,
+  "photo": photo.asset->url
 }`;
 
 export const competitionsQuery = `*[_type == "competition"] | order(displayOrder asc) {

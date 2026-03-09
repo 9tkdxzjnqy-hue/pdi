@@ -87,7 +87,6 @@ export const galleryItems: GalleryItem[] = [
   // 2013 event shots
   { src: "/gallery/2013-event-02.jpg", alt: "PDI 2013 at the oche", era: "early-days", year: 2013 },
   { src: "/gallery/2013-event-03.jpg", alt: "PDI 2013 action", era: "early-days", year: 2013 },
-  { src: "/gallery/2013-event-04.jpg", alt: "PDI 2013 event shot", era: "early-days", year: 2013 },
   { src: "/gallery/2013-event-05.jpg", alt: "The Hazards performing at PDI 2013", era: "the-hazards", year: 2013 },
   { src: "/gallery/2013-event-06.jpg", alt: "PDI 2013 action shot", era: "early-days", year: 2013 },
   { src: "/gallery/2013-event-08.jpg", alt: "PDI 2013 throwing darts", era: "walk-ons", year: 2013 },
@@ -105,7 +104,6 @@ export const galleryItems: GalleryItem[] = [
   // === MIDDLE YEARS (2015–2017) ===
 
   // 2015
-  { src: "/gallery/2015-the-boy-hof.jpg", alt: "The Boy at Hall of Fame ceremony", era: "middle-years", year: 2015 },
   { src: "/gallery/2015-the-hazards.jpg", alt: "The Hazards — PDI house band", era: "the-hazards", year: 2015 },
   { src: "/gallery/2015-charity-cheque.jpg", alt: "PDI charity cheque presentation", era: "middle-years", year: 2015 },
   { src: "/gallery/2015-charity-thankyou.jpg", alt: "Thank-you letter from Children's Hospital", era: "middle-years", year: 2015 },
@@ -140,8 +138,6 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/2019-event-01.jpg", alt: "PDI 2019 event shot", era: "recent", year: 2019 },
 
   // Profiles from recent years
-  { src: "/gallery/profile-the-gun.jpg", alt: "The Gun", era: "recent" },
-  { src: "/gallery/profile-the-rebel.jpg", alt: "The Rebel", era: "recent" },
   { src: "/gallery/profile-the-undertaker.jpg", alt: "The Undertaker", era: "recent" },
   { src: "/gallery/profile-hawaii-501.jpg", alt: "Hawaii 501", era: "recent" },
   { src: "/gallery/profile-bad-medicine.jpg", alt: "Bad Medicine", era: "recent" },
@@ -149,7 +145,6 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/profile-nugget.jpg", alt: "Nugget", era: "recent" },
 
   // 2020
-  { src: "/gallery/2020-cmrf-charity.jpg", alt: "CMRF Crumlin charity photo", era: "recent", year: 2020 },
   { src: "/gallery/2020-profile-the-boy.jpg", alt: "The Boy — PDI 2020", era: "recent", year: 2020 },
   { src: "/gallery/2020-profile-the-man.jpg", alt: "The Man — PDI 2020", era: "recent", year: 2020 },
   { src: "/gallery/2020-profile-the-cat.jpg", alt: "The Cat — PDI 2020", era: "recent", year: 2020 },

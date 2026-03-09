@@ -28,16 +28,25 @@ export default function InducteeCard({
   const [expanded, setExpanded] = useState(false);
   const label = year ? `Inducted ${year}` : undefined;
 
+  const paragraphs = contribution ? contribution.split("\n\n") : [];
+  const isLong = paragraphs.length > 1;
+  const firstParagraph = paragraphs[0] ?? "";
+  const remainingParagraphs = paragraphs.slice(1);
+
+  function toggle() {
+    setExpanded((prev) => !prev);
+  }
+
   return (
     <div
       role="button"
       tabIndex={0}
       aria-expanded={expanded}
-      onClick={() => setExpanded((prev) => !prev)}
+      onClick={toggle}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          setExpanded((prev) => !prev);
+          toggle();
         }
       }}
       className="cursor-pointer rounded-xl bg-pdi-navy transition-colors hover:bg-pdi-navy/80"
@@ -68,11 +77,33 @@ export default function InducteeCard({
           </span>
         )}
 
-        <p
-          className={`mt-3 text-pdi-muted ${expanded ? "" : "line-clamp-2"}`}
-        >
-          {contribution}
+        <p className={`mt-3 text-pdi-muted ${!expanded && isLong ? "line-clamp-2" : ""}`}>
+          {firstParagraph}
         </p>
+
+        {isLong && (
+          <div
+            className={`grid transition-[grid-template-rows] duration-300 motion-reduce:duration-0 ${
+              expanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+            }`}
+          >
+            <div className="overflow-hidden">
+              <div className="mt-3 space-y-3">
+                {remainingParagraphs.map((para, i) => (
+                  <p key={i} className="text-pdi-muted">
+                    {para}
+                  </p>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {isLong && (
+          <span className="mt-3 inline-block text-sm font-semibold text-pdi-green">
+            {expanded ? "Read less" : "Read more"}
+          </span>
+        )}
       </div>
     </div>
   );

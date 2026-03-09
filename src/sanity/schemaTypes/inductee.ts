@@ -23,6 +23,11 @@ export default defineType({
       type: "number",
     }),
     defineField({
+      name: "photo",
+      title: "Photo",
+      type: "image",
+    }),
+    defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
