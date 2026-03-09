@@ -35,18 +35,24 @@ export default async function WalkOnsPage({
 
   const items = await getGalleryByEra("walk-ons");
 
-  // Group items by year
-  const byYear = new Map<number, GalleryItem[]>();
-  for (const item of items) {
-    const y = item.year ?? 0;
-    if (!byYear.has(y)) byYear.set(y, []);
-    byYear.get(y)!.push(item);
-  }
-
   // Index competition results by year
   const resultsByYear = new Map(
     walkOnCompetition.results.map((r) => [r.year, r])
   );
+
+  // Collect winner photos so we can exclude them from the gallery grid
+  const winnerPhotos = new Set(
+    walkOnCompetition.results.map((r) => r.photo).filter(Boolean)
+  );
+
+  // Group items by year, excluding any that are used as winner photos
+  const byYear = new Map<number, GalleryItem[]>();
+  for (const item of items) {
+    if (item.src && winnerPhotos.has(item.src)) continue;
+    const y = item.year ?? 0;
+    if (!byYear.has(y)) byYear.set(y, []);
+    byYear.get(y)!.push(item);
+  }
 
   return (
     <>
@@ -63,6 +69,7 @@ export default async function WalkOnsPage({
               year={year}
               winner={result?.winner}
               walkOnName={result?.walkOnName}
+              winnerPhoto={result?.photo}
               items={byYear.get(year) ?? []}
             />
           );

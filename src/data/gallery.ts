@@ -153,7 +153,6 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/2020-profile-the-man.jpg", alt: "The Man — PDI 2020", era: "recent", year: 2020 },
   { src: "/gallery/2020-profile-the-cat.jpg", alt: "The Cat — PDI 2020", era: "recent", year: 2020 },
   { src: "/gallery/2020-profile-the-express.jpg", alt: "The Express — PDI 2019", era: "walk-ons", year: 2019 },
-  { src: "/gallery/2020-profile-sexy-boy.jpg", alt: "Sexy Boy — PDI 2019", era: "walk-ons", year: 2019 },
   { src: "/gallery/2020-profile-the-a-lister.jpg", alt: "The A-Lister — PDI 2020", era: "recent", year: 2020 },
   { src: "/gallery/2020-profile-vinny.jpg", alt: "Vinny — PDI 2020", era: "recent", year: 2020 },
   { src: "/gallery/2020-profile-campbell.jpg", alt: "Campbell — PDI 2020", era: "recent", year: 2020 },

@@ -11,6 +11,7 @@ export interface CompetitionResult {
   runnerUp?: string;
   walkOnName?: string;
   venue?: string;
+  photo?: string;
 }
 
 export interface SanityImageRef {

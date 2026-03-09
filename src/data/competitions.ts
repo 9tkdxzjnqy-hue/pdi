@@ -4,6 +4,7 @@ export interface CompetitionResult {
   runnerUp?: string;
   walkOnName?: string;
   venue?: string;
+  photo?: string;
 }
 
 export interface Competition {
@@ -24,16 +25,16 @@ export const walkOnCompetition: Competition = {
     { year: 2013, winner: "The Cat", walkOnName: "The Proposal" },
     { year: 2014, winner: "Byrner", walkOnName: "The Undertaker" },
     { year: 2015, winner: "Sexy Boy", walkOnName: "Sexy Boy" },
-    { year: 2016, winner: "Gat", walkOnName: "David Brent" },
-    { year: 2017, winner: "Gat", walkOnName: "Riverdance" },
+    { year: 2016, winner: "Gat", walkOnName: "Riverdance", photo: "https://cdn.sanity.io/images/h94227xu/production/0016a990c68a63290257dfd95ac26c58975cb0a9-640x1136.jpg" },
+    { year: 2017, winner: "Gat", walkOnName: "David Brent" },
     { year: 2018, winner: "The Spark", walkOnName: "Time Warp" },
-    { year: 2019, winner: "Sexy Boy", walkOnName: "Baywatch" },
+    { year: 2019, winner: "Sexy Boy", walkOnName: "Baywatch", photo: "/gallery/2020-profile-sexy-boy.jpg" },
     { year: 2020 },
     { year: 2021 },
     { year: 2022, winner: "Gat", walkOnName: "Inches" },
     { year: 2023, winner: "The Cat and the Kitten", walkOnName: "Mini Me" },
     { year: 2024, winner: "Monster", walkOnName: "Stone Cold" },
-    { year: 2025, winner: "The Rebel", walkOnName: "A Song for Europe" },
+    { year: 2025, winner: "The Rebel", walkOnName: "A Song for Europe", photo: "/gallery/2025-the-rebel-walk-on.jpg" },
   ],
 };
 
