@@ -161,6 +161,7 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/2020-profile-russ.jpg", alt: "Russ — PDI 2020", era: "recent", year: 2020 },
 
   // === WALK-ONS ===
+  { src: "/gallery/2025-the-rebel-walk-on.jpg", alt: "The Rebel in the green sequin jacket — PDI 2025", era: "walk-ons", year: 2025 },
   { youtubeId: "zTcOhsZMr1U", alt: "Pog mo Thoin — 2015 walk-on", era: "walk-ons", year: 2015 },
   { youtubeId: "wopnHvGMzGY", alt: "The Bat — 2015 walk-on", era: "walk-ons", year: 2015 },
   { src: "/gallery/2018-walkon-01.jpg", alt: "Gat's Riverdance walk-on at PDI 2016", era: "walk-ons", year: 2016 },

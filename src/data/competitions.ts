@@ -26,7 +26,7 @@ export const walkOnCompetition: Competition = {
     { year: 2014, winner: "Byrner", walkOnName: "The Undertaker" },
     { year: 2015, winner: "Sexy Boy", walkOnName: "Sexy Boy" },
     { year: 2016, winner: "Gat", walkOnName: "Riverdance", photo: "https://cdn.sanity.io/images/h94227xu/production/0016a990c68a63290257dfd95ac26c58975cb0a9-640x1136.jpg" },
-    { year: 2017, winner: "Gat", walkOnName: "David Brent" },
+    { year: 2017, winner: "Gat", walkOnName: "David Brent", photo: "/gallery/2018-walkon-05.jpg" },
     { year: 2018, winner: "The Spark", walkOnName: "Time Warp" },
     { year: 2019, winner: "Sexy Boy", walkOnName: "Baywatch", photo: "/gallery/2020-profile-sexy-boy.jpg" },
     { year: 2020 },
@@ -34,7 +34,7 @@ export const walkOnCompetition: Competition = {
     { year: 2022, winner: "Gat", walkOnName: "Inches", photo: "/gallery/2022-gat-walk-on.jpg" },
     { year: 2023, winner: "The Cat and the Kitten", walkOnName: "Mini Me" },
     { year: 2024, winner: "Monster", walkOnName: "Stone Cold", photo: "/gallery/2024-monster-walk-on.jpg" },
-    { year: 2025, winner: "The Rebel", walkOnName: "A Song for Europe", photo: "/gallery/2025-the-rebel-walk-on.jpg" },
+    { year: 2025, winner: "The Rebel", walkOnName: "A Song for Europe", photo: "/gallery/2025-the-rebel-walk-on-trophy.jpg" },
   ],
 };
 
