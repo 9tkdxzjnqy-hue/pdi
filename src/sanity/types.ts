@@ -33,6 +33,7 @@ export interface Competition {
 }
 
 export interface GalleryItem {
+  _id?: string;
   src?: string;
   alt: string;
   era: string;
