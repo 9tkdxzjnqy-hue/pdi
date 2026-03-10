@@ -22,6 +22,7 @@ export const inductees: Inductee[] = [
   },
   {
     nickname: "Sexy Boy",
+    photo: "/gallery/2017-booklet-24.jpg",
     contribution:
       "The PDI wouldn't be the PDI without Sexy Boy. If you have a story or memory to share, we'd love to hear it.",
     year: 2019,

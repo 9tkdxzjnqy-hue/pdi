@@ -154,7 +154,6 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/2017-booklet-20.jpg", alt: "PDI 2017 booklet photo", era: "recent", year: 2017 },
   { src: "/gallery/2017-booklet-21.jpg", alt: "PDI 2017 booklet photo", era: "recent", year: 2017 },
   { src: "/gallery/2017-booklet-22.jpg", alt: "PDI 2017 booklet photo", era: "recent", year: 2017 },
-  { src: "/gallery/2017-booklet-24.jpg", alt: "PDI 2017 booklet photo", era: "recent", year: 2017 },
   { src: "/gallery/2017-booklet-26.jpg", alt: "PDI 2017 booklet photo", era: "recent", year: 2017 },
   { src: "/gallery/2017-booklet-27.jpg", alt: "PDI 2017 booklet photo", era: "recent", year: 2017 },
   { src: "/gallery/2017-booklet-28.jpg", alt: "PDI 2017 booklet photo", era: "recent", year: 2017 },
