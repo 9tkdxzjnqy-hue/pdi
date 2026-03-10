@@ -44,7 +44,7 @@ export default function Charity({ label, heading, donationAmount, donationLabel,
               href="https://childrenshealth.enthuse.com/cf/pdi---templeogue-s-legendary-charity-darts-tournam"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 block text-sm font-semibold text-pdi-purple transition-colors hover:text-pdi-purple/70"
+              className="mt-3 inline-block rounded-full border-2 border-pdi-purple bg-pdi-purple px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-transparent hover:text-pdi-purple"
             >
               Our fundraiser page &rarr;
             </a>
