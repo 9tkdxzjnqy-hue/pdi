@@ -85,7 +85,7 @@ export const inductees: Inductee[] = [
   },
   {
     nickname: "The Hazards",
-    photo: "/gallery/2013-event-05.jpg",
+    photo: "/gallery/2015-the-hazards.jpg",
     contribution: "The live band.",
   },
 ];

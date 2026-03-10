@@ -28,7 +28,7 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/2025-the-kitten.jpg", alt: "The Kitten — Shield winner 2025", era: "male-players", year: 2025 },
 
   // === THE-HAZARDS ===
-  { src: "/gallery/2015-the-hazards.jpg", alt: "The Hazards — PDI house band", era: "the-hazards", year: 2015, featured: true },
+  { src: "/gallery/2013-event-05.jpg", alt: "PDI 2013 event photo", era: "the-hazards", year: 2013 },
 
   // === RECENT ===
   { src: "/gallery/2013-booklet-01.jpg", alt: "PDI 2013 booklet photo", era: "recent", year: 2013 },
@@ -185,6 +185,8 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/2018-event-05.jpg", alt: "PDI 2018 event shot", era: "recent", year: 2018 },
   { src: "/gallery/2018-event-06.jpg", alt: "PDI 2018 event shot", era: "recent", year: 2018 },
   { src: "/gallery/2018-event-07.jpg", alt: "PDI 2018 event shot", era: "recent", year: 2018 },
+  { src: "/gallery/profile-ally-pally.jpg", alt: "Ally Pally", era: "recent", year: 2018 },
+  { src: "/gallery/profile-nugget.jpg", alt: "Nugget", era: "recent", year: 2018 },
   { src: "/gallery/2019-booklet-01.jpg", alt: "PDI 2019 booklet photo", era: "recent", year: 2019 },
   { src: "/gallery/2019-booklet-02.jpg", alt: "PDI 2019 booklet photo", era: "recent", year: 2019 },
   { src: "/gallery/2019-booklet-03.jpg", alt: "PDI 2019 booklet photo", era: "recent", year: 2019 },
@@ -207,6 +209,7 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/2019-booklet-21.jpg", alt: "PDI 2019 booklet photo", era: "recent", year: 2019 },
   { src: "/gallery/2019-booklet-23.jpg", alt: "PDI 2019 booklet photo", era: "recent", year: 2019 },
   { src: "/gallery/2019-event-01.jpg", alt: "PDI 2019 event shot", era: "recent", year: 2019 },
+  { src: "/gallery/profile-bad-medicine.jpg", alt: "Bad Medicine", era: "recent", year: 2019 },
   { src: "/gallery/2020-booklet-01.jpg", alt: "PDI 2020 booklet photo", era: "recent", year: 2020 },
   { src: "/gallery/2020-booklet-02.jpg", alt: "PDI 2020 booklet photo", era: "recent", year: 2020 },
   { src: "/gallery/2020-booklet-03.jpg", alt: "PDI 2020 booklet photo", era: "recent", year: 2020 },
@@ -230,24 +233,21 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/2020-profile-vinny.jpg", alt: "Vinny — PDI 2020", era: "recent", year: 2020 },
   { src: "/gallery/2022-a-lister-the-next-morning.jpg", alt: "A Lister — the next morning with the PDI trophy 2022", era: "recent", year: 2022 },
   { src: "/gallery/the-kitten-bar-2025.jpg", alt: "The Kitten at the bar in his darts jersey — PDI 2025", era: "recent", year: 2025 },
-  { src: "/gallery/profile-ally-pally.jpg", alt: "Ally Pally", era: "recent" },
-  { src: "/gallery/profile-bad-medicine.jpg", alt: "Bad Medicine", era: "recent" },
-  { src: "/gallery/profile-nugget.jpg", alt: "Nugget", era: "recent" },
 
   // === MIDDLE-YEARS ===
   { src: "/gallery/2015-charity-cheque.jpg", alt: "PDI charity cheque presentation", era: "middle-years", year: 2015 },
   { src: "/gallery/2015-charity-thankyou.jpg", alt: "Thank-you letter from Children's Hospital", era: "middle-years", year: 2015 },
   { src: "/gallery/2016-the-physio-hof.jpg", alt: "The Physio — Hall of Fame 2016", era: "middle-years", year: 2016 },
+  { src: "/gallery/early-event-04.jpg", alt: "Early PDI event shot", era: "middle-years", year: 2016, featured: true },
+  { src: "/gallery/early-event-09.jpg", alt: "Early PDI event shot", era: "middle-years", year: 2016, featured: true },
+  { src: "/gallery/profile-the-boy.jpg", alt: "The Boy", era: "middle-years", year: 2016 },
   { src: "/gallery/2017-event-01.jpg", alt: "PDI 2017 event shot", era: "middle-years", year: 2017 },
   { src: "/gallery/early-event-01.jpg", alt: "Early PDI event shot", era: "middle-years", year: 2017 },
+  { src: "/gallery/profile-bar.jpg", alt: "Bar", era: "middle-years", year: 2017 },
+  { src: "/gallery/profile-the-man.jpg", alt: "The Man", era: "middle-years", year: 2017 },
+  { src: "/gallery/profile-russ.jpg", alt: "Russ", era: "middle-years", year: 2018 },
+  { src: "/gallery/profile-the-bat.jpg", alt: "The Bat", era: "middle-years", year: 2018 },
   { src: "/gallery/2020-profile-geoff.jpg", alt: "Geoff — PDI 2020", era: "middle-years", year: 2020 },
-  { src: "/gallery/early-event-04.jpg", alt: "Early PDI event shot", era: "middle-years", featured: true },
-  { src: "/gallery/early-event-09.jpg", alt: "Early PDI event shot", era: "middle-years", featured: true },
-  { src: "/gallery/profile-bar.jpg", alt: "Bar", era: "middle-years" },
-  { src: "/gallery/profile-russ.jpg", alt: "Russ", era: "middle-years" },
-  { src: "/gallery/profile-the-bat.jpg", alt: "The Bat", era: "middle-years" },
-  { src: "/gallery/profile-the-boy.jpg", alt: "The Boy", era: "middle-years" },
-  { src: "/gallery/profile-the-man.jpg", alt: "The Man", era: "middle-years" },
 
   // === EARLY-DAYS ===
   { src: "/gallery/2013-event-02.jpg", alt: "PDI 2013 at the oche", era: "early-days", year: 2013 },

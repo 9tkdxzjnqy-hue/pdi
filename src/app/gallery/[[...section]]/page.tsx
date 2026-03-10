@@ -41,10 +41,9 @@ export default async function GalleryPage({
   // All years the gallery covers (descending), skipping 2020/2021 (no event)
   const ALL_YEARS = [2025, 2024, 2023, 2022, 2019, 2018, 2017, 2016, 2015, 2014, 2013];
 
-  // Group items into year buckets, Early Years, and Undated
+  // Group items into year buckets and Early Years
   const byYear = new Map<number, GalleryItem[]>();
   const earlyYears: GalleryItem[] = [];
-  const undated: GalleryItem[] = [];
 
   for (const item of allItems) {
     if (item.year) {
@@ -52,8 +51,6 @@ export default async function GalleryPage({
       byYear.get(item.year)!.push(item);
     } else if (item.era === "early-days") {
       earlyYears.push(item);
-    } else {
-      undated.push(item);
     }
   }
 
@@ -63,12 +60,10 @@ export default async function GalleryPage({
     label: String(y),
   }));
   yearSections.push({ id: "year-early-years", label: "The Early Years" });
-  yearSections.push({ id: "year-undated", label: "Undated" });
 
   const validSlugs = [
     ...ALL_YEARS.map(String),
     "early-years",
-    "undated",
     "booklets",
   ];
 
@@ -103,12 +98,6 @@ export default async function GalleryPage({
           id="year-early-years"
           label="The Early Years"
           items={earlyYears}
-        />
-
-        <GallerySection
-          id="year-undated"
-          label="Undated"
-          items={undated}
         />
 
         <section className="border-t border-white/5 py-16">

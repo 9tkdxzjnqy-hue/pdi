@@ -5,7 +5,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const gallerySlugs = [
     "2025", "2024", "2023", "2022", "2019", "2018", "2017", "2016", "2015", "2014", "2013",
-    "early-years", "undated", "booklets",
+    "early-years", "booklets",
   ];
 
   const walkOnYears = [
