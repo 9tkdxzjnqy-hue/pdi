@@ -18,7 +18,8 @@ export default function GalleryNav({ sections, basePath, links }: GalleryNavProp
   const [activeId, setActiveId] = useState<string>("");
   const scrollRef = useRef<HTMLDivElement>(null);
   const pillRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
-  const scrollingTo = useRef<string | null>(null);
+  // Brief guard: suppress observer while a click-jump settles
+  const ignoreObserver = useRef(false);
 
   useEffect(() => {
     const elements = sections
@@ -27,11 +28,24 @@ export default function GalleryNav({ sections, basePath, links }: GalleryNavProp
 
     if (elements.length === 0) return;
 
+    // Track which sections are currently in the detection band
+    const visible = new Set<string>();
+
     const observer = new IntersectionObserver(
       (entries) => {
+        if (ignoreObserver.current) return;
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            setActiveId(entry.target.id);
+            visible.add(entry.target.id);
+          } else {
+            visible.delete(entry.target.id);
+          }
+        }
+        // Pick the topmost visible section (DOM order via sections array)
+        for (const s of sections) {
+          if (visible.has(s.id)) {
+            setActiveId(s.id);
+            return;
           }
         }
       },
@@ -53,10 +67,6 @@ export default function GalleryNav({ sections, basePath, links }: GalleryNavProp
       pill.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
     }
     if (basePath) {
-      // During a click scroll, only update URL when we reach the destination
-      if (scrollingTo.current && scrollingTo.current !== activeId) return;
-      if (scrollingTo.current === activeId) scrollingTo.current = null;
-      // Derive URL slug from section ID (e.g. "year-2025" → "2025", "year-undated" → "undated")
       const slug = activeId.replace("year-", "");
       history.replaceState(null, "", `${basePath}/${slug}`);
     }
@@ -81,12 +91,21 @@ export default function GalleryNav({ sections, basePath, links }: GalleryNavProp
                 if (el) pillRefs.current.set(s.id, el);
               }}
               onClick={() => {
-                scrollingTo.current = s.id;
+                setActiveId(s.id);
+                // Suppress observer during the jump so it doesn't
+                // flicker to an intermediate section
+                ignoreObserver.current = true;
                 const section = document.getElementById(s.id);
-                section?.scrollIntoView({ behavior: "smooth", block: "start" });
-                if (basePath) {
-                  const slug = s.id.replace("year-", "");
-                  history.replaceState(null, "", `${basePath}/${slug}`);
+                if (section) {
+                  // Instant jump — immune to lazy-image layout shifts
+                  const prev = document.documentElement.style.scrollBehavior;
+                  document.documentElement.style.scrollBehavior = "auto";
+                  section.scrollIntoView({ block: "start" });
+                  // Re-enable after the browser has settled
+                  requestAnimationFrame(() => {
+                    document.documentElement.style.scrollBehavior = prev;
+                    ignoreObserver.current = false;
+                  });
                 }
               }}
               aria-current={isActive ? "true" : undefined}

@@ -10,7 +10,8 @@ interface WalkOnsNavProps {
 export default function WalkOnsNav({ years, basePath }: WalkOnsNavProps) {
   const [activeId, setActiveId] = useState<string>("");
   const pillRefs = useRef<Map<number, HTMLButtonElement>>(new Map());
-  const scrollingTo = useRef<string | null>(null);
+  // Brief guard: suppress observer while a click-jump settles
+  const ignoreObserver = useRef(false);
 
   useEffect(() => {
     const sections = years
@@ -19,11 +20,25 @@ export default function WalkOnsNav({ years, basePath }: WalkOnsNavProps) {
 
     if (sections.length === 0) return;
 
+    // Track which sections are currently in the detection band
+    const visible = new Set<string>();
+    const yearIds = years.map((y) => `year-${y}`);
+
     const observer = new IntersectionObserver(
       (entries) => {
+        if (ignoreObserver.current) return;
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            setActiveId(entry.target.id);
+            visible.add(entry.target.id);
+          } else {
+            visible.delete(entry.target.id);
+          }
+        }
+        // Pick the topmost visible section (DOM order)
+        for (const id of yearIds) {
+          if (visible.has(id)) {
+            setActiveId(id);
+            return;
           }
         }
       },
@@ -47,9 +62,6 @@ export default function WalkOnsNav({ years, basePath }: WalkOnsNavProps) {
       pill.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
     }
     if (basePath) {
-      // During a click scroll, only update URL when we reach the destination
-      if (scrollingTo.current && scrollingTo.current !== yearStr) return;
-      if (scrollingTo.current === yearStr) scrollingTo.current = null;
       history.replaceState(null, "", `${basePath}/${year}`);
     }
   }, [activeId, basePath]);
@@ -70,11 +82,17 @@ export default function WalkOnsNav({ years, basePath }: WalkOnsNavProps) {
                 if (el) pillRefs.current.set(year, el);
               }}
               onClick={() => {
-                scrollingTo.current = String(year);
+                setActiveId(`year-${year}`);
+                ignoreObserver.current = true;
                 const section = document.getElementById(`year-${year}`);
-                section?.scrollIntoView({ behavior: "smooth", block: "start" });
-                if (basePath) {
-                  history.replaceState(null, "", `${basePath}/${year}`);
+                if (section) {
+                  const prev = document.documentElement.style.scrollBehavior;
+                  document.documentElement.style.scrollBehavior = "auto";
+                  section.scrollIntoView({ block: "start" });
+                  requestAnimationFrame(() => {
+                    document.documentElement.style.scrollBehavior = prev;
+                    ignoreObserver.current = false;
+                  });
                 }
               }}
               aria-current={isActive ? "true" : undefined}
