@@ -98,9 +98,21 @@ export default defineConfig({
                     S.listItem()
                       .title("Walk-Ons")
                       .child(
-                        S.documentList()
+                        S.list()
                           .title("Walk-Ons")
-                          .filter('_type == "galleryItem" && era == "walk-ons"')
+                          .items(
+                            [2025, 2024, 2023, 2022, 2019, 2018, 2017, 2016, 2015, 2014, 2013].map(
+                              (year) =>
+                                S.listItem()
+                                  .title(String(year))
+                                  .child(
+                                    S.documentList()
+                                      .title(`Walk-Ons ${year}`)
+                                      .filter('_type == "galleryItem" && era == "walk-ons" && year == $year')
+                                      .params({ year })
+                                  )
+                            )
+                          )
                       ),
                     S.listItem()
                       .title("All Photos")

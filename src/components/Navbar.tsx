@@ -55,12 +55,14 @@ export default function Navbar() {
               </Link>
             );
           })}
-          <Link
-            href="#charity"
+          <a
+            href="https://childrenshealth.enthuse.com/cf/7ebc/fundraiser"
+            target="_blank"
+            rel="noopener noreferrer"
             className="glow-green rounded-full bg-pdi-green px-5 py-2 text-sm font-semibold text-pdi-dark"
           >
             Donate
-          </Link>
+          </a>
         </div>
 
         {/* Mobile hamburger */}
@@ -99,13 +101,15 @@ export default function Navbar() {
               </Link>
             );
           })}
-          <Link
-            href="#charity"
+          <a
+            href="https://childrenshealth.enthuse.com/cf/7ebc/fundraiser"
+            target="_blank"
+            rel="noopener noreferrer"
             className="mt-2 inline-block rounded-full bg-pdi-green px-5 py-2 text-sm font-semibold text-pdi-dark"
             onClick={() => setMenuOpen(false)}
           >
             Donate
-          </Link>
+          </a>
         </div>
       )}
     </nav>
