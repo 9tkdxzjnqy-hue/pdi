@@ -139,6 +139,33 @@ export async function getGalleryByEra(eraId: string): Promise<GalleryItem[]> {
   }
 }
 
+export async function getAllGalleryItems(): Promise<GalleryItem[]> {
+  const fallback = fallbackGalleryItems.filter((item) => item.era !== "walk-ons");
+  const client = getClient();
+  if (!client) return fallback;
+
+  try {
+    const result = await client.fetch<GalleryItem[]>(
+      `*[_type == "galleryItem" && era != "walk-ons"] | order(year desc) {
+        "src": "/gallery/" + _id + ".jpg",
+        alt,
+        era,
+        year,
+        youtubeId,
+        featured
+      }`,
+      {},
+      { next: { tags: ["gallery"] } }
+    );
+
+    if (!result || result.length === 0) return fallback;
+    return result;
+  } catch {
+    console.error("Failed to fetch all gallery items from Sanity, using fallback data");
+    return fallback;
+  }
+}
+
 export async function getFeaturedGalleryImages(): Promise<GalleryItem[]> {
   const client = getClient();
   const fallback = fallbackGalleryItems

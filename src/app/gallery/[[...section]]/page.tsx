@@ -2,25 +2,17 @@ import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import GalleryHero from "@/components/GalleryHero";
 import GalleryNav from "@/components/GalleryNav";
-import GalleryEraSection from "@/components/GalleryEraSection";
+import GallerySection from "@/components/GallerySection";
 import ScrollToSection from "@/components/ScrollToSection";
+import BookletsPage from "@/components/BookletsPage";
 import Footer from "@/components/Footer";
-import { getEras, getGalleryByEra } from "@/sanity/fetch";
+import { getAllGalleryItems } from "@/sanity/fetch";
+import type { GalleryItem } from "@/sanity/types";
 
 export const metadata = {
   title: "Gallery — PDI",
   description: "Scenes from twenty years of the PDI.",
 };
-
-const VALID_ERA_SLUGS = [
-  "male-players",
-  "the-hazards",
-  "recent",
-  "middle-years",
-  "early-days",
-  "doing-our-bit",
-  "ads",
-];
 
 export default async function GalleryPage({
   params,
@@ -30,16 +22,56 @@ export default async function GalleryPage({
   const { section } = await params;
   const slug = section?.[0];
 
-  if (slug && !VALID_ERA_SLUGS.includes(slug)) {
+  // --- Booklets sub-page ---
+  if (slug === "booklets") {
+    return (
+      <>
+        <Navbar />
+        <main id="main-content" className="bg-pdi-dark">
+          <BookletsPage />
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
+  // --- Year-based gallery ---
+  const allItems = await getAllGalleryItems();
+
+  // Group by year, with undated items separate
+  const byYear = new Map<number, GalleryItem[]>();
+  const undated: GalleryItem[] = [];
+
+  for (const item of allItems) {
+    if (item.year) {
+      if (!byYear.has(item.year)) byYear.set(item.year, []);
+      byYear.get(item.year)!.push(item);
+    } else {
+      undated.push(item);
+    }
+  }
+
+  const years = [...byYear.keys()].sort((a, b) => b - a);
+
+  // Build sections for nav and validation
+  const yearSections = years.map((y) => ({
+    id: `year-${y}`,
+    label: String(y),
+  }));
+  if (undated.length > 0) {
+    yearSections.push({ id: "year-undated", label: "Undated" });
+  }
+
+  const validSlugs = [
+    ...years.map(String),
+    ...(undated.length > 0 ? ["undated"] : []),
+  ];
+
+  if (slug && !validSlugs.includes(slug)) {
     notFound();
   }
 
-  const targetId = slug ? `era-${slug}` : undefined;
-
-  const eras = await getEras();
-  const eraItems = await Promise.all(
-    eras.map((era) => getGalleryByEra(era.eraId))
-  );
+  const targetId = slug ? `year-${slug}` : undefined;
 
   return (
     <>
@@ -47,21 +79,28 @@ export default async function GalleryPage({
       <main id="main-content" className="bg-pdi-dark">
         <GalleryHero />
         <GalleryNav
-          eras={eras.map((era) => ({ eraId: era.eraId, label: era.label }))}
+          sections={yearSections}
           basePath="/gallery"
+          links={[{ label: "Booklets", href: "/gallery/booklets" }]}
         />
         <ScrollToSection targetId={targetId} />
-        {eras.map((era, i) => (
-          <GalleryEraSection
-            key={era.eraId}
-            eraId={era.eraId}
-            label={era.label}
-            description={era.description}
-            items={eraItems[i]}
-            groupByYear={era.groupByYear}
-            allYears={era.allYears}
+
+        {years.map((year) => (
+          <GallerySection
+            key={year}
+            id={`year-${year}`}
+            label={String(year)}
+            items={byYear.get(year)!}
           />
         ))}
+
+        {undated.length > 0 && (
+          <GallerySection
+            id="year-undated"
+            label="Undated"
+            items={undated}
+          />
+        )}
 
         <section className="border-t border-white/5 py-16">
           <div className="mx-auto max-w-3xl px-6 text-center">

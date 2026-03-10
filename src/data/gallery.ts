@@ -5,7 +5,6 @@ export type Era =
   | "walk-ons"
   | "male-players"
   | "the-hazards"
-  | "doing-our-bit"
   | "ads";
 
 export interface GalleryItem {
@@ -58,12 +57,6 @@ export const eras: EraInfo[] = [
     id: "early-days",
     label: "The Early Days",
     description: "The founding years of the PDI.",
-  },
-  {
-    id: "doing-our-bit",
-    label: "Doing Our Bit",
-    description: "Every year, the PDI raises funds for Children's Health Foundation Crumlin.",
-    groupByYear: true,
   },
   {
     id: "ads",
@@ -134,27 +127,6 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/early-event-03.jpg", alt: "Early PDI group photo", era: "early-days" },
   { src: "/gallery/early-event-05.jpg", alt: "Early PDI candid", era: "early-days" },
   { src: "/gallery/early-event-06.jpg", alt: "Early PDI action shot", era: "early-days" },
-
-  // === DOING OUR BIT ===
-  { src: "/gallery/doing-our-bit-2014-chairman.jpg", alt: "Chairman's address 2014", era: "doing-our-bit", year: 2014 },
-  { src: "/gallery/doing-our-bit-2014-charity.jpg", alt: "Charity letter 2014", era: "doing-our-bit", year: 2014 },
-  { src: "/gallery/doing-our-bit-2014-prez.jpg", alt: "President's message 2014", era: "doing-our-bit", year: 2014 },
-  { src: "/gallery/early-event-07.jpg", alt: "Donation cheque presentation 2014", era: "doing-our-bit", year: 2014 },
-  { src: "/gallery/doing-our-bit-2015-chairman.jpg", alt: "Chairman's address 2015", era: "doing-our-bit", year: 2015 },
-  { src: "/gallery/doing-our-bit-2015-charity.jpg", alt: "Charity letter 2015", era: "doing-our-bit", year: 2015 },
-  { src: "/gallery/doing-our-bit-2016-chairman.jpg", alt: "Chairman's address 2016", era: "doing-our-bit", year: 2016 },
-  { src: "/gallery/doing-our-bit-2016-charity.jpg", alt: "Charity letter 2016", era: "doing-our-bit", year: 2016 },
-  { src: "/gallery/doing-our-bit-2017-chairman-1.jpg", alt: "Chairman's address 2017", era: "doing-our-bit", year: 2017 },
-  { src: "/gallery/doing-our-bit-2017-chairman-2.jpg", alt: "Chairman's address 2017 — continued", era: "doing-our-bit", year: 2017 },
-  { src: "/gallery/doing-our-bit-2017-charity.jpg", alt: "Charity letter 2017", era: "doing-our-bit", year: 2017 },
-  { src: "/gallery/doing-our-bit-2018-chairman.jpg", alt: "Chairman's address 2018", era: "doing-our-bit", year: 2018 },
-  { src: "/gallery/doing-our-bit-2018-charity.jpg", alt: "Charity letter 2018", era: "doing-our-bit", year: 2018 },
-  { src: "/gallery/doing-our-bit-2018-cheque.jpg", alt: "Donation cheque presentation 2018", era: "doing-our-bit", year: 2018 },
-  { src: "/gallery/doing-our-bit-2019-chairman.jpg", alt: "Chairman's address 2019", era: "doing-our-bit", year: 2019 },
-  { src: "/gallery/doing-our-bit-2019-charity.jpg", alt: "Charity letter 2019", era: "doing-our-bit", year: 2019 },
-  { src: "/gallery/doing-our-bit-2020-chairman.jpg", alt: "Chairman's address 2020", era: "doing-our-bit", year: 2020 },
-  { src: "/gallery/doing-our-bit-2020-charity.jpg", alt: "Charity letter 2020", era: "doing-our-bit", year: 2020 },
-  { src: "/gallery/doing-our-bit-2020-cheque.jpg", alt: "Donation cheque presentation 2020", era: "doing-our-bit", year: 2020 },
 
   // === THE SPONSORS ===
   { src: "/gallery/ad-bridge-containers-2014.jpg", alt: "Bridge Containers — sponsor ad 2014", era: "ads", year: 2014 },

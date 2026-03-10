@@ -3,14 +3,8 @@ import type { MetadataRoute } from "next";
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://thepdi.ie";
 
-  const galleryEras = [
-    "male-players",
-    "the-hazards",
-    "recent",
-    "middle-years",
-    "early-days",
-    "doing-our-bit",
-    "ads",
+  const galleryYears = [
+    "2025", "2022", "2020", "2019", "2018", "2017", "2016", "2015", "2014", "2013", "undated",
   ];
 
   const walkOnYears = [
@@ -27,10 +21,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
     })),
     { url: `${baseUrl}/gallery`, lastModified: new Date() },
-    ...galleryEras.map((era) => ({
-      url: `${baseUrl}/gallery/${era}`,
+    ...galleryYears.map((slug) => ({
+      url: `${baseUrl}/gallery/${slug}`,
       lastModified: new Date(),
     })),
+    { url: `${baseUrl}/gallery/booklets`, lastModified: new Date() },
     { url: `${baseUrl}/competitions`, lastModified: new Date() },
     ...competitionSlugs.map((slug) => ({
       url: `${baseUrl}/competitions/${slug}`,
