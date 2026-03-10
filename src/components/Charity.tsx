@@ -32,22 +32,24 @@ export default function Charity({ label, heading, donationAmount, donationLabel,
               {donationLabel ?? "raised and counting"}
             </p>
 
-            <a
-              href={linkUrl ?? "https://childrenshealth.ie"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-8 inline-block rounded-full border-2 border-pdi-purple px-6 py-3 text-sm font-semibold text-pdi-purple transition-colors hover:bg-pdi-purple hover:text-white"
-            >
-              {linkText ?? "Visit childrenshealth.ie \u2192"}
-            </a>
-            <a
-              href="https://childrenshealth.enthuse.com/cf/pdi---templeogue-s-legendary-charity-darts-tournam"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-3 inline-block rounded-full border-2 border-pdi-purple bg-pdi-purple px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-transparent hover:text-pdi-purple"
-            >
-              Our fundraiser page &rarr;
-            </a>
+            <div className="mt-8 flex flex-col items-center gap-3 md:items-start">
+              <a
+                href={linkUrl ?? "https://childrenshealth.ie"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block rounded-full border-2 border-pdi-purple px-6 py-3 text-sm font-semibold text-pdi-purple transition-colors hover:bg-pdi-purple hover:text-white"
+              >
+                {linkText ?? "Visit childrenshealth.ie \u2192"}
+              </a>
+              <a
+                href="https://childrenshealth.enthuse.com/cf/pdi---templeogue-s-legendary-charity-darts-tournam"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block rounded-full border-2 border-pdi-purple bg-pdi-purple px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-transparent hover:text-pdi-purple"
+              >
+                Our fundraiser page &rarr;
+              </a>
+            </div>
           </div>
         </AnimateOnScroll>
 
