@@ -59,14 +59,53 @@ export default defineConfig({
                           .filter('_type == "galleryItem" && featured == true')
                       ),
                     S.listItem()
+                      .title("By Year")
+                      .child(
+                        S.list()
+                          .title("By Year")
+                          .items([
+                            ...[2025, 2024, 2023, 2022, 2019, 2018, 2017, 2016, 2015, 2014, 2013].map(
+                              (year) =>
+                                S.listItem()
+                                  .title(String(year))
+                                  .child(
+                                    S.documentList()
+                                      .title(String(year))
+                                      .filter('_type == "galleryItem" && year == $year')
+                                      .params({ year })
+                                  )
+                            ),
+                            S.listItem()
+                              .title("The Early Years")
+                              .child(
+                                S.documentList()
+                                  .title("The Early Years")
+                                  .filter(
+                                    '_type == "galleryItem" && era == "early-days" && !defined(year)'
+                                  )
+                              ),
+                            S.listItem()
+                              .title("Undated")
+                              .child(
+                                S.documentList()
+                                  .title("Undated")
+                                  .filter(
+                                    '_type == "galleryItem" && !defined(year) && era != "early-days" && era != "walk-ons"'
+                                  )
+                              ),
+                          ])
+                      ),
+                    S.listItem()
+                      .title("Walk-Ons")
+                      .child(
+                        S.documentList()
+                          .title("Walk-Ons")
+                          .filter('_type == "galleryItem" && era == "walk-ons"')
+                      ),
+                    S.listItem()
                       .title("All Photos")
                       .child(
                         S.documentTypeList("galleryItem").title("All Photos")
-                      ),
-                    S.listItem()
-                      .title("Eras")
-                      .child(
-                        S.documentTypeList("era").title("Eras")
                       ),
                   ])
               ),

@@ -38,33 +38,38 @@ export default async function GalleryPage({
   // --- Year-based gallery ---
   const allItems = await getAllGalleryItems();
 
-  // Group by year, with undated items separate
+  // All years the gallery covers (descending), skipping 2020/2021 (no event)
+  const ALL_YEARS = [2025, 2024, 2023, 2022, 2019, 2018, 2017, 2016, 2015, 2014, 2013];
+
+  // Group items into year buckets, Early Years, and Undated
   const byYear = new Map<number, GalleryItem[]>();
+  const earlyYears: GalleryItem[] = [];
   const undated: GalleryItem[] = [];
 
   for (const item of allItems) {
     if (item.year) {
       if (!byYear.has(item.year)) byYear.set(item.year, []);
       byYear.get(item.year)!.push(item);
+    } else if (item.era === "early-days") {
+      earlyYears.push(item);
     } else {
       undated.push(item);
     }
   }
 
-  const years = [...byYear.keys()].sort((a, b) => b - a);
-
   // Build sections for nav and validation
-  const yearSections = years.map((y) => ({
+  const yearSections = ALL_YEARS.map((y) => ({
     id: `year-${y}`,
     label: String(y),
   }));
-  if (undated.length > 0) {
-    yearSections.push({ id: "year-undated", label: "Undated" });
-  }
+  yearSections.push({ id: "year-early-years", label: "The Early Years" });
+  yearSections.push({ id: "year-undated", label: "Undated" });
 
   const validSlugs = [
-    ...years.map(String),
-    ...(undated.length > 0 ? ["undated"] : []),
+    ...ALL_YEARS.map(String),
+    "early-years",
+    "undated",
+    "booklets",
   ];
 
   if (slug && !validSlugs.includes(slug)) {
@@ -85,22 +90,26 @@ export default async function GalleryPage({
         />
         <ScrollToSection targetId={targetId} />
 
-        {years.map((year) => (
+        {ALL_YEARS.map((year) => (
           <GallerySection
             key={year}
             id={`year-${year}`}
             label={String(year)}
-            items={byYear.get(year)!}
+            items={byYear.get(year) ?? []}
           />
         ))}
 
-        {undated.length > 0 && (
-          <GallerySection
-            id="year-undated"
-            label="Undated"
-            items={undated}
-          />
-        )}
+        <GallerySection
+          id="year-early-years"
+          label="The Early Years"
+          items={earlyYears}
+        />
+
+        <GallerySection
+          id="year-undated"
+          label="Undated"
+          items={undated}
+        />
 
         <section className="border-t border-white/5 py-16">
           <div className="mx-auto max-w-3xl px-6 text-center">

@@ -36,7 +36,6 @@ export default defineType({
           { title: "Recent Years", value: "recent" },
           { title: "The Middle Years", value: "middle-years" },
           { title: "The Early Days", value: "early-days" },
-          { title: "Doing Our Bit", value: "doing-our-bit" },
           { title: "The Sponsors", value: "ads" },
         ],
       },
@@ -63,7 +62,7 @@ export default defineType({
     prepare({ title, media, era, year }) {
       return {
         title,
-        subtitle: year ? `${era} — ${year}` : era,
+        subtitle: year ? `${year} — ${era}` : era,
         media,
       };
     },
