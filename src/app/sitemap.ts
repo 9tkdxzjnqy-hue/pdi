@@ -40,5 +40,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/stories/auction`, lastModified: new Date() },
     { url: `${baseUrl}/stories/videos`, lastModified: new Date() },
     { url: `${baseUrl}/remembering`, lastModified: new Date() },
+    { url: `${baseUrl}/odds`, lastModified: new Date() },
   ];
 }
