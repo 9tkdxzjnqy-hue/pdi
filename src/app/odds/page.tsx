@@ -14,38 +14,44 @@ export default function OddsPage() {
       <OddsHero />
 
       <div className="mx-auto max-w-6xl px-6 pb-24">
+        {/* Odds Board */}
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {odds.map((entry) => {
+            const message = encodeURIComponent(
+              `Hi PawnBet, I want to back ${entry.name} at ${entry.odds}`
+            );
+            return (
+              <a
+                key={entry.name}
+                href={`https://wa.me/353872547549?text=${message}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between rounded-xl bg-pdi-navy p-6 transition-colors active:bg-white/10 md:pointer-events-none"
+              >
+                <span className="font-display text-xl text-pdi-text">
+                  {entry.name}
+                </span>
+                <span className="font-display text-2xl text-pdi-green">
+                  {entry.odds}
+                </span>
+              </a>
+            );
+          })}
+        </div>
+
         {/* Each-Way Terms */}
-        <div className="mb-12 rounded-xl bg-pdi-navy p-6">
+        <div className="mt-12 rounded-xl bg-pdi-navy p-6">
           <h2 className="font-display text-lg text-pdi-text">
             Each-Way Terms
           </h2>
-          <ul className="mt-3 space-y-1 text-sm text-pdi-muted">
-            <li>
-              <span className="text-pdi-green">{eachWayTerms.places}</span> at{" "}
-              {eachWayTerms.fraction} (PDI)
-            </li>
-            <li>
-              <span className="text-pdi-green">3rd place:</span>{" "}
-              {eachWayTerms.bonus}
-            </li>
-          </ul>
-        </div>
-
-        {/* Odds Board */}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {odds.map((entry) => (
-            <div
-              key={entry.name}
-              className="flex items-center justify-between rounded-xl bg-pdi-navy p-6"
-            >
-              <span className="font-display text-xl text-pdi-text">
-                {entry.name}
-              </span>
-              <span className="font-display text-2xl text-pdi-green">
-                {entry.odds}
-              </span>
-            </div>
-          ))}
+          <p className="mt-3 text-sm text-pdi-muted">
+            An each-way bet pays out if your player finishes{" "}
+            <span className="text-pdi-green">1st</span> or{" "}
+            <span className="text-pdi-green">2nd</span> in{" "}
+            <span className="text-pdi-green">the PDI</span>, or wins{" "}
+            <span className="text-pdi-green">the Shield</span> — all at{" "}
+            {eachWayTerms.fraction}.
+          </p>
         </div>
       </div>
     </main>
