@@ -147,7 +147,7 @@ export async function getAllGalleryItems(): Promise<GalleryItem[]> {
   try {
     const result = await client.fetch<GalleryItem[]>(
       `*[_type == "galleryItem" && era != "walk-ons"] | order(year desc) {
-        "src": "/gallery/" + _id + ".jpg",
+        "src": image.asset->url,
         alt,
         era,
         year,
