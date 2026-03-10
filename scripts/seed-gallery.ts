@@ -1,5 +1,5 @@
 import { getWriteClient } from "../src/sanity/client";
-import { eras, galleryItems } from "../src/data/gallery";
+import { galleryItems } from "../src/data/gallery";
 import { createReadStream, existsSync } from "fs";
 import path from "path";
 
@@ -41,30 +41,6 @@ async function uploadInBatches(
 
 export async function seedGallery() {
   const client = getWriteClient();
-
-  // --- Seed Eras (batch into one transaction) ---
-  console.log(`Syncing ${eras.length} eras...`);
-  const eraIds: string[] = [];
-
-  const eraTx = client.transaction();
-  for (let i = 0; i < eras.length; i++) {
-    const era = eras[i];
-    const _id = `era-${era.id}`;
-    eraIds.push(_id);
-
-    eraTx.createOrReplace({
-      _id,
-      _type: "era" as const,
-      eraId: era.id,
-      label: era.label,
-      description: era.description,
-      groupByYear: era.groupByYear ?? false,
-      allYears: era.allYears,
-      displayOrder: i + 1,
-    });
-  }
-  await eraTx.commit();
-  console.log(`  Synced ${eraIds.length} eras in one transaction`);
 
   // --- Fetch existing gallery items (single query for both image check and cleanup) ---
   const existing = await client.fetch<{ _id: string; hasImage: boolean }[]>(
@@ -193,17 +169,6 @@ export async function seedGallery() {
     console.log(`  Uploaded and synced ${uploaded} new gallery items`);
   }
 
-  // Clean up stale eras
-  const existingEras = await client.fetch<string[]>(`*[_type == "era"]._id`);
-  const eraIdSet = new Set(eraIds);
-  const staleEras = existingEras.filter((id) => !eraIdSet.has(id));
-  if (staleEras.length > 0) {
-    const tx = client.transaction();
-    for (const id of staleEras) tx.delete(id);
-    await tx.commit();
-    console.log(`  Deleted ${staleEras.length} stale era(s)`);
-  }
-
   // Clean up stale gallery items (reuse the initial fetch instead of a separate query)
   const galleryIdSet = new Set(galleryIds);
   const staleGallery = [...allExistingIds].filter((id) => !galleryIdSet.has(id));
@@ -215,7 +180,6 @@ export async function seedGallery() {
   }
 
   return {
-    eras: { synced: eraIds.length, deleted: staleEras.length },
     gallery: { synced: galleryIds.length, uploaded, skipped, videoOnly, deleted: staleGallery.length },
   };
 }
@@ -225,7 +189,6 @@ if (require.main === module) {
   seedGallery()
     .then((result) => {
       console.log(`\nDone!`);
-      console.log(`  Eras: ${result.eras.synced} synced, ${result.eras.deleted} deleted`);
       console.log(`  Gallery: ${result.gallery.synced} synced (${result.gallery.uploaded} uploaded, ${result.gallery.videoOnly} videos), ${result.gallery.skipped} skipped, ${result.gallery.deleted} deleted`);
     })
     .catch((err) => {

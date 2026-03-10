@@ -29,7 +29,7 @@ async function sync() {
   console.log("\n── Stories ──");
   const storyResult = await seedStories();
 
-  // 5. Gallery (eras first, then gallery items)
+  // 5. Gallery
   console.log("\n── Gallery ──");
   const galleryResult = await seedGallery();
 
@@ -40,21 +40,19 @@ async function sync() {
     compResult.synced +
     storyResult.threads.synced +
     storyResult.stories.synced +
-    galleryResult.eras.synced +
     galleryResult.gallery.synced;
   const totalDeleted =
     inducteeResult.deleted +
     compResult.deleted +
     storyResult.threads.deleted +
     storyResult.stories.deleted +
-    galleryResult.eras.deleted +
     galleryResult.gallery.deleted;
 
   console.log("\n=== Sync Complete ===");
   console.log(`  ${inducteeResult.synced} inductees`);
   console.log(`  ${compResult.synced} competitions`);
   console.log(`  ${storyResult.threads.synced} threads, ${storyResult.stories.synced} stories`);
-  console.log(`  ${galleryResult.eras.synced} eras, ${galleryResult.gallery.synced} gallery items (${galleryResult.gallery.uploaded} uploaded)`);
+  console.log(`  ${galleryResult.gallery.synced} gallery items (${galleryResult.gallery.uploaded} uploaded)`);
   console.log(`  Total: ${totalSynced} synced, ${totalDeleted} stale deleted`);
   console.log(`  Time: ${elapsed}s`);
 }

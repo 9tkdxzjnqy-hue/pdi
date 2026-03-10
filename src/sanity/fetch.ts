@@ -3,7 +3,6 @@ import {
   inducteesQuery,
   competitionsQuery,
   featuredCompetitionsQuery,
-  erasQuery,
   galleryByEraQuery,
   featuredGalleryQuery,
   storyThreadsQuery,
@@ -13,8 +12,8 @@ import {
 } from "./queries";
 import { inductees as fallbackInductees } from "@/data/hallOfFame";
 import { competitions as fallbackCompetitions } from "@/data/competitions";
-import { eras as fallbackEras, galleryItems as fallbackGalleryItems } from "@/data/gallery";
-import type { Inductee, Competition, GalleryItem, EraInfo, StoryThread, Story, SiteSettings, HomePage } from "./types";
+import { galleryItems as fallbackGalleryItems } from "@/data/gallery";
+import type { Inductee, Competition, GalleryItem, StoryThread, Story, SiteSettings, HomePage } from "./types";
 
 export async function getInductees(): Promise<Inductee[]> {
   const client = getClient();
@@ -86,38 +85,6 @@ export async function getFeaturedCompetitions(): Promise<Competition[]> {
 }
 
 // --- Gallery ---
-
-function toFallbackEras(): EraInfo[] {
-  return fallbackEras.map((e, i) => ({
-    eraId: e.id,
-    label: e.label,
-    description: e.description,
-    groupByYear: e.groupByYear,
-    allYears: e.allYears,
-    displayOrder: i + 1,
-  }));
-}
-
-export async function getEras(): Promise<EraInfo[]> {
-  const client = getClient();
-  if (!client) return toFallbackEras();
-
-  try {
-    const result = await client.fetch<EraInfo[]>(erasQuery, {}, {
-      next: { tags: ["eras"] },
-    });
-
-    if (!result || result.length === 0) {
-      return toFallbackEras();
-    }
-
-    return result.filter((e) => e.eraId !== "walk-ons");
-  } catch {
-    console.error("Failed to fetch eras from Sanity, using fallback data");
-    return toFallbackEras();
-  }
-}
-
 
 export async function getGalleryByEra(eraId: string): Promise<GalleryItem[]> {
   const client = getClient();

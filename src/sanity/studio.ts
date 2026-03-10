@@ -71,7 +71,7 @@ export default defineConfig({
                                   .child(
                                     S.documentList()
                                       .title(String(year))
-                                      .filter('_type == "galleryItem" && year == $year')
+                                      .filter('_type == "galleryItem" && year == $year && era != "walk-ons"')
                                       .params({ year })
                                   )
                             ),

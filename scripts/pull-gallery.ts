@@ -1,17 +1,7 @@
 import { getWriteClient } from "../src/sanity/client";
-import { walkOnEra } from "../src/data/gallery";
+import { WALK_ON_YEARS } from "../src/data/gallery";
 import { writeFileSync } from "fs";
 import path from "path";
-
-interface SanityEra {
-  _id: string;
-  eraId: string;
-  label: string;
-  description: string;
-  groupByYear?: boolean;
-  allYears?: number[];
-  displayOrder: number;
-}
 
 interface SanityGalleryItem {
   _id: string;
@@ -23,7 +13,7 @@ interface SanityGalleryItem {
   featured?: boolean;
 }
 
-// All valid era values for the type union
+// All valid era values for the type union (matches galleryItem schema dropdown)
 const ALL_ERAS = [
   "early-days",
   "middle-years",
@@ -31,26 +21,22 @@ const ALL_ERAS = [
   "walk-ons",
   "male-players",
   "the-hazards",
-  "doing-our-bit",
   "ads",
 ] as const;
 
+// Era display order for grouping gallery items in the generated file
+const ERA_ORDER = [
+  "male-players",
+  "the-hazards",
+  "recent",
+  "middle-years",
+  "early-days",
+  "ads",
+  "walk-ons",
+];
+
 export async function pullGallery() {
   const client = getWriteClient();
-
-  // Fetch eras
-  const sanityEras = await client.fetch<SanityEra[]>(
-    `*[_type == "era"] | order(displayOrder asc) {
-      _id,
-      eraId,
-      label,
-      description,
-      groupByYear,
-      allYears,
-      displayOrder
-    }`
-  );
-  console.log(`  Fetched ${sanityEras.length} eras from Sanity`);
 
   // Fetch gallery items
   const sanityItems = await client.fetch<SanityGalleryItem[]>(
@@ -84,44 +70,11 @@ export async function pullGallery() {
   out += `  featured?: boolean;\n`;
   out += `}\n\n`;
 
-  // EraInfo interface
-  out += `export interface EraInfo {\n`;
-  out += `  id: Era;\n`;
-  out += `  label: string;\n`;
-  out += `  description: string;\n`;
-  out += `  groupByYear?: boolean;\n`;
-  out += `  allYears?: number[];\n`;
-  out += `}\n\n`;
-
-  // walkOnEra — preserve from local (not managed in Sanity)
-  out += `export const walkOnEra: EraInfo = {\n`;
-  out += `  id: ${JSON.stringify(walkOnEra.id)},\n`;
-  out += `  label: ${JSON.stringify(walkOnEra.label)},\n`;
-  out += `  description: ${JSON.stringify(walkOnEra.description)},\n`;
-  if (walkOnEra.groupByYear) {
-    out += `  groupByYear: true,\n`;
-  }
-  if (walkOnEra.allYears) {
-    out += `  allYears: [${walkOnEra.allYears.join(", ")}],\n`;
-  }
-  out += `};\n\n`;
-
-  // eras array
-  out += `export const eras: EraInfo[] = [\n`;
-  for (const era of sanityEras) {
-    out += genEra(era);
-  }
-  out += `];\n\n`;
+  // WALK_ON_YEARS — preserved from local
+  out += `export const WALK_ON_YEARS = [${WALK_ON_YEARS.join(", ")}];\n\n`;
 
   // galleryItems grouped by era
   out += `export const galleryItems: GalleryItem[] = [\n`;
-
-  // Group items by era, maintaining Sanity order within each era
-  const eraOrder = sanityEras.map((e) => e.eraId);
-  // Add walk-ons era (present in gallery items but not in eras array)
-  if (!eraOrder.includes("walk-ons")) {
-    eraOrder.push("walk-ons");
-  }
 
   const itemsByEra = new Map<string, SanityGalleryItem[]>();
   for (const item of sanityItems) {
@@ -130,7 +83,7 @@ export async function pullGallery() {
     itemsByEra.get(era)!.push(item);
   }
 
-  // Sort items within each era by year desc (null years last), then by _id for stability
+  // Sort items within each era by year asc (null years last), then by _id for stability
   for (const [, items] of itemsByEra) {
     items.sort((a, b) => {
       if (a.year != null && b.year != null) return a.year - b.year;
@@ -141,15 +94,14 @@ export async function pullGallery() {
   }
 
   let firstEra = true;
-  for (const eraId of eraOrder) {
+  for (const eraId of ERA_ORDER) {
     const items = itemsByEra.get(eraId);
     if (!items || items.length === 0) continue;
 
     if (!firstEra) out += "\n";
     firstEra = false;
 
-    const eraLabel = sanityEras.find((e) => e.eraId === eraId)?.label ?? eraId.toUpperCase();
-    out += `  // === ${eraLabel.toUpperCase()} ===\n`;
+    out += `  // === ${eraId.toUpperCase()} ===\n`;
 
     for (const item of items) {
       out += genGalleryItem(item);
@@ -158,7 +110,7 @@ export async function pullGallery() {
 
   // Any items in eras not in our order list
   for (const [eraId, items] of itemsByEra) {
-    if (eraOrder.includes(eraId)) continue;
+    if (ERA_ORDER.includes(eraId)) continue;
     if (items.length === 0) continue;
 
     out += `\n  // === ${eraId.toUpperCase()} ===\n`;
@@ -173,22 +125,7 @@ export async function pullGallery() {
   writeFileSync(filePath, out);
   console.log(`  Wrote ${filePath}`);
 
-  return { eras: sanityEras.length, items: sanityItems.length };
-}
-
-function genEra(era: SanityEra) {
-  let s = `  {\n`;
-  s += `    id: ${JSON.stringify(era.eraId)},\n`;
-  s += `    label: ${JSON.stringify(era.label)},\n`;
-  s += `    description: ${JSON.stringify(era.description)},\n`;
-  if (era.groupByYear) {
-    s += `    groupByYear: true,\n`;
-  }
-  if (era.allYears && era.allYears.length > 0) {
-    s += `    allYears: [${era.allYears.join(", ")}],\n`;
-  }
-  s += `  },\n`;
-  return s;
+  return { items: sanityItems.length };
 }
 
 function deriveSrc(item: SanityGalleryItem): string | undefined {
@@ -226,7 +163,7 @@ function genGalleryItem(item: SanityGalleryItem) {
 // Allow running standalone
 if (require.main === module) {
   pullGallery()
-    .then(({ eras, items }) => console.log(`Done! Pulled ${eras} eras, ${items} gallery items`))
+    .then(({ items }) => console.log(`Done! Pulled ${items} gallery items`))
     .catch((err) => {
       console.error("Pull failed:", err);
       process.exit(1);

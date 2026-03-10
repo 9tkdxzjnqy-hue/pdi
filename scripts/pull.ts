@@ -28,7 +28,7 @@ async function pull() {
   console.log("\n=== Pull Complete ===");
   console.log(`  ${compResult.pulled} competitions`);
   console.log(`  ${inducteeResult.pulled} inductees`);
-  console.log(`  ${galleryResult.eras} eras, ${galleryResult.items} gallery items`);
+  console.log(`  ${galleryResult.items} gallery items`);
   console.log(`  Time: ${elapsed}s`);
 }
 

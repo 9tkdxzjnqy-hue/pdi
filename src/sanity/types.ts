@@ -42,15 +42,6 @@ export interface GalleryItem {
   youtubeId?: string;
 }
 
-export interface EraInfo {
-  eraId: string;
-  label: string;
-  description: string;
-  groupByYear?: boolean;
-  allYears?: number[];
-  displayOrder?: number;
-}
-
 export interface StoryThread {
   title: string;
   description: string;

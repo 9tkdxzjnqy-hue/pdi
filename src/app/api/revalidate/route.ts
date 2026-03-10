@@ -26,9 +26,6 @@ export async function POST(req: NextRequest) {
       case "galleryItem":
         revalidateTag("gallery");
         break;
-      case "era":
-        revalidateTag("eras");
-        break;
       case "storyThread":
         revalidateTag("storyThreads");
         break;

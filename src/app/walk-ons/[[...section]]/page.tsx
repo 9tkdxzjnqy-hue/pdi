@@ -6,7 +6,7 @@ import WalkOnYearSection from "@/components/WalkOnYearSection";
 import ScrollToSection from "@/components/ScrollToSection";
 import Footer from "@/components/Footer";
 import { getGalleryByEra } from "@/sanity/fetch";
-import { walkOnEra } from "@/data/gallery";
+import { WALK_ON_YEARS } from "@/data/gallery";
 import { walkOnCompetition } from "@/data/competitions";
 import type { GalleryItem } from "@/sanity/types";
 
@@ -24,7 +24,7 @@ export default async function WalkOnsPage({
   const { section } = await params;
   const slug = section?.[0];
 
-  const years = walkOnEra.allYears ?? [];
+  const years = WALK_ON_YEARS;
   const validYears = years.map(String);
 
   if (slug && !validYears.includes(slug)) {

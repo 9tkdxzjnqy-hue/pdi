@@ -16,54 +16,7 @@ export interface GalleryItem {
   featured?: boolean;
 }
 
-export interface EraInfo {
-  id: Era;
-  label: string;
-  description: string;
-  groupByYear?: boolean;
-  allYears?: number[];
-}
-
-export const walkOnEra: EraInfo = {
-  id: "walk-ons",
-  label: "The Walk-Ons",
-  description: "Through the double doors, into the smoke.",
-  groupByYear: true,
-  allYears: [2025, 2024, 2023, 2022, 2019, 2018, 2017, 2016, 2015, 2014, 2013],
-};
-
-export const eras: EraInfo[] = [
-  {
-    id: "male-players",
-    label: "The Players",
-    description: "The players who made the PDI what it is.",
-  },
-  {
-    id: "the-hazards",
-    label: "The Hazards",
-    description: "The PDI house band. The night wouldn't be the night without them.",
-  },
-  {
-    id: "recent",
-    label: "Recent Years",
-    description: "The modern PDI.",
-  },
-  {
-    id: "middle-years",
-    label: "The Middle Years",
-    description: "Growth and expansion.",
-  },
-  {
-    id: "early-days",
-    label: "The Early Days",
-    description: "The founding years of the PDI.",
-  },
-  {
-    id: "ads",
-    label: "The Sponsors",
-    description: "The businesses that backed the PDI over the years.",
-  },
-];
+export const WALK_ON_YEARS = [2025, 2024, 2023, 2022, 2019, 2018, 2017, 2016, 2015, 2014, 2013];
 
 export const galleryItems: GalleryItem[] = [
   // === THE PLAYERS ===
@@ -106,7 +59,7 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/2017-event-01.jpg", alt: "PDI 2017 event shot", era: "middle-years", year: 2017 },
   { src: "/gallery/2017-event-02.jpg", alt: "PDI 2017 event shot", era: "middle-years", year: 2017 },
   { src: "/gallery/2017-event-03.jpg", alt: "PDI 2017 event shot", era: "middle-years", year: 2017 },
-  { src: "/gallery/2017-hof-induction.jpg", alt: "Hall of Fame induction 2017", era: "middle-years", year: 2017 },
+
   { src: "/gallery/2020-profile-geoff.jpg", alt: "Geoff — PDI 2020", era: "middle-years", year: 2020 },
   { src: "/gallery/early-event-01.jpg", alt: "Early PDI event shot", era: "middle-years" },
   { src: "/gallery/early-event-04.jpg", alt: "Early PDI event shot", era: "middle-years", featured: true },

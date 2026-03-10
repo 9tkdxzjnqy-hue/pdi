@@ -35,6 +35,7 @@ export const inductees: Inductee[] = [
   },
   {
     nickname: "The Trick & The Treat",
+    photo: "/gallery/2017-hof-induction.jpg",
     contribution:
       "The PDI wouldn't be the PDI without The Trick & The Treat. If you have a story or memory to share, we'd love to hear it.",
     year: 2017,

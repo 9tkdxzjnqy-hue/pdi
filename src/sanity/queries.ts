@@ -22,15 +22,6 @@ export const featuredCompetitionsQuery = `*[_type == "competition" && featured =
   "slug": slug.current
 }`;
 
-export const erasQuery = `*[_type == "era"] | order(displayOrder asc) {
-  eraId,
-  label,
-  description,
-  groupByYear,
-  allYears,
-  displayOrder
-}`;
-
 export const galleryByEraQuery = `*[_type == "galleryItem" && era == $era] | order(year desc) {
   _id,
   "src": image.asset->url,
