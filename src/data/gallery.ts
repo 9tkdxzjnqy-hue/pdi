@@ -28,7 +28,6 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/2025-the-kitten.jpg", alt: "The Kitten — Shield winner 2025", era: "male-players", year: 2025 },
 
   // === THE-HAZARDS ===
-  { src: "/gallery/2013-event-05.jpg", alt: "The Hazards performing at PDI 2013", era: "the-hazards", year: 2013 },
   { src: "/gallery/2015-the-hazards.jpg", alt: "The Hazards — PDI house band", era: "the-hazards", year: 2015, featured: true },
 
   // === RECENT ===
@@ -106,7 +105,6 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/2015-booklet-24.jpg", alt: "PDI 2015 booklet photo", era: "recent", year: 2015 },
   { src: "/gallery/2015-booklet-25.jpg", alt: "PDI 2015 booklet photo", era: "recent", year: 2015 },
   { src: "/gallery/2015-booklet-27.jpg", alt: "PDI 2015 booklet photo", era: "recent", year: 2015 },
-  { src: "/gallery/2015-booklet-28.jpg", alt: "PDI 2015 booklet photo", era: "recent", year: 2015 },
   { src: "/gallery/2015-booklet-29.jpg", alt: "PDI 2015 booklet photo", era: "recent", year: 2015 },
   { src: "/gallery/2015-booklet-30.jpg", alt: "PDI 2015 booklet photo", era: "recent", year: 2015 },
   { src: "/gallery/2015-booklet-31.jpg", alt: "PDI 2015 booklet photo", era: "recent", year: 2015 },
@@ -151,13 +149,11 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/2017-booklet-14.jpg", alt: "PDI 2017 booklet photo", era: "recent", year: 2017 },
   { src: "/gallery/2017-booklet-15.jpg", alt: "PDI 2017 booklet photo", era: "recent", year: 2017 },
   { src: "/gallery/2017-booklet-16.jpg", alt: "PDI 2017 booklet photo", era: "recent", year: 2017 },
-  { src: "/gallery/2017-booklet-17.jpg", alt: "PDI 2017 booklet photo", era: "recent", year: 2017 },
   { src: "/gallery/2017-booklet-18.jpg", alt: "PDI 2017 booklet photo", era: "recent", year: 2017 },
   { src: "/gallery/2017-booklet-19.jpg", alt: "PDI 2017 booklet photo", era: "recent", year: 2017 },
   { src: "/gallery/2017-booklet-20.jpg", alt: "PDI 2017 booklet photo", era: "recent", year: 2017 },
   { src: "/gallery/2017-booklet-21.jpg", alt: "PDI 2017 booklet photo", era: "recent", year: 2017 },
   { src: "/gallery/2017-booklet-22.jpg", alt: "PDI 2017 booklet photo", era: "recent", year: 2017 },
-  { src: "/gallery/2017-booklet-23.jpg", alt: "PDI 2017 booklet photo", era: "recent", year: 2017 },
   { src: "/gallery/2017-booklet-24.jpg", alt: "PDI 2017 booklet photo", era: "recent", year: 2017 },
   { src: "/gallery/2017-booklet-26.jpg", alt: "PDI 2017 booklet photo", era: "recent", year: 2017 },
   { src: "/gallery/2017-booklet-27.jpg", alt: "PDI 2017 booklet photo", era: "recent", year: 2017 },
@@ -243,7 +239,6 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/2015-charity-cheque.jpg", alt: "PDI charity cheque presentation", era: "middle-years", year: 2015 },
   { src: "/gallery/2015-charity-thankyou.jpg", alt: "Thank-you letter from Children's Hospital", era: "middle-years", year: 2015 },
   { src: "/gallery/2016-the-physio-hof.jpg", alt: "The Physio — Hall of Fame 2016", era: "middle-years", year: 2016 },
-  { src: "/gallery/2017-chairperson.jpg", alt: "PDI 2017 chairperson", era: "middle-years", year: 2017 },
   { src: "/gallery/2017-event-01.jpg", alt: "PDI 2017 event shot", era: "middle-years", year: 2017 },
   { src: "/gallery/early-event-01.jpg", alt: "Early PDI event shot", era: "middle-years", year: 2017 },
   { src: "/gallery/2020-profile-geoff.jpg", alt: "Geoff — PDI 2020", era: "middle-years", year: 2020 },

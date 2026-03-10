@@ -28,7 +28,7 @@ export const inductees: Inductee[] = [
   },
   {
     nickname: "The Gun",
-    photo: "/gallery/profile-the-gun.jpg",
+    photo: "/gallery/2017-booklet-23.jpg",
     contribution:
       "The PDI wouldn't be the PDI without The Gun. If you have a story or memory to share, we'd love to hear it.",
     year: 2018,
@@ -42,6 +42,7 @@ export const inductees: Inductee[] = [
   },
   {
     nickname: "The Physio",
+    photo: "/gallery/2017-booklet-17.jpg",
     contribution:
       "The PDI wouldn't be the PDI without The Physio. If you have a story or memory to share, we'd love to hear it.",
     year: 2016,
@@ -62,6 +63,7 @@ export const inductees: Inductee[] = [
   },
   {
     nickname: "The Express",
+    photo: "/gallery/2017-chairperson.jpg",
     contribution:
       "The PDI wouldn't be the PDI without The Express. If you have a story or memory to share, we'd love to hear it.",
     year: 2013,
@@ -75,12 +77,14 @@ export const inductees: Inductee[] = [
   },
   {
     nickname: "The Bat",
+    photo: "/gallery/2015-booklet-28.jpg",
     contribution:
       "The PDI wouldn't be the PDI without The Bat. If you have a story or memory to share, we'd love to hear it.",
     year: 2011,
   },
   {
     nickname: "The Hazards",
+    photo: "/gallery/2013-event-05.jpg",
     contribution: "The live band.",
   },
 ];
