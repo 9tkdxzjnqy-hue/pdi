@@ -191,4 +191,11 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/2018-walkon-09.jpg", alt: "Gat's David Brent walk-on at PDI 2017", era: "walk-ons", year: 2017 },
   { src: "/gallery/2020-profile-the-express.jpg", alt: "The Express — PDI 2019", era: "walk-ons", year: 2019 },
   { src: "/gallery/2025-the-rebel-walk-on.jpg", alt: "The Rebel in the green sequin jacket — PDI 2025", era: "walk-ons", year: 2025 },
+  { src: "/gallery/the-kitten-walkon-2025.jpg", alt: "The Kitten carried on shoulders during walk-on — PDI 2025", era: "walk-ons", year: 2025 },
+  { src: "/gallery/kitten-walkon-2-2025.jpg", alt: "The Kitten arms raised during walk-on — PDI 2025", era: "walk-ons", year: 2025 },
+  { src: "/gallery/backstage-walkons-2025.jpg", alt: "Backstage before the walk-ons — PDI 2025", era: "walk-ons", year: 2025 },
+  { src: "/gallery/walkon-contenders-2025.jpg", alt: "Walk-on contenders arm in arm under the lights — PDI 2025", era: "walk-ons", year: 2025 },
+
+  // === GALLERY (non walk-on) ===
+  { src: "/gallery/the-kitten-bar-2025.jpg", alt: "The Kitten at the bar in his darts jersey — PDI 2025", era: "recent", year: 2025 },
 ];
