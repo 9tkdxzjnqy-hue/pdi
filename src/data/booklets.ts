@@ -11,7 +11,7 @@ export const bookletYears: BookletYear[] = [
   { year: 2016, pages: 62 },
   { year: 2015, pages: 68 },
   { year: 2014, pages: 65 },
-  { year: 2013, pages: 95 },
+  { year: 2013, pages: 72 },
 ];
 
 /** Generate the image path for a booklet page */

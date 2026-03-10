@@ -1,15 +1,37 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { bookletYears, bookletPageSrc } from "@/data/booklets";
 import type { GalleryItem } from "@/sanity/types";
-import GalleryLightbox from "./GalleryLightbox";
 
 export default function BookletsPage() {
   const [activeYear, setActiveYear] = useState<string>("");
+  const scrollRef = useRef<HTMLDivElement>(null);
   const pillRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
-  const scrollingTo = useRef<string | null>(null);
+  const ignoreObserver = useRef(false);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const updateScrollFades = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 4);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    updateScrollFades();
+    el.addEventListener("scroll", updateScrollFades, { passive: true });
+    window.addEventListener("resize", updateScrollFades, { passive: true });
+    return () => {
+      el.removeEventListener("scroll", updateScrollFades);
+      window.removeEventListener("resize", updateScrollFades);
+    };
+  }, [updateScrollFades]);
 
   useEffect(() => {
     const sections = bookletYears
@@ -18,11 +40,24 @@ export default function BookletsPage() {
 
     if (sections.length === 0) return;
 
+    const visible = new Set<string>();
+    const sectionIds = bookletYears.map((b) => `booklet-${b.year}`);
+
     const observer = new IntersectionObserver(
       (entries) => {
+        if (ignoreObserver.current) return;
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            setActiveYear(entry.target.id);
+            visible.add(entry.target.id);
+          } else {
+            visible.delete(entry.target.id);
+          }
+        }
+        // Pick the topmost visible section (DOM order)
+        for (const id of sectionIds) {
+          if (visible.has(id)) {
+            setActiveYear(id);
+            return;
           }
         }
       },
@@ -47,8 +82,6 @@ export default function BookletsPage() {
         block: "nearest",
       });
     }
-    if (scrollingTo.current && scrollingTo.current !== activeYear) return;
-    if (scrollingTo.current === activeYear) scrollingTo.current = null;
   }, [activeYear]);
 
   return (
@@ -78,33 +111,55 @@ export default function BookletsPage() {
         aria-label="Booklet years"
         className="sticky top-16 z-40 border-b border-white/5 bg-pdi-dark/90 backdrop-blur-md"
       >
-        <div className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-6 py-3 [scrollbar-width:none] [-webkit-overflow-scrolling:touch] [&::-webkit-scrollbar]:hidden">
-          {bookletYears.map((b) => {
-            const sectionId = `booklet-${b.year}`;
-            const isActive = activeYear === sectionId;
-            return (
-              <button
-                key={b.year}
-                type="button"
-                ref={(el) => {
-                  if (el) pillRefs.current.set(String(b.year), el);
-                }}
-                onClick={() => {
-                  scrollingTo.current = sectionId;
-                  const section = document.getElementById(sectionId);
-                  section?.scrollIntoView({ behavior: "smooth", block: "start" });
-                }}
-                aria-current={isActive ? "true" : undefined}
-                className={`rounded-full px-4 py-2 text-sm whitespace-nowrap transition-colors ${
-                  isActive
-                    ? "bg-pdi-green/15 text-pdi-green"
-                    : "bg-white/5 text-pdi-muted hover:text-pdi-text"
-                }`}
-              >
-                {b.year}
-              </button>
-            );
-          })}
+        <div className="relative mx-auto max-w-7xl">
+          {/* Left fade */}
+          {canScrollLeft && (
+            <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-8 bg-gradient-to-r from-pdi-dark/90 to-transparent" />
+          )}
+          {/* Right fade */}
+          {canScrollRight && (
+            <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-8 bg-gradient-to-l from-pdi-dark/90 to-transparent" />
+          )}
+          <div
+            ref={scrollRef}
+            className="flex gap-2 overflow-x-auto px-6 py-3 [scrollbar-width:none] [-webkit-overflow-scrolling:touch] [&::-webkit-scrollbar]:hidden"
+          >
+            {bookletYears.map((b) => {
+              const sectionId = `booklet-${b.year}`;
+              const isActive = activeYear === sectionId;
+              return (
+                <button
+                  key={b.year}
+                  type="button"
+                  ref={(el) => {
+                    if (el) pillRefs.current.set(String(b.year), el);
+                  }}
+                  onClick={() => {
+                    setActiveYear(sectionId);
+                    ignoreObserver.current = true;
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                      const prev = document.documentElement.style.scrollBehavior;
+                      document.documentElement.style.scrollBehavior = "auto";
+                      section.scrollIntoView({ block: "start" });
+                      requestAnimationFrame(() => {
+                        document.documentElement.style.scrollBehavior = prev;
+                        ignoreObserver.current = false;
+                      });
+                    }
+                  }}
+                  aria-current={isActive ? "true" : undefined}
+                  className={`rounded-full px-5 py-2.5 text-sm whitespace-nowrap transition-colors ${
+                    isActive
+                      ? "bg-pdi-green/15 text-pdi-green"
+                      : "bg-white/5 text-pdi-muted hover:text-pdi-text"
+                  }`}
+                >
+                  {b.year}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </nav>
 
@@ -130,15 +185,158 @@ export default function BookletsPage() {
                 {b.pages} pages
               </p>
               <div className="mt-10">
-                <GalleryLightbox
-                  items={items}
-                  columns="columns-3 gap-3 md:columns-4 md:gap-4 lg:columns-5"
-                />
+                <BookletGrid items={items} />
               </div>
             </div>
           </section>
         );
       })}
+    </>
+  );
+}
+
+/**
+ * Booklet-specific grid with fixed A5 aspect ratio to prevent layout shift.
+ * Uses the same lightbox as the gallery but reserves space for each page.
+ */
+const PREVIEW_COUNT = 10;
+
+function BookletGrid({ items }: { items: GalleryItem[] }) {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [expanded, setExpanded] = useState(false);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  const visible = expanded ? items : items.slice(0, PREVIEW_COUNT);
+
+  const open = useCallback((index: number) => {
+    setActiveIndex(index);
+    dialogRef.current?.showModal();
+  }, []);
+
+  const close = useCallback(() => {
+    dialogRef.current?.close();
+    setActiveIndex(null);
+  }, []);
+
+  const prev = useCallback(() => {
+    setActiveIndex((i) => (i !== null && i > 0 ? i - 1 : items.length - 1));
+  }, [items.length]);
+
+  const next = useCallback(() => {
+    setActiveIndex((i) => (i !== null && i < items.length - 1 ? i + 1 : 0));
+  }, [items.length]);
+
+  useEffect(() => {
+    if (activeIndex === null) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") { e.preventDefault(); prev(); }
+      else if (e.key === "ArrowRight") { e.preventDefault(); next(); }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [activeIndex, prev, next]);
+
+  const activeItem = activeIndex !== null ? items[activeIndex] : null;
+
+  return (
+    <>
+      {/* Grid with fixed aspect ratio slots — prevents layout shift */}
+      <div className="grid grid-cols-3 gap-3 md:grid-cols-4 md:gap-4 lg:grid-cols-5">
+        {visible.map((item, index) => (
+          <button
+            key={item.src}
+            type="button"
+            onClick={() => open(index)}
+            className="relative cursor-zoom-in overflow-hidden rounded-lg"
+            style={{ aspectRatio: "210 / 297" }}
+          >
+            <Image
+              src={item.src!}
+              alt={item.alt}
+              fill
+              className="object-cover transition-transform duration-500 hover:scale-105"
+              quality={85}
+              sizes="(max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
+            />
+          </button>
+        ))}
+      </div>
+
+      {!expanded && items.length > PREVIEW_COUNT && (
+        <button
+          type="button"
+          onClick={() => setExpanded(true)}
+          className="mt-6 text-sm text-pdi-muted transition-colors hover:text-pdi-text"
+        >
+          View all {items.length} pages &rarr;
+        </button>
+      )}
+
+      {/* Lightbox dialog */}
+      <dialog
+        ref={dialogRef}
+        onClick={(e) => {
+          if (e.target === dialogRef.current) close();
+        }}
+        className="fixed inset-0 m-0 h-dvh w-dvw max-h-none max-w-none bg-black/90 backdrop-blur-sm p-0 [&::backdrop]:bg-transparent"
+      >
+        {activeItem && (
+          <div className="flex h-full w-full items-center justify-center">
+            <button
+              type="button"
+              onClick={close}
+              className="absolute top-4 right-4 z-10 rounded-full bg-white/10 p-2 text-pdi-text transition-colors hover:bg-white/20"
+              aria-label="Close lightbox"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); prev(); }}
+              className="absolute left-4 z-10 rounded-full bg-white/10 p-3 text-pdi-text transition-colors hover:bg-white/20"
+              aria-label="Previous page"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+
+            <div className="relative max-h-[85dvh] max-w-[90vw]">
+              <Image
+                src={activeItem.src!}
+                alt={activeItem.alt}
+                width={1200}
+                height={1697}
+                className="max-h-[85dvh] w-auto object-contain"
+                quality={85}
+                sizes="90vw"
+                priority
+              />
+            </div>
+
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); next(); }}
+              className="absolute right-4 z-10 rounded-full bg-white/10 p-3 text-pdi-text transition-colors hover:bg-white/20"
+              aria-label="Next page"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-lg bg-pdi-dark/80 px-4 py-2 text-center backdrop-blur-sm">
+              <p className="text-sm text-pdi-text">{activeItem.alt}</p>
+              <p className="mt-1 text-xs text-pdi-muted">
+                {activeIndex! + 1} / {items.length}
+              </p>
+            </div>
+          </div>
+        )}
+      </dialog>
     </>
   );
 }

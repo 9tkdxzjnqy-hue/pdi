@@ -88,6 +88,13 @@ export default function Navbar() {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="border-t border-white/10 bg-pdi-dark/95 px-6 pb-6 backdrop-blur-md md:hidden">
+          <Link
+            href="/"
+            className={`block py-3 transition-colors hover:text-pdi-text ${pathname === "/" ? "text-pdi-text" : "text-pdi-muted"}`}
+            onClick={() => setMenuOpen(false)}
+          >
+            Home
+          </Link>
           {navLinks.map((link) => {
             const isActive =
               pathname === link.href || pathname.startsWith(link.href + "/");

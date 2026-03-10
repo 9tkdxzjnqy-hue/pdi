@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Navbar from "@/components/Navbar";
 import OddsHero from "@/components/OddsHero";
 import { odds, eachWayTerms } from "@/data/odds";
 
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 export default function OddsPage() {
   return (
     <main id="main-content" className="min-h-screen bg-pdi-dark">
+      <Navbar />
       <OddsHero />
 
       <div className="mx-auto max-w-6xl px-6 pb-24">
