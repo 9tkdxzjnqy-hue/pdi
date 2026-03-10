@@ -25,7 +25,7 @@ export default defineType({
     }),
     defineField({
       name: "era",
-      title: "Era",
+      title: "Category",
       type: "string",
       validation: (Rule) => Rule.required(),
       options: {
@@ -69,7 +69,7 @@ export default defineType({
   },
   orderings: [
     {
-      title: "Era",
+      title: "Category",
       name: "eraAsc",
       by: [{ field: "era", direction: "asc" }],
     },
