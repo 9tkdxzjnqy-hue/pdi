@@ -10,16 +10,17 @@ function toSlug(name: string): string {
     .replace(/(^-|-$)/g, "");
 }
 
-export async function seedCompetitions() {
+export async function seedCompetitions({ force = false } = {}) {
   const client = getWriteClient();
   const allCompetitions = [...competitions, walkOnCompetition];
-  console.log(`Syncing ${allCompetitions.length} competitions...`);
+  console.log(`Syncing ${allCompetitions.length} competitions${force ? " (force)" : " (create-only)"}...`);
 
   // Fetch existing competition docs to check for existing images
   const existing = await client.fetch<{ _id: string; hasImage: boolean }[]>(
     `*[_type == "competition"]{ _id, "hasImage": defined(image.asset._ref) }`
   );
   const existingMap = new Map(existing.map((e) => [e._id, e]));
+  const allExistingIds = new Set(existing.map((e) => e._id));
 
   const featuredNames = new Set(["The PDI", "WPDI", "Walk-on of the Year", "The Shield"]);
   const syncedIds: string[] = [];
@@ -35,38 +36,43 @@ export async function seedCompetitions() {
     const _id = `competition-${slug}`;
     syncedIds.push(_id);
 
+    // In create-only mode, skip items that already exist
+    if (!force && allExistingIds.has(_id)) continue;
+
     const existingDoc = existingMap.get(_id);
     if (existingDoc?.hasImage) {
-      console.log(`  Skip image upload (exists): ${comp.image}`);
-      patchTx.patch(_id, (p) => p.set({
-        name: comp.name,
-        description: comp.description,
-        slug: { _type: "slug" as const, current: slug },
-        featured: featuredNames.has(comp.name),
-        displayOrder: i + 1,
-        results: comp.results.map((r) => ({
-          _type: "object" as const,
-          _key: `result-${r.year}`,
-          year: r.year,
-          winner: r.winner,
-          runnerUp: r.runnerUp,
-          walkOnName: r.walkOnName,
-          venue: r.venue,
-        })),
-      }));
-      patchCount++;
+      if (force) {
+        console.log(`  Skip image upload (exists): ${comp.image}`);
+        patchTx.patch(_id, (p) => p.set({
+          name: comp.name,
+          description: comp.description,
+          slug: { _type: "slug" as const, current: slug },
+          featured: featuredNames.has(comp.name),
+          displayOrder: i + 1,
+          results: comp.results.map((r) => ({
+            _type: "object" as const,
+            _key: `result-${r.year}`,
+            year: r.year,
+            winner: r.winner,
+            runnerUp: r.runnerUp,
+            walkOnName: r.walkOnName,
+            venue: r.venue,
+          })),
+        }));
+        patchCount++;
+      }
     } else {
       needsUpload.push({ comp, index: i, _id });
     }
   }
 
-  // Commit all patches in one transaction
-  if (patchCount > 0) {
+  // Commit all patches in one transaction — force mode only
+  if (force && patchCount > 0) {
     await patchTx.commit();
     console.log(`  Patched ${patchCount} competitions in one transaction`);
   }
 
-  // Upload images for new competitions, then batch their createOrReplace
+  // Upload images for new competitions, then create docs
   if (needsUpload.length > 0) {
     const uploadTx = client.transaction();
     for (const { comp, index, _id } of needsUpload) {
@@ -76,7 +82,7 @@ export async function seedCompetitions() {
         filename: path.basename(comp.image),
       });
       const slug = toSlug(comp.name);
-      uploadTx.createOrReplace({
+      const doc = {
         _id,
         _type: "competition" as const,
         name: comp.name,
@@ -97,7 +103,12 @@ export async function seedCompetitions() {
           walkOnName: r.walkOnName,
           venue: r.venue,
         })),
-      });
+      };
+      if (force) {
+        uploadTx.createOrReplace(doc);
+      } else {
+        uploadTx.createIfNotExists(doc);
+      }
     }
     await uploadTx.commit();
     console.log(`  Uploaded and synced ${needsUpload.length} new competitions`);
@@ -105,22 +116,26 @@ export async function seedCompetitions() {
 
   console.log(`  Total: ${syncedIds.length} competitions synced`);
 
-  // Clean up stale documents
-  const allExisting = await client.fetch<string[]>(
-    `*[_type == "competition"]._id`
-  );
-  const syncedSet = new Set(syncedIds);
-  const stale = allExisting.filter((id) => !syncedSet.has(id));
-  if (stale.length > 0) {
-    const tx = client.transaction();
-    for (const id of stale) {
-      tx.delete(id);
+  // Clean up stale documents — force mode only
+  let staleCount = 0;
+  if (force) {
+    const allExisting = await client.fetch<string[]>(
+      `*[_type == "competition"]._id`
+    );
+    const syncedSet = new Set(syncedIds);
+    const stale = allExisting.filter((id) => !syncedSet.has(id));
+    if (stale.length > 0) {
+      const tx = client.transaction();
+      for (const id of stale) {
+        tx.delete(id);
+      }
+      await tx.commit();
+      console.log(`  Deleted ${stale.length} stale competition(s)`);
     }
-    await tx.commit();
-    console.log(`  Deleted ${stale.length} stale competition(s)`);
+    staleCount = stale.length;
   }
 
-  return { synced: syncedIds.length, deleted: stale.length };
+  return { synced: syncedIds.length, deleted: staleCount };
 }
 
 // Allow running standalone

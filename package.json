@@ -13,6 +13,7 @@
     "seed:stories": "export $(grep -v '^#' .env.local | xargs) && tsx scripts/seed-stories.ts",
     "seed:homepage": "export $(grep -v '^#' .env.local | xargs) && tsx scripts/seed-homepage.ts",
     "sync": "export $(grep -v '^#' .env.local | xargs) && tsx scripts/sync.ts",
+    "push": "export $(grep -v '^#' .env.local | xargs) && tsx scripts/sync.ts --force",
     "pull": "export $(grep -v '^#' .env.local | xargs) && tsx scripts/pull.ts"
   },
   "dependencies": {

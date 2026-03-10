@@ -39,10 +39,10 @@ async function uploadInBatches(
   return results;
 }
 
-export async function seedGallery() {
+export async function seedGallery({ force = false } = {}) {
   const client = getWriteClient();
 
-  // --- Fetch existing gallery items (single query for both image check and cleanup) ---
+  // --- Fetch existing gallery items ---
   const existing = await client.fetch<{ _id: string; hasImage: boolean }[]>(
     `*[_type == "galleryItem"]{ _id, "hasImage": defined(image.asset._ref) }`
   );
@@ -50,11 +50,12 @@ export async function seedGallery() {
   const allExistingIds = new Set(existing.map((e) => e._id));
 
   // --- Seed Gallery Items ---
-  console.log(`\nSyncing ${galleryItems.length} gallery items...`);
+  console.log(`\nSyncing ${galleryItems.length} gallery items${force ? " (force)" : " (create-only)"}...`);
 
   let uploaded = 0;
   let skipped = 0;
   let videoOnly = 0;
+  let created = 0;
   const galleryIds: string[] = [];
 
   // Separate items into categories
@@ -67,7 +68,9 @@ export async function seedGallery() {
       if (item.youtubeId) {
         const _id = `gallery-video-${item.youtubeId}`;
         galleryIds.push(_id);
-        videoItems.push(item);
+        if (force || !allExistingIds.has(_id)) {
+          videoItems.push(item);
+        }
       } else {
         console.log(`  SKIP (no src or youtubeId): ${item.alt}`);
         skipped++;
@@ -85,6 +88,11 @@ export async function seedGallery() {
       continue;
     }
 
+    // In create-only mode, skip items that already exist in Sanity
+    if (!force && allExistingIds.has(_id)) {
+      continue;
+    }
+
     const existingDoc = existingMap.get(_id);
     if (existingDoc?.hasImage) {
       patchItems.push({ item, _id });
@@ -98,23 +106,35 @@ export async function seedGallery() {
     const videoTx = client.transaction();
     for (const item of videoItems) {
       const _id = `gallery-video-${item.youtubeId}`;
-      videoTx.createOrReplace({
-        _id,
-        _type: "galleryItem" as const,
-        alt: item.alt,
-        era: item.era,
-        year: item.year,
-        youtubeId: item.youtubeId,
-        featured: false,
-      });
+      if (force) {
+        videoTx.createOrReplace({
+          _id,
+          _type: "galleryItem" as const,
+          alt: item.alt,
+          era: item.era,
+          year: item.year,
+          youtubeId: item.youtubeId,
+          featured: false,
+        });
+      } else {
+        videoTx.createIfNotExists({
+          _id,
+          _type: "galleryItem" as const,
+          alt: item.alt,
+          era: item.era,
+          year: item.year,
+          youtubeId: item.youtubeId,
+          featured: false,
+        });
+      }
     }
     await videoTx.commit();
     videoOnly = videoItems.length;
-    console.log(`  Synced ${videoOnly} video items in one transaction`);
+    console.log(`  ${force ? "Synced" : "Created"} ${videoOnly} video items in one transaction`);
   }
 
-  // Batch all metadata patches into transactions (chunks of 50)
-  if (patchItems.length > 0) {
+  // Batch all metadata patches into transactions (chunks of 50) — force mode only
+  if (force && patchItems.length > 0) {
     const CHUNK_SIZE = 50;
     for (let i = 0; i < patchItems.length; i += CHUNK_SIZE) {
       const chunk = patchItems.slice(i, i + CHUNK_SIZE);
@@ -133,7 +153,7 @@ export async function seedGallery() {
     }
   }
 
-  // Upload new images in parallel batches, then batch createOrReplace
+  // Upload new images in parallel batches, then create docs
   if (uploadItems.length > 0) {
     console.log(`  Uploading ${uploadItems.length} new images...`);
     const assetMap = await uploadInBatches(
@@ -149,7 +169,7 @@ export async function seedGallery() {
       for (const { item, _id } of chunk) {
         const assetId = assetMap.get(_id);
         if (!assetId) continue;
-        uploadTx.createOrReplace({
+        const doc = {
           _id,
           _type: "galleryItem" as const,
           image: {
@@ -161,7 +181,12 @@ export async function seedGallery() {
           year: item.year,
           youtubeId: item.youtubeId,
           featured: item.featured ?? false,
-        });
+        };
+        if (force) {
+          uploadTx.createOrReplace(doc);
+        } else {
+          uploadTx.createIfNotExists(doc);
+        }
       }
       await uploadTx.commit();
     }
@@ -169,18 +194,22 @@ export async function seedGallery() {
     console.log(`  Uploaded and synced ${uploaded} new gallery items`);
   }
 
-  // Clean up stale gallery items (reuse the initial fetch instead of a separate query)
-  const galleryIdSet = new Set(galleryIds);
-  const staleGallery = [...allExistingIds].filter((id) => !galleryIdSet.has(id));
-  if (staleGallery.length > 0) {
-    const tx = client.transaction();
-    for (const id of staleGallery) tx.delete(id);
-    await tx.commit();
-    console.log(`  Deleted ${staleGallery.length} stale gallery item(s)`);
+  // Clean up stale gallery items — force mode only
+  let staleCount = 0;
+  if (force) {
+    const galleryIdSet = new Set(galleryIds);
+    const staleGallery = [...allExistingIds].filter((id) => !galleryIdSet.has(id));
+    if (staleGallery.length > 0) {
+      const tx = client.transaction();
+      for (const id of staleGallery) tx.delete(id);
+      await tx.commit();
+      console.log(`  Deleted ${staleGallery.length} stale gallery item(s)`);
+    }
+    staleCount = staleGallery.length;
   }
 
   return {
-    gallery: { synced: galleryIds.length, uploaded, skipped, videoOnly, deleted: staleGallery.length },
+    gallery: { synced: galleryIds.length, uploaded, skipped, videoOnly, deleted: staleCount },
   };
 }
 
