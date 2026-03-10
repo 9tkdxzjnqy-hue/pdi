@@ -40,6 +40,14 @@ export default function Charity({ label, heading, donationAmount, donationLabel,
             >
               {linkText ?? "Visit childrenshealth.ie \u2192"}
             </a>
+            <a
+              href="https://childrenshealth.enthuse.com/cf/pdi---templeogue-s-legendary-charity-darts-tournam"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 block text-sm font-semibold text-pdi-purple transition-colors hover:text-pdi-purple/70"
+            >
+              Our fundraiser page &rarr;
+            </a>
           </div>
         </AnimateOnScroll>
 

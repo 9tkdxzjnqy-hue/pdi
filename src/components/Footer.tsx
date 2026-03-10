@@ -26,6 +26,14 @@ export default function Footer() {
             >
               childrenshealth.ie
             </a>
+            <a
+              href="https://childrenshealth.enthuse.com/cf/pdi---templeogue-s-legendary-charity-darts-tournam"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-pdi-muted transition-colors hover:text-pdi-text"
+            >
+              Our fundraiser page
+            </a>
           </div>
         </div>
 
