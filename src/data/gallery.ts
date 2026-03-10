@@ -236,7 +236,6 @@ export const galleryItems: GalleryItem[] = [
 
   // === MIDDLE-YEARS ===
   { src: "/gallery/2015-charity-cheque.jpg", alt: "PDI charity cheque presentation", era: "middle-years", year: 2015 },
-  { src: "/gallery/2015-charity-thankyou.jpg", alt: "Thank-you letter from Children's Hospital", era: "middle-years", year: 2015 },
   { src: "/gallery/2016-the-physio-hof.jpg", alt: "The Physio — Hall of Fame 2016", era: "middle-years", year: 2016 },
   { src: "/gallery/early-event-04.jpg", alt: "Early PDI event shot", era: "middle-years", year: 2016, featured: true },
   { src: "/gallery/early-event-09.jpg", alt: "Early PDI event shot", era: "middle-years", year: 2016, featured: true },
@@ -256,17 +255,6 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/early-event-03.jpg", alt: "Early PDI group photo", era: "early-days" },
   { src: "/gallery/early-event-05.jpg", alt: "Early PDI candid", era: "early-days" },
   { src: "/gallery/early-event-06.jpg", alt: "Early PDI action shot", era: "early-days" },
-
-  // === ADS ===
-  { src: "/gallery/ad-bridge-containers-2014.jpg", alt: "Bridge Containers — sponsor ad 2014", era: "ads", year: 2014 },
-  { src: "/gallery/ad-hedzer-2014.jpg", alt: "Hedzer — sponsor ad 2014", era: "ads", year: 2014 },
-  { src: "/gallery/ad-life-2014.jpg", alt: "Life — sponsor ad 2014", era: "ads", year: 2014 },
-  { src: "/gallery/ad-sackville-2015.jpg", alt: "Sackville Lounge — sponsor ad 2015", era: "ads", year: 2015 },
-  { src: "/gallery/ad-fantasy-lights-2017.jpg", alt: "Fantasy Lights — sponsor ad 2017", era: "ads", year: 2017 },
-  { src: "/gallery/ad-oreilly-recruitment-2017.jpg", alt: "O'Reilly Recruitment — sponsor ad 2017", era: "ads", year: 2017 },
-  { src: "/gallery/ad-think-bike-2017.jpg", alt: "Think Bike — sponsor ad 2017", era: "ads", year: 2017 },
-  { src: "/gallery/ad-devitts-2018.jpg", alt: "Devitts — sponsor ad 2018", era: "ads", year: 2018 },
-  { src: "/gallery/ad-iconic-2019.jpg", alt: "Iconic — sponsor ad 2019", era: "ads", year: 2019 },
 
   // === WALK-ONS ===
   { src: "/gallery/2013-event-08.jpg", alt: "PDI 2013 throwing darts", era: "walk-ons", year: 2013 },
