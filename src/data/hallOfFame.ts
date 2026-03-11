@@ -10,42 +10,42 @@ export const inductees: Inductee[] = [
     nickname: "Vinny",
     photo: "/gallery/2020-cmrf-charity.jpg",
     contribution:
-      "The PDI wouldn't be the PDI without Vinny. If you have a story or memory to share, we'd love to hear it.",
+      "When Vinny arrived at the PDI, something shifted. The walk-ons got bigger, the mic got louder, and behind the scenes, we had a new force making sure the whole thing held together. From his legendary Apollo Creed entrance to Living in America through to his work organising the event year after year, Vinny has been one of the driving forces behind what the PDI has become.",
     year: 2023,
   },
   {
     nickname: "The Rebel",
     photo: "/gallery/profile-the-rebel.jpg",
     contribution:
-      "The PDI wouldn't be the PDI without The Rebel. If you have a story or memory to share, we'd love to hear it.",
+      "The People's Republic has always had a strong PDI representative in The Rebel — a fan's favourite whose annual Song for Europe walk-on became an institution in its own right. 2025 was the year it all came together, Pat the Bet Memorial Trophy in hand. Off the oche, he and his wife gave the PDI something just as lasting — seven years of booklet production from 2013 to 2020 that required serious dedication and left us with a record of this tournament to treasure. The walk-on got the trophy. The booklets got us the memories.",
     year: 2022,
   },
   {
     nickname: "Sexy Boy",
     photo: "/gallery/2017-booklet-24.jpg",
     contribution:
-      "The PDI wouldn't be the PDI without Sexy Boy. If you have a story or memory to share, we'd love to hear it.",
+      "The Yank. Walked in to Sexy Boy, claimed the Pat the Bet Memorial Trophy more than once, and has Papa Silvio saved under favourites. A walk-on legend, a logistics hero, and the reason nobody hits the afternoon wall on empty. The PDI is a long day — he makes sure you rise to the occasion in the best possible way.",
     year: 2019,
   },
   {
     nickname: "The Gun",
     photo: "/gallery/2017-booklet-23.jpg",
     contribution:
-      "The PDI wouldn't be the PDI without The Gun. If you have a story or memory to share, we'd love to hear it.",
+      "A bag of spuds. Sold. That tells you most of what you need to know about The Gun's contribution to the PDI auction over the years — a masterclass in extracting money from people who know full well they're being had and hand it over anyway. But the legend runs deeper than the auction. He was there at the genesis, helped secure 33 the Court as the first venue, and made sure nobody went thirsty in the early days. Today he flies the flag in London, drawing a wide and multinational group of participants to the PDI each year. When you've got an inflatable hammer, every PDI challenge looks like a nail. The PDI has been very lucky that he kept swinging.",
     year: 2018,
   },
   {
     nickname: "The Trick & The Treat",
     photo: "/gallery/2017-hof-induction.jpg",
     contribution:
-      "The PDI wouldn't be the PDI without The Trick & The Treat. If you have a story or memory to share, we'd love to hear it.",
+      "Before St Jude's, before the Kill Arena, before the smoke machines and the walk-ons and everything the PDI became — there was a home that opened its doors and made it all possible. The Trick and The Treat gave the PDI its first venue, nurtured it through its growth years with unwavering support and encouragement, and in doing so gave this community something that has lasted more than two decades. They can sit back now and watch what grew from those beginnings. That is a legacy worth having. PDI royalty, without question.",
     year: 2017,
   },
   {
     nickname: "The Physio",
     photo: "/gallery/2017-booklet-17.jpg",
     contribution:
-      "The PDI wouldn't be the PDI without The Physio. If you have a story or memory to share, we'd love to hear it.",
+      "At some point in 2012, The Physio bumped into his neighbour Marty Morrissey and asked him a daft question. Marty said yes. That should tell you everything. A two-time winner, a former president, he's even beamed in from New Zealand when geography got in the way. Banbridge's favourite son has never once let distance, circumstance, or a total eclipse of the heart stand between him and his commitment to the PDI.",
     year: 2016,
   },
   {
@@ -66,26 +66,27 @@ export const inductees: Inductee[] = [
     nickname: "The Express",
     photo: "/gallery/2017-chairperson.jpg",
     contribution:
-      "The PDI wouldn't be the PDI without The Express. If you have a story or memory to share, we'd love to hear it.",
+      "Most PDI players take the winter off. The Express does not. A rigorous training schedule, cutting-edge preparation methods, and a dedication to the craft that frankly puts everyone else to shame. The results speak for themselves — multiple wins and a legacy that even survived ea multi-year exile in Vancouver. He came back. Of course he came back. It's like he was never away.",
     year: 2013,
   },
   {
     nickname: "The Educator",
     photo: "/gallery/2013-event-04.jpg",
     contribution:
-      "The PDI wouldn't be the PDI without The Educator. If you have a story or memory to share, we'd love to hear it.",
+      "The Educator arrived at the Lakeside Arena and immediately made himself at home — back-to-back wins at the PDI's new venue announced him as a man who rises to occasions. But his contribution off the oche was just as significant. During a key development phase, while the rest of us were still finding our way in the world, he steered the ship with a steadiness that the PDI needed and never forgot. Tournaments need people who can win. They also need people who can lead. The Educator did both.",
     year: 2012,
   },
   {
     nickname: "The Bat",
     photo: "/gallery/2015-booklet-28.jpg",
     contribution:
-      "The PDI wouldn't be the PDI without The Bat. If you have a story or memory to share, we'd love to hear it.",
+      "Every year that signal went up in the skies above the Lakeside Arena, and every year he answered. To the Batmobile — the refrain that meant the room was about to get a little louder, a little wilder, and a whole lot more fun. The Bat was there at the heart of it all: walk-on pioneer, depth-charge enthusiast, fundraising force, a man who would never countenance a house drink; a whirlwind in the truest sense. The Walk-On trophy exists in his name because the PDI would not be what it is without him. Sadly departed. Never forgotten.",
     year: 2011,
   },
   {
     nickname: "The Hazards",
     photo: "/gallery/2015-the-hazards.jpg",
-    contribution: "The live band.",
+    contribution:
+      "Most bands get a setlist. The Hazards get a WhatsApp message the night before asking if they know a specific song from 1987 and still, they always deliver. From the opening chords of Chase the Sun to the final walk-on of the night, The Hazards give the PDI its heartbeat.",
   },
 ];
