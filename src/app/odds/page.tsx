@@ -9,6 +9,22 @@ export const metadata: Metadata = {
     "Ante-post odds for the 2026 Paddy's Day Invitational. Who's your pick?",
 };
 
+function parseFractional(odds: string): number {
+  const [num, den] = odds.split("/").map(Number);
+  return num / den;
+}
+
+function getMovement(
+  entry: (typeof odds)[number]
+): "shortened" | "drifted" | null {
+  if (!entry.previous) return null;
+  const current = parseFractional(entry.odds);
+  const prev = parseFractional(entry.previous);
+  if (current < prev) return "shortened";
+  if (current > prev) return "drifted";
+  return null;
+}
+
 export default function OddsPage() {
   return (
     <main id="main-content" className="min-h-screen bg-pdi-dark">
@@ -22,6 +38,14 @@ export default function OddsPage() {
             const message = encodeURIComponent(
               `Hi PawnBet, I want to back ${entry.name} at ${entry.odds}`
             );
+            const movement = getMovement(entry);
+            const oddsColor =
+              movement === "shortened"
+                ? "text-blue-400"
+                : movement === "drifted"
+                  ? "text-rose-400"
+                  : "text-pdi-green";
+
             return (
               <a
                 key={entry.name}
@@ -33,8 +57,21 @@ export default function OddsPage() {
                 <span className="font-display text-xl text-pdi-text">
                   {entry.name}
                 </span>
-                <span className="font-display text-2xl text-pdi-green">
-                  {entry.odds}
+                <span className="flex items-center gap-2">
+                  {entry.previous && (
+                    <span className="text-base text-pdi-muted line-through">
+                      {entry.previous}
+                    </span>
+                  )}
+                  <span className={`font-display text-2xl ${oddsColor}`}>
+                    {entry.odds}
+                  </span>
+                  {movement === "shortened" && (
+                    <span className="text-blue-400">↓</span>
+                  )}
+                  {movement === "drifted" && (
+                    <span className="text-rose-400">↑</span>
+                  )}
                 </span>
               </a>
             );
