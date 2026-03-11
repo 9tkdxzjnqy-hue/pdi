@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
@@ -60,6 +61,25 @@ export default function CorrespondencePage() {
       <main id="main-content" className="bg-pdi-dark">
         <section className="pt-32 pb-16 text-center">
           <div className="mx-auto max-w-3xl px-6">
+            <Link
+              href="/stories/letters"
+              className="mb-6 inline-flex items-center gap-1 text-sm text-pdi-muted transition-colors hover:text-pdi-text"
+            >
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.75 19.5L8.25 12l7.5-7.5"
+                />
+              </svg>
+              Back to Letters
+            </Link>
             <h1 className="font-display text-5xl text-pdi-text">
               Correspondence
             </h1>

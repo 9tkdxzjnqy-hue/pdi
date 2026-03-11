@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import LetterAccordion from "@/components/LetterAccordion";
@@ -196,6 +197,45 @@ export default async function LettersPage() {
 
         <section className="px-6 pb-16">
           <LetterAccordion letters={letters} />
+        </section>
+
+        <section className="px-6 pb-24">
+          <div className="mx-auto max-w-3xl">
+            <Link
+              href="/stories/correspondence"
+              className="group flex items-center justify-between rounded-xl bg-pdi-navy p-8 transition-colors hover:bg-white/5"
+            >
+              <div>
+                <span className="inline-block rounded-full bg-pdi-green/10 px-3 py-1 text-xs font-semibold text-pdi-green">
+                  2010
+                </span>
+                <h2 className="mt-3 font-display text-2xl text-pdi-text">
+                  Correspondence
+                </h2>
+                <p className="mt-1 text-sm italic text-pdi-muted">
+                  7 letters from notable figures
+                </p>
+                <p className="mt-3 text-sm text-pdi-muted leading-relaxed">
+                  Ahead of the 5th Annual PDI, the organising committee wrote to
+                  notable figures. Here are the replies — from the Taoiseach,
+                  Arsène Wenger, Niall Quinn, and more.
+                </p>
+              </div>
+              <svg
+                className="ml-6 h-5 w-5 shrink-0 text-pdi-muted transition-transform group-hover:translate-x-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                />
+              </svg>
+            </Link>
+          </div>
         </section>
       </main>
       <Footer />

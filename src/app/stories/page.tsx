@@ -15,13 +15,7 @@ const threads = [
       "Letters, articles, and correspondence from the PDI community over the years.",
     slug: "letters",
   },
-  {
-    title: "Correspondence",
-    description:
-      "Replies from notable figures invited to the 5th Annual PDI in 2010.",
-    slug: "correspondence",
-  },
-  {
+{
     title: "Reviews",
     description:
       "Looking back on the year that was.",
