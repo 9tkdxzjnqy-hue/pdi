@@ -83,7 +83,7 @@ export default function MemberTribute({
                       expanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
                     }`}
                   >
-                    <div className="overflow-hidden">
+                    <div className="min-h-0 overflow-hidden">
                       <div className="space-y-4">
                         {remainingParagraphs.map((para, i) => (
                           <p key={i}>{para}</p>

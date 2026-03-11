@@ -73,7 +73,7 @@ export default function LetterAccordion({ letters }: { letters: Story[] }) {
                 isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
               }`}
             >
-              <div className="overflow-hidden">
+              <div className="min-h-0 overflow-hidden">
                 <div className="border-t border-white/10 px-8 pt-6 pb-8">
                   <div className="space-y-4 text-pdi-text/90 leading-relaxed">
                     {letter.body!.split("\n\n").map((paragraph, j) => (
