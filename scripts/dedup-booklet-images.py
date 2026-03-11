@@ -184,7 +184,6 @@ def main():
             ts_entries.append({
                 "src": f"/gallery/{dest_name}",
                 "alt": f"PDI {year} booklet photo",
-                "era": "recent",
                 "year": year,
             })
 
@@ -192,7 +191,7 @@ def main():
         print(f"\n=== TypeScript gallery entries ({len(ts_entries)}) ===")
         print("  // === BOOKLET EXTRACTS ===")
         for entry in ts_entries:
-            print(f'  {{ src: "{entry["src"]}", alt: "{entry["alt"]}", era: "{entry["era"]}", year: {entry["year"]} }},')
+            print(f'  {{ src: "{entry["src"]}", alt: "{entry["alt"]}", year: {entry["year"]} }},')
 
         # Also write to a JSON file for easy programmatic use
         json_path = Path("/Users/aidanmaughan/my-projects/pdi/scripts/booklet-entries.json")

@@ -71,7 +71,7 @@ export default defineConfig({
                                   .child(
                                     S.documentList()
                                       .title(String(year))
-                                      .filter('_type == "galleryItem" && year == $year && era != "walk-ons"')
+                                      .filter('_type == "galleryItem" && year == $year && isWalkOn != true')
                                       .params({ year })
                                   )
                             ),
@@ -81,16 +81,7 @@ export default defineConfig({
                                 S.documentList()
                                   .title("The Early Years")
                                   .filter(
-                                    '_type == "galleryItem" && era == "early-days" && !defined(year)'
-                                  )
-                              ),
-                            S.listItem()
-                              .title("Undated")
-                              .child(
-                                S.documentList()
-                                  .title("Undated")
-                                  .filter(
-                                    '_type == "galleryItem" && !defined(year) && era != "early-days" && era != "walk-ons"'
+                                    '_type == "galleryItem" && !defined(year) && isWalkOn != true'
                                   )
                               ),
                           ])
@@ -108,7 +99,7 @@ export default defineConfig({
                                   .child(
                                     S.documentList()
                                       .title(`Walk-Ons ${year}`)
-                                      .filter('_type == "galleryItem" && era == "walk-ons" && year == $year')
+                                      .filter('_type == "galleryItem" && isWalkOn == true && year == $year')
                                       .params({ year })
                                   )
                             )

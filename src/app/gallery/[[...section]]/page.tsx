@@ -49,7 +49,7 @@ export default async function GalleryPage({
     if (item.year) {
       if (!byYear.has(item.year)) byYear.set(item.year, []);
       byYear.get(item.year)!.push(item);
-    } else if (item.era === "early-days") {
+    } else if (!item.isWalkOn) {
       earlyYears.push(item);
     }
   }

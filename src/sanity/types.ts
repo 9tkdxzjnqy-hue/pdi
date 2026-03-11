@@ -36,7 +36,7 @@ export interface GalleryItem {
   _id?: string;
   src?: string;
   alt: string;
-  era: string;
+  isWalkOn?: boolean;
   year?: number;
   featured?: boolean;
   youtubeId?: string;

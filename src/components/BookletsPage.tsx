@@ -1,88 +1,19 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { bookletYears, bookletPageSrc } from "@/data/booklets";
+import { useScrollPillNav } from "@/hooks/useScrollPillNav";
 import type { GalleryItem } from "@/sanity/types";
 
 export default function BookletsPage() {
-  const [activeYear, setActiveYear] = useState<string>("");
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const pillRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
-  const ignoreObserver = useRef(false);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
-
-  const updateScrollFades = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 4);
-    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
-  }, []);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    updateScrollFades();
-    el.addEventListener("scroll", updateScrollFades, { passive: true });
-    window.addEventListener("resize", updateScrollFades, { passive: true });
-    return () => {
-      el.removeEventListener("scroll", updateScrollFades);
-      window.removeEventListener("resize", updateScrollFades);
-    };
-  }, [updateScrollFades]);
-
-  useEffect(() => {
-    const sections = bookletYears
-      .map((b) => document.getElementById(`booklet-${b.year}`))
-      .filter(Boolean) as HTMLElement[];
-
-    if (sections.length === 0) return;
-
-    const visible = new Set<string>();
-    const sectionIds = bookletYears.map((b) => `booklet-${b.year}`);
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (ignoreObserver.current) return;
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            visible.add(entry.target.id);
-          } else {
-            visible.delete(entry.target.id);
-          }
-        }
-        // Pick the topmost visible section (DOM order)
-        for (const id of sectionIds) {
-          if (visible.has(id)) {
-            setActiveYear(id);
-            return;
-          }
-        }
-      },
-      { rootMargin: "-20% 0px -70% 0px" }
-    );
-
-    for (const section of sections) {
-      observer.observe(section);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!activeYear) return;
-    const year = activeYear.replace("booklet-", "");
-    const pill = pillRefs.current.get(year);
-    if (pill) {
-      pill.scrollIntoView({
-        behavior: "smooth",
-        inline: "center",
-        block: "nearest",
-      });
-    }
-  }, [activeYear]);
+  const sectionIds = useMemo(
+    () => bookletYears.map((b) => `booklet-${b.year}`),
+    []
+  );
+  const { activeId, scrollRef, pillRefs, canScrollLeft, canScrollRight, jumpTo } =
+    useScrollPillNav({ sectionIds });
 
   return (
     <>
@@ -126,28 +57,15 @@ export default function BookletsPage() {
           >
             {bookletYears.map((b) => {
               const sectionId = `booklet-${b.year}`;
-              const isActive = activeYear === sectionId;
+              const isActive = activeId === sectionId;
               return (
                 <button
                   key={b.year}
                   type="button"
                   ref={(el) => {
-                    if (el) pillRefs.current.set(String(b.year), el);
+                    if (el) pillRefs.current.set(sectionId, el);
                   }}
-                  onClick={() => {
-                    setActiveYear(sectionId);
-                    ignoreObserver.current = true;
-                    const section = document.getElementById(sectionId);
-                    if (section) {
-                      const prev = document.documentElement.style.scrollBehavior;
-                      document.documentElement.style.scrollBehavior = "auto";
-                      section.scrollIntoView({ block: "start" });
-                      requestAnimationFrame(() => {
-                        document.documentElement.style.scrollBehavior = prev;
-                        ignoreObserver.current = false;
-                      });
-                    }
-                  }}
+                  onClick={() => jumpTo(sectionId)}
                   aria-current={isActive ? "true" : undefined}
                   className={`rounded-full px-5 py-2.5 text-sm whitespace-nowrap transition-colors ${
                     isActive
@@ -168,7 +86,6 @@ export default function BookletsPage() {
         const items: GalleryItem[] = Array.from({ length: b.pages }, (_, i) => ({
           src: bookletPageSrc(b.year, i + 1),
           alt: `PDI ${b.year} booklet — page ${i + 1}`,
-          era: "booklets",
         }));
 
         return (

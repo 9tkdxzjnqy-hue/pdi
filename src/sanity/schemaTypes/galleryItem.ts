@@ -24,26 +24,15 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "era",
-      title: "Category",
-      type: "string",
-      validation: (Rule) => Rule.required(),
-      options: {
-        list: [
-          { title: "The Walk-Ons", value: "walk-ons" },
-          { title: "The Players", value: "male-players" },
-          { title: "The Hazards", value: "the-hazards" },
-          { title: "Recent Years", value: "recent" },
-          { title: "The Middle Years", value: "middle-years" },
-          { title: "The Early Days", value: "early-days" },
-          { title: "The Sponsors", value: "ads" },
-        ],
-      },
-    }),
-    defineField({
       name: "year",
       title: "Year",
       type: "number",
+    }),
+    defineField({
+      name: "isWalkOn",
+      title: "Walk-On",
+      type: "boolean",
+      initialValue: false,
     }),
     defineField({
       name: "featured",
@@ -56,23 +45,20 @@ export default defineType({
     select: {
       title: "alt",
       media: "image",
-      era: "era",
+      isWalkOn: "isWalkOn",
       year: "year",
     },
-    prepare({ title, media, era, year }) {
+    prepare({ title, media, isWalkOn, year }) {
       return {
         title,
-        subtitle: year ? `${year} — ${era}` : era,
+        subtitle:
+          [year, isWalkOn ? "Walk-On" : null].filter(Boolean).join(" — ") ||
+          "No year",
         media,
       };
     },
   },
   orderings: [
-    {
-      title: "Category",
-      name: "eraAsc",
-      by: [{ field: "era", direction: "asc" }],
-    },
     {
       title: "Year (Newest First)",
       name: "yearDesc",

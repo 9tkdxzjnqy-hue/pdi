@@ -22,11 +22,11 @@ export const featuredCompetitionsQuery = `*[_type == "competition" && featured =
   "slug": slug.current
 }`;
 
-export const galleryByEraQuery = `*[_type == "galleryItem" && era == $era] | order(year desc) {
+export const walkOnGalleryQuery = `*[_type == "galleryItem" && isWalkOn == true] | order(year desc) {
   _id,
   "src": image.asset->url,
   alt,
-  era,
+  isWalkOn,
   year,
   featured,
   youtubeId
@@ -35,7 +35,6 @@ export const galleryByEraQuery = `*[_type == "galleryItem" && era == $era] | ord
 export const featuredGalleryQuery = `*[_type == "galleryItem" && featured == true] | order(year desc) {
   "src": image.asset->url,
   alt,
-  era,
   year,
   youtubeId
 }`;

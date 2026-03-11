@@ -7,33 +7,11 @@ interface SanityGalleryItem {
   _id: string;
   imageFilename?: string;
   alt: string;
-  era: string;
+  isWalkOn?: boolean;
   year?: number;
   youtubeId?: string;
   featured?: boolean;
 }
-
-// All valid era values for the type union (matches galleryItem schema dropdown)
-const ALL_ERAS = [
-  "early-days",
-  "middle-years",
-  "recent",
-  "walk-ons",
-  "male-players",
-  "the-hazards",
-  "ads",
-] as const;
-
-// Era display order for grouping gallery items in the generated file
-const ERA_ORDER = [
-  "male-players",
-  "the-hazards",
-  "recent",
-  "middle-years",
-  "early-days",
-  "ads",
-  "walk-ons",
-];
 
 export async function pullGallery() {
   const client = getWriteClient();
@@ -44,7 +22,7 @@ export async function pullGallery() {
       _id,
       "imageFilename": image.asset->originalFilename,
       alt,
-      era,
+      isWalkOn,
       year,
       youtubeId,
       featured
@@ -55,16 +33,11 @@ export async function pullGallery() {
   // --- Generate TS file ---
   let out = "";
 
-  // Type export
-  out += `export type Era =\n`;
-  out += ALL_ERAS.map((e) => `  | ${JSON.stringify(e)}`).join("\n");
-  out += `;\n\n`;
-
   // GalleryItem interface
   out += `export interface GalleryItem {\n`;
   out += `  src?: string;\n`;
   out += `  alt: string;\n`;
-  out += `  era: Era;\n`;
+  out += `  isWalkOn?: boolean;\n`;
   out += `  year?: number;\n`;
   out += `  youtubeId?: string;\n`;
   out += `  featured?: boolean;\n`;
@@ -73,48 +46,46 @@ export async function pullGallery() {
   // WALK_ON_YEARS — preserved from local
   out += `export const WALK_ON_YEARS = [${WALK_ON_YEARS.join(", ")}];\n\n`;
 
-  // galleryItems grouped by era
-  out += `export const galleryItems: GalleryItem[] = [\n`;
+  // Split items into gallery and walk-ons
+  const galleryItems: SanityGalleryItem[] = [];
+  const walkOnItems: SanityGalleryItem[] = [];
 
-  const itemsByEra = new Map<string, SanityGalleryItem[]>();
   for (const item of sanityItems) {
-    const era = item.era || "recent";
-    if (!itemsByEra.has(era)) itemsByEra.set(era, []);
-    itemsByEra.get(era)!.push(item);
+    if (item.isWalkOn) {
+      walkOnItems.push(item);
+    } else {
+      galleryItems.push(item);
+    }
   }
 
-  // Sort items within each era by year asc (null years last), then by _id for stability
-  for (const [, items] of itemsByEra) {
+  // Sort items within each group by year asc (null years last), then by _id for stability
+  const sortItems = (items: SanityGalleryItem[]) => {
     items.sort((a, b) => {
       if (a.year != null && b.year != null) return a.year - b.year;
       if (a.year != null) return -1;
       if (b.year != null) return 1;
       return a._id.localeCompare(b._id);
     });
-  }
+  };
 
-  let firstEra = true;
-  for (const eraId of ERA_ORDER) {
-    const items = itemsByEra.get(eraId);
-    if (!items || items.length === 0) continue;
+  sortItems(galleryItems);
+  sortItems(walkOnItems);
 
-    if (!firstEra) out += "\n";
-    firstEra = false;
+  out += `export const galleryItems: GalleryItem[] = [\n`;
 
-    out += `  // === ${eraId.toUpperCase()} ===\n`;
-
-    for (const item of items) {
+  // Gallery items
+  if (galleryItems.length > 0) {
+    out += `  // === GALLERY ===\n`;
+    for (const item of galleryItems) {
       out += genGalleryItem(item);
     }
   }
 
-  // Any items in eras not in our order list
-  for (const [eraId, items] of itemsByEra) {
-    if (ERA_ORDER.includes(eraId)) continue;
-    if (items.length === 0) continue;
-
-    out += `\n  // === ${eraId.toUpperCase()} ===\n`;
-    for (const item of items) {
+  // Walk-on items
+  if (walkOnItems.length > 0) {
+    if (galleryItems.length > 0) out += "\n";
+    out += `  // === WALK-ONS ===\n`;
+    for (const item of walkOnItems) {
       out += genGalleryItem(item);
     }
   }
@@ -153,7 +124,7 @@ function genGalleryItem(item: SanityGalleryItem) {
   if (src) parts.push(`src: ${JSON.stringify(src)}`);
   if (item.youtubeId) parts.push(`youtubeId: ${JSON.stringify(item.youtubeId)}`);
   parts.push(`alt: ${JSON.stringify(item.alt)}`);
-  parts.push(`era: ${JSON.stringify(item.era)}`);
+  if (item.isWalkOn) parts.push(`isWalkOn: true`);
   if (item.year != null) parts.push(`year: ${item.year}`);
   if (item.featured) parts.push(`featured: true`);
 

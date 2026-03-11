@@ -12,13 +12,13 @@ interface GalleryPreviewProps {
   uploadUrl?: string;
 }
 
-const fallbackImages = [
-  { src: "/gallery/2018-cover.jpg", alt: "PDI 2018 booklet cover", era: "recent" },
-  { src: "/gallery/2015-the-hazards.jpg", alt: "The Hazards — PDI house band", era: "the-hazards" },
-  { src: "/gallery/2017-hof-induction.jpg", alt: "Hall of Fame induction 2017", era: "middle-years" },
-  { src: "/gallery/2019-walkon-elvis.jpg", alt: "Elvis walk-on at PDI 2019", era: "walk-ons" },
-  { src: "/gallery/early-event-03.jpg", alt: "Early PDI group photo", era: "early-days" },
-  { src: "/gallery/2015-charity-cheque.jpg", alt: "PDI charity cheque presentation", era: "middle-years" },
+const fallbackImages: GalleryItem[] = [
+  { src: "/gallery/2018-cover.jpg", alt: "PDI 2018 booklet cover" },
+  { src: "/gallery/2015-the-hazards.jpg", alt: "The Hazards — PDI house band" },
+  { src: "/gallery/2017-hof-induction.jpg", alt: "Hall of Fame induction 2017" },
+  { src: "/gallery/2019-walkon-elvis.jpg", alt: "Elvis walk-on at PDI 2019" },
+  { src: "/gallery/early-event-03.jpg", alt: "Early PDI group photo" },
+  { src: "/gallery/2015-charity-cheque.jpg", alt: "PDI charity cheque presentation" },
 ];
 
 export default function GalleryPreview({ images, title, description, linkText, uploadText, uploadUrl }: GalleryPreviewProps) {

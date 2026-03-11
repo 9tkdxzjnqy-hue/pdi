@@ -3,7 +3,7 @@ import {
   inducteesQuery,
   competitionsQuery,
   featuredCompetitionsQuery,
-  galleryByEraQuery,
+  walkOnGalleryQuery,
   featuredGalleryQuery,
   storyThreadsQuery,
   storiesByThreadQuery,
@@ -86,37 +86,36 @@ export async function getFeaturedCompetitions(): Promise<Competition[]> {
 
 // --- Gallery ---
 
-export async function getGalleryByEra(eraId: string): Promise<GalleryItem[]> {
+export async function getWalkOnGalleryItems(): Promise<GalleryItem[]> {
   const client = getClient();
-  if (!client) return fallbackGalleryItems.filter((item) => item.era === eraId);
+  if (!client) return fallbackGalleryItems.filter((item) => item.isWalkOn);
 
   try {
-    const result = await client.fetch<GalleryItem[]>(galleryByEraQuery, { era: eraId }, {
+    const result = await client.fetch<GalleryItem[]>(walkOnGalleryQuery, {}, {
       next: { tags: ["gallery"] },
     });
 
     if (!result || result.length === 0) {
-      return fallbackGalleryItems.filter((item) => item.era === eraId);
+      return fallbackGalleryItems.filter((item) => item.isWalkOn);
     }
 
     return result;
   } catch {
-    console.error(`Failed to fetch gallery items for era ${eraId}, using fallback data`);
-    return fallbackGalleryItems.filter((item) => item.era === eraId);
+    console.error("Failed to fetch walk-on gallery items, using fallback data");
+    return fallbackGalleryItems.filter((item) => item.isWalkOn);
   }
 }
 
 export async function getAllGalleryItems(): Promise<GalleryItem[]> {
-  const fallback = fallbackGalleryItems.filter((item) => item.era !== "walk-ons");
+  const fallback = fallbackGalleryItems.filter((item) => item.isWalkOn !== true);
   const client = getClient();
   if (!client) return fallback;
 
   try {
     const result = await client.fetch<GalleryItem[]>(
-      `*[_type == "galleryItem" && era != "walk-ons"] | order(year desc) {
+      `*[_type == "galleryItem" && isWalkOn != true] | order(year desc) {
         "src": image.asset->url,
         alt,
-        era,
         year,
         youtubeId,
         featured

@@ -5,7 +5,7 @@ import WalkOnsNav from "@/components/WalkOnsNav";
 import WalkOnYearSection from "@/components/WalkOnYearSection";
 import ScrollToSection from "@/components/ScrollToSection";
 import Footer from "@/components/Footer";
-import { getGalleryByEra } from "@/sanity/fetch";
+import { getWalkOnGalleryItems } from "@/sanity/fetch";
 import { WALK_ON_YEARS } from "@/data/gallery";
 import { walkOnCompetition } from "@/data/competitions";
 import type { GalleryItem } from "@/sanity/types";
@@ -33,7 +33,7 @@ export default async function WalkOnsPage({
 
   const targetId = slug ? `year-${slug}` : undefined;
 
-  const items = await getGalleryByEra("walk-ons");
+  const items = await getWalkOnGalleryItems();
 
   // Index competition results by year
   const resultsByYear = new Map(
