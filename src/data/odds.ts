@@ -23,7 +23,7 @@ export const odds: OddsEntry[] = [
   { name: "Sexy Boy", odds: "16/1", previous: "12/1" },
   { name: "The Pawn", odds: "18/1", previous: "16/1" },
   { name: "Simmo", odds: "18/1", previous: "16/1" },
-  { name: "Lac", odds: "20/1", previous: "18/1" },
+  { name: "Lac", odds: "8/1", previous: "20/1" },
   { name: "Should Wear A Helmet", odds: "20/1" },
   { name: "Mitch", odds: "20/1" },
   { name: "Leo", odds: "20/1" },
